@@ -1,9 +1,6 @@
 package com.hnu.mes.controller;
 
-import com.hnu.mes.domain.LossEntryHeader;
-import com.hnu.mes.domain.RawType;
-import com.hnu.mes.domain.Result;
-import com.hnu.mes.domain.User;
+import com.hnu.mes.domain.*;
 import com.hnu.mes.service.LossEntryHeaderService;
 import com.hnu.mes.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,4 +85,15 @@ public class LossEntryHeaderController {
     public Result<LossEntryHeader> getByRawType(RawType rawType){
         return ResultUtil.success(lossEntryHeaderService.findFirstByRawTypeAndAuditStatus(rawType, 1));
     }
+
+    /**
+     * 通过报损单表头查询审核记录
+     *
+     * @param lossEntryHeader
+     * @return
+     */
+    @RequestMapping(value = "/getLossEntryAuditsByLossEntryHeader")
+     public Result<List<LossEntryAudit>> getLossEntryAuditsByLossEntryHeader(LossEntryHeader lossEntryHeader){
+        return ResultUtil.success(lossEntryHeaderService.findByLossEntryHeader(lossEntryHeader));
+     }
 }

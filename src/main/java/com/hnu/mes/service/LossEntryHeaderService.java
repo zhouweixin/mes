@@ -171,6 +171,16 @@ public class LossEntryHeaderService {
     }
 
     /**
+     * 通过报损单查询审核单
+     *
+     * @param lossEntryHeader
+     * @return
+     */
+    public List<LossEntryAudit> findByLossEntryHeader(LossEntryHeader lossEntryHeader){
+        return lossEntryAuditRepository.findByLossEntryHeader(lossEntryHeader);
+    }
+
+    /**
      * 通过编码查询剩余审批人
      *
      * @param code

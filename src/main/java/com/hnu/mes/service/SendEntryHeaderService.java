@@ -137,6 +137,9 @@ public class SendEntryHeaderService {
             // 入库单制单人工号
             godownEntryHeader.setCreateUser(user);
 
+            // 制单时间
+            godownEntryHeader.setCreateTime(new Date());
+
             // 入库单内容
             List<GodownEntry> godownEntries = new ArrayList<>();
             List<SendEntry> sendEntries = sendEntryHeader.getSendEntries();
@@ -163,7 +166,7 @@ public class SendEntryHeaderService {
      * @return
      * @throws Exception
      */
-    public Page<SendEntryHeader> getSendEntryHeaderByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<SendEntryHeader> getAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断字段名是否存在
         try {

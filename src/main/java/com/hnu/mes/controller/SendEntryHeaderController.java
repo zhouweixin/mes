@@ -178,11 +178,11 @@ public class SendEntryHeaderController {
      * @return
      */
     @RequestMapping(value = "/getAllByPage")
-    public Result<Page<SendEntryHeader>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public Result<Page<SendEntryHeader>> findAllByPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                             @RequestParam(value = "size", defaultValue = "10") Integer size,
                                             @RequestParam(value = "sort", defaultValue = "code") String sort,
                                             @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
-        return ResultUtil.success(sendEntryHeaderService.getSendEntryHeaderByPage(page, size, sort, asc));
+        return ResultUtil.success(sendEntryHeaderService.getAllByPage(page, size, sort, asc));
     }
 
     /**
@@ -262,5 +262,4 @@ public class SendEntryHeaderController {
 
         return ResultUtil.success(sendEntryHeaderService.findSendEntryHeaderBySupplierAndStatusByPage(supplier, status, page, size, sort, asc));
     }
-
 }

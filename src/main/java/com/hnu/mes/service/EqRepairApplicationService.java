@@ -226,7 +226,6 @@ public class EqRepairApplicationService {
         String code = UUID.randomUUID().toString().replaceAll("-", "");//设置主键
         application.setCode(code);
         if (webBean.getDepartment() == null ||  webBean.getDepartment().getCode() == null || webBean.getDepartment().getCode().equals("") || webBean.getDepartment().getCode().trim().equals(""))
-
             throw new MesException(EnumException.DEPARTMENT_NOT_EXISTS);
         Department department = departmentRepository.findOne(webBean.getDepartment().getCode());
         if (department == null) {
@@ -251,8 +250,8 @@ public class EqRepairApplicationService {
         application.setFlag(flag);//设置类型为0
 
 
-        if (webBean.getEqArchive() == null || webBean.getEqArchive().getCode() == null || webBean.getEqArchive().getCode().equals("") || webBean.getEqArchive().getCode().trim().equals(""))
-            throw new MesException(EnumException.ARCHIVE_NOT_EXISTS);
+//        if (webBean.getEqArchive() == null || webBean.getEqArchive().getCode() == null || webBean.getEqArchive().getCode().equals("") || webBean.getEqArchive().getCode().trim().equals(""))
+//            throw new MesException(EnumException.ARCHIVE_NOT_EXISTS);
         EqArchive archive = eqArchiveDao.findOne(webBean.getEqArchive().getCode());
 //        if (archive == null) {
 //            throw new MesException(EnumException.ARCHIVE_NOT_EXISTS);

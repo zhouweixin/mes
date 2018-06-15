@@ -41,6 +41,9 @@ public class Supplier {
      */
     private String creditCode;
 
+    public Supplier() {
+    }
+
     public String getCode() {
         return code;
     }

@@ -7,11 +7,11 @@ import java.util.Date;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/16 20:36
+ * @Date: 2018/6/16 21:13
  */
 @Entity
-@Table(name = "release_bowl_sampling")
-public class BowlSampling {
+@Table(name = "release_bowl_abnormal")
+public class BowlAbnormal {
     /**
      * 编号
      */
@@ -34,15 +34,27 @@ public class BowlSampling {
     private Duty dutyCode;
 
     /**
+     * 时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date time;
+
+    /**
      * 装钵机号
      */
     private String bowlCode;
 
     /**
-     * 皮重
+     * 上层
      */
     @Column(precision = 2)
-    private Double tare;
+    private Double top;
+
+    /**
+     * 下层
+     */
+    @Column(precision = 2)
+    private Double bot;
 
     /**
      * 总重
@@ -51,36 +63,48 @@ public class BowlSampling {
     private Double total;
 
     /**
+     * 皮重
+     */
+    @Column(precision = 2)
+    private Double tare;
+
+    /**
      * 净重
      */
     @Column(precision = 2)
     private Double net;
 
     /**
-     * 抽检人
+     * 差异
+     */
+    @Column(precision = 2)
+    private Double difference;
+
+    /**
+     * 添加/kg
+     */
+    @Column(precision = 2)
+    private Double addWeight;
+
+    /**
+     * 减少/kg
+     */
+    @Column(precision = 2)
+    private Double reduceWeight;
+
+    /**
+     * 操作人
      */
     @ManyToOne
-    @JoinColumn(name = "random_code",referencedColumnName = "code")
-    private User random;
+    @JoinColumn(name = "operator_code",referencedColumnName = "code")
+    private User operator;
 
     /**
-     * 抽检时间
-     */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date randomTime;
-
-    /**
-     * 检查人
+     * 核查人
      */
     @ManyToOne
-    @JoinColumn(name = "inspector_code",referencedColumnName = "code")
-    private User inspector;
-
-    /**
-     * 检查时间
-     */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date inspectorTime;
+    @JoinColumn(name = "checker_code",referencedColumnName = "code")
+    private User checker;
 
     /**
      * 状态标志
@@ -111,12 +135,36 @@ public class BowlSampling {
         this.dutyCode = dutyCode;
     }
 
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
     public String getBowlCode() {
         return bowlCode;
     }
 
     public void setBowlCode(String bowlCode) {
         this.bowlCode = bowlCode;
+    }
+
+    public Double getTop() {
+        return top;
+    }
+
+    public void setTop(Double top) {
+        this.top = top;
+    }
+
+    public Double getBot() {
+        return bot;
+    }
+
+    public void setBot(Double bot) {
+        this.bot = bot;
     }
 
     public Double getTare() {
@@ -143,36 +191,44 @@ public class BowlSampling {
         this.net = net;
     }
 
-    public User getRandom() {
-        return random;
+    public Double getDifference() {
+        return difference;
     }
 
-    public void setRandom(User random) {
-        this.random = random;
+    public void setDifference(Double difference) {
+        this.difference = difference;
     }
 
-    public Date getRandomTime() {
-        return randomTime;
+    public Double getAddWeight() {
+        return addWeight;
     }
 
-    public void setRandomTime(Date randomTime) {
-        this.randomTime = randomTime;
+    public void setAddWeight(Double addWeight) {
+        this.addWeight = addWeight;
     }
 
-    public User getInspector() {
-        return inspector;
+    public Double getReduceWeight() {
+        return reduceWeight;
     }
 
-    public void setInspector(User inspector) {
-        this.inspector = inspector;
+    public void setReduceWeight(Double reduceWeight) {
+        this.reduceWeight = reduceWeight;
     }
 
-    public Date getInspectorTime() {
-        return inspectorTime;
+    public User getOperator() {
+        return operator;
     }
 
-    public void setInspectorTime(Date inspectorTime) {
-        this.inspectorTime = inspectorTime;
+    public void setOperator(User operator) {
+        this.operator = operator;
+    }
+
+    public User getChecker() {
+        return checker;
+    }
+
+    public void setChecker(User checker) {
+        this.checker = checker;
     }
 
     public boolean isState() {
@@ -185,18 +241,22 @@ public class BowlSampling {
 
     @Override
     public String toString() {
-        return "BowlSampling{" +
+        return "BowlAbnormal{" +
                 "code=" + code +
                 ", date=" + date +
                 ", dutyCode=" + dutyCode +
+                ", time=" + time +
                 ", bowlCode='" + bowlCode + '\'' +
-                ", tare=" + tare +
+                ", top=" + top +
+                ", bot=" + bot +
                 ", total=" + total +
+                ", tare=" + tare +
                 ", net=" + net +
-                ", random=" + random +
-                ", randomTime=" + randomTime +
-                ", inspector=" + inspector +
-                ", inspectorTime=" + inspectorTime +
+                ", difference=" + difference +
+                ", addWeight=" + addWeight +
+                ", reduceWeight=" + reduceWeight +
+                ", operator=" + operator +
+                ", checker=" + checker +
                 ", state=" + state +
                 '}';
     }

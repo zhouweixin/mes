@@ -81,7 +81,7 @@ public class BowlSamplingController {
     }
 
     /**
-     * 通过窑炉编号模糊查询-分页
+     * 通过装钵机号模糊查询-分页
      * @param bowlCode
      * @param page
      * @param size

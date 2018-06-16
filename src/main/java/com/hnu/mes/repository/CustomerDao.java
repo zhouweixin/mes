@@ -1,6 +1,7 @@
 package com.hnu.mes.repository;
 
 import com.hnu.mes.domain.Customer;
+import com.hnu.mes.domain.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,4 +23,12 @@ public interface CustomerDao extends JpaRepository<Customer, String>, JpaSpecifi
     @Modifying
     @Query(value = "update Customer c set c.password = ?1")
     void updateAllDefaultPassword(String defaultPassword);
+
+    /**
+     * 通过supplier查询
+     *
+     * @param supplier
+     * @return
+     */
+    public List<Customer> findBySupplier(Supplier supplier);
 }

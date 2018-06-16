@@ -234,4 +234,15 @@ public class CustomerManageController {
         customerService.updateAllDefaultPassword(defaultPassword);
         return ResultUtil.success();
     }
+
+    /**
+     * 通过公司查询用户
+     *
+     * @param supplier
+     * @return
+     */
+    @RequestMapping(value = "/getBySupplier")
+    public Result<List<Customer>> getBySupplier(Supplier supplier){
+        return ResultUtil.success(customerService.findBySupplier(supplier));
+    }
 }

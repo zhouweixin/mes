@@ -1,5 +1,6 @@
 package com.hnu.mes.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ public class SendEntryHeader {
     private List<SendEntry> sendEntries = new ArrayList<SendEntry>();
 
     // 发货人厂家
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "supplier_code", referencedColumnName = "code")
     private Supplier supplier;
 
@@ -147,22 +148,5 @@ public class SendEntryHeader {
 
     public void setRawType(RawType rawType) {
         this.rawType = rawType;
-    }
-
-    @Override
-    public String toString() {
-        return "SendEntryHeader{" +
-                "code=" + code +
-                ", contractNumber='" + contractNumber + '\'' +
-                ", sendEntries=" + sendEntries +
-                ", supplier=" + supplier +
-                ", sender=" + sender +
-                ", sendDate=" + sendDate +
-                ", contact='" + contact + '\'' +
-                ", name='" + name + '\'' +
-                ", weight=" + weight +
-                ", status=" + status +
-                ", rawType=" + rawType +
-                '}';
     }
 }

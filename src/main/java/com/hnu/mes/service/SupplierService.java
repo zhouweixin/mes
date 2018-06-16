@@ -149,4 +149,25 @@ public class SupplierService {
         // 查询
         return supplierDao.findByNameLike("%" + name + "%", pageable);
     }
+
+    public Page<Supplier> getBySupplierTypeByPage(SupplierType supplierType, Integer page, Integer size, String sortFieldName, Integer asc) {
+        try {
+            Supplier.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            throw new MesException(EnumException.SORT_FIELD);
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        // 分页
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        // 查询
+        return supplierDao.findBySupplierType(supplierType, pageable);
+    }
 }

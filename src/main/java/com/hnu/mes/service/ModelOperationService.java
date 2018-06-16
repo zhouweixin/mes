@@ -47,6 +47,7 @@ public class ModelOperationService {
     @Transactional
     public void updateBatch(Collection<ModelOperation> modelOperations) {
 
+        // 查询所有模块的编码
         Set<Integer> modelCodes = new HashSet<>();
         for(ModelOperation modelOperation : modelOperations){
             if(modelOperation.getModelCode() != null) {
@@ -54,12 +55,14 @@ public class ModelOperationService {
             }
         }
 
+        // 删除所有操作
         if(modelCodes.size() > 0) {
             for(Integer modelCode : modelCodes) {
                 modelOperationRepository.deleteModelOperationsByModelCode(modelCode);
             }
         }
 
+        // 分配操作
         modelOperationRepository.save(modelOperations);
     }
 

@@ -23,7 +23,7 @@ public class SendEntry {
     private Long code;
 
     // 发货单表头
-    @ManyToOne
+    @ManyToOne(targetEntity = SendEntryHeader.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "send_header_code", referencedColumnName = "code")
     private SendEntryHeader sendEntryHeader;
 

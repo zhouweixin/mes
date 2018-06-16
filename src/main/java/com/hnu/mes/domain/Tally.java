@@ -20,8 +20,6 @@ public class Tally {
     @NotBlank(message = "巡检编码不能为空")
     private String code;
 
-
-
     /**
      * 设备编码
      */

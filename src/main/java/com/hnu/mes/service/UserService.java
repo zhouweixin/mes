@@ -275,4 +275,14 @@ public class UserService {
     public void updateAllDefaultPassword(String defaultPassword) {
         userRepository.updateAllDefaultPassword(defaultPassword);
     }
+
+    /**
+     * 通过部门查询所有员工
+     *
+     * @param department
+     * @return
+     */
+     public List<User> findByDepartment(Department department){
+        return userRepository.findByDepartment(department);
+     }
 }

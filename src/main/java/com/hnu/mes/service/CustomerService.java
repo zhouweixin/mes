@@ -3,6 +3,8 @@ package com.hnu.mes.service;
 import com.hnu.mes.domain.*;
 import com.hnu.mes.enums.CustomerExceptionEnum;
 import com.hnu.mes.exception.CustomerException;
+import com.hnu.mes.exception.EnumException;
+import com.hnu.mes.exception.MesException;
 import com.hnu.mes.repository.CustomerDao;
 import com.hnu.mes.repository.DefaultPasswordRepository;
 import com.hnu.mes.repository.SupplierDao;
@@ -131,11 +133,43 @@ public class CustomerService {
         customerDao.updateAllDefaultPassword(defaultPassword);
     }
 
-    public List<Supplier> findByNameLike(String name){
+    public List<Supplier> findByNameLike(String name) {
         return supplierDao.findByNameLike("" + name + "");
     }
 
-    public List<Customer> findBySupplier(Supplier supplier){
+    public List<Customer> findBySupplier(Supplier supplier) {
         return customerDao.findBySupplier(supplier);
+    }
+
+    /**
+     * 通过公司查询-分页
+     *
+     * @param supplier
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<Customer> findBySupplierByPage(Supplier supplier, Integer page, Integer size, String sortFieldName,
+                                               Integer asc) {
+        try {
+            Customer.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 排序的字段名不存在
+            throw new MesException(EnumException.SORT_FIELD);
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        // 分页
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        return customerDao.findBySupplier(supplier, pageable);
     }
 }

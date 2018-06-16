@@ -2,6 +2,8 @@ package com.hnu.mes.repository;
 
 import com.hnu.mes.domain.Customer;
 import com.hnu.mes.domain.Supplier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -31,4 +33,6 @@ public interface CustomerDao extends JpaRepository<Customer, String>, JpaSpecifi
      * @return
      */
     public List<Customer> findBySupplier(Supplier supplier);
+
+    public Page<Customer> findBySupplier(Supplier supplier, Pageable pageable);
 }

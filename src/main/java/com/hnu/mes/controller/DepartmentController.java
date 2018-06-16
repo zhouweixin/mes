@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.hnu.mes.domain.DepartmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -165,5 +166,14 @@ public class DepartmentController {
             @RequestParam(value = "sort", defaultValue = "code") String sort,
             @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
         return ResultUtil.success(departmentService.findAllByLikeNameByPage(name, page, size, sort, asc));
+    }
+
+    /**
+     * 通过查询所有部门及部门里的用户
+     * @return
+     */
+    @RequestMapping(value = "/getDepartmentsAndUsers")
+    public Result<List<DepartmentVO>> getDepartmentsAndUsers(){
+        return ResultUtil.success(departmentService.findDepartmentsAndUsers());
     }
 }

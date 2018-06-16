@@ -3,8 +3,10 @@ package com.hnu.mes.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.hibernate.validator.constraints.NotBlank;;
+import org.hibernate.validator.constraints.NotBlank;;import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 部门信息表
@@ -32,7 +34,16 @@ public class Department {
 	 */
 	private String info;
 
-	public String getCode() {
+    public Department() {
+    }
+
+    public Department(String code, String name, String info) {
+        this.code = code;
+        this.name = name;
+        this.info = info;
+    }
+
+    public String getCode() {
 		return code;
 	}
 
@@ -56,7 +67,7 @@ public class Department {
 		this.info = info;
 	}
 
-	@Override
+    @Override
 	public String toString() {
 		return "Department [code=" + code + ", name=" + name + ", info=" + info + "]";
 	}

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.hnu.mes.domain.DepartmentVO;
+import com.hnu.mes.domain.User;
+import com.hnu.mes.repository.DepartmentVORepository;
+import com.hnu.mes.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +29,12 @@ public class DepartmentService {
     // 注入
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private DepartmentVORepository departmentVORepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * 新增
@@ -142,5 +152,28 @@ public class DepartmentService {
         Pageable pageable = new PageRequest(page, size, sort);
 
         return departmentRepository.findByNameLike("%" + name + "%", pageable);
+    }
+
+    /**
+     * 查询所有部门及部门里的员工
+     *
+     * @return
+     */
+    public List<DepartmentVO> findDepartmentsAndUsers() {
+        List<DepartmentVO> departments = departmentVORepository.findAll();
+
+        for(DepartmentVO departmentVO : departments){
+            Department department = new Department(departmentVO.getCode(), departmentVO.getName(), departmentVO.getInfo());
+            departmentVO.setUsers(userRepository.findByDepartment(department));
+
+            for(User user : departmentVO.getUsers()) {
+                user.setRoles(null);
+                user.setDepartment(null);
+                user.setPassword(null);
+                user.setInteCircCard(null);
+            }
+        }
+
+        return departments;
     }
 }

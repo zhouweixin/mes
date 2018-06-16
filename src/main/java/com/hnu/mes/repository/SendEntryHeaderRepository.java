@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+
 /**
  * @Author: zhouweixin
  * @Description:
@@ -54,4 +56,13 @@ public interface SendEntryHeaderRepository extends JpaRepository<SendEntryHeader
      * @return
      */
     public Page<SendEntryHeader> findSendEntryHeaderBySupplierAndStatus(Supplier supplier, Integer status, Pageable pageable);
+
+    /**
+     * 通过公司名模糊查询
+     *
+     * @param suppliers
+     * @param pageable
+     * @return
+     */
+    public Page<SendEntryHeader> findBySupplierIn(Collection<Supplier> suppliers, Pageable pageable);
 }

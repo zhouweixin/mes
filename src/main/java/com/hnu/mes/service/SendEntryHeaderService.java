@@ -5,6 +5,7 @@ import com.hnu.mes.exception.EnumException;
 import com.hnu.mes.exception.MesException;
 import com.hnu.mes.repository.SendEntryHeaderRepository;
 import com.hnu.mes.repository.SendEntryRepository;
+import com.hnu.mes.repository.SupplierDao;
 import com.hnu.mes.utils.GlobalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,9 @@ public class SendEntryHeaderService {
 
     @Autowired
     private SendEntryRepository sendEntryRepository;
+    
+    @Autowired
+    private SupplierDao supplierDao;
 
     /**
      * 新增
@@ -185,6 +189,36 @@ public class SendEntryHeaderService {
         return sendEntryHeaderRepository.findAll(pageable);
     }
 
+    /**
+     * 通过公司名模糊查询
+     *
+     * @param name
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<SendEntryHeader> getBySupplierNameLikeByPage(String name, Integer page, Integer size, String sortFieldName, Integer asc) {
+
+        // 判断字段名是否存在
+        try {
+            SendEntryHeader.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            throw new MesException(EnumException.SORT_FIELD);
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        List<Supplier> suppliers = supplierDao.findByNameLike("" + name + "");
+        return sendEntryHeaderRepository.findBySupplierIn(suppliers, pageable);
+    }
 
     /**
      * 通过公司-分页查询

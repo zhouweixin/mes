@@ -71,7 +71,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 	 * @param oldPassword
 	 */
 	@Modifying
-	@Query("update User set password=?1 where code=?2 and password=?3)")
+	@Query("update User set password=?1 where code=?2 and password=?3")
 	public Integer updateUserPassword(String newPassword, String code, String oldPassword);
 
 	/**
@@ -122,4 +122,12 @@ public interface UserRepository extends JpaRepository<User, String> {
 	@Modifying
 	@Query(value = "update User u set u.password=?1")
     public void updateAllDefaultPassword(String defaultPassword);
+
+    /**
+     * 通过部门查询用户
+     *
+     * @param department
+     * @return
+     */
+	public List<User> findByDepartment(Department department);
 }

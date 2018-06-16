@@ -130,4 +130,12 @@ public class CustomerService {
     public void updateAllDefaultPassword(String defaultPassword) {
         customerDao.updateAllDefaultPassword(defaultPassword);
     }
+
+    public List<Supplier> findByNameLike(String name){
+        return supplierDao.findByNameLike("" + name + "");
+    }
+
+    public List<Customer> findBySupplier(Supplier supplier){
+        return customerDao.findBySupplier(supplier);
+    }
 }

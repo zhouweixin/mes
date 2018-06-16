@@ -467,4 +467,15 @@ public class UserController {
         userService.updateAllDefaultPassword(defaultPassword);
         return ResultUtil.success();
     }
+
+    /**
+     * 通过部门查询用户
+     *
+     * @param department
+     * @return
+     */
+    @RequestMapping(value = "/getByDepartment")
+     public Result<List<User>> getByDepartment(Department department){
+        return ResultUtil.success(userService.findByDepartment(department));
+     }
 }

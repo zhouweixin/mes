@@ -186,6 +186,25 @@ public class SendEntryHeaderController {
     }
 
     /**
+     * 通过公司名模糊查询-分页
+     *
+     * @param name
+     * @param page
+     * @param size
+     * @param sort
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getBySupplierNameLikeByPage")
+    public Result<Page<SendEntryHeader>> getBySupplierNameLikeByPage(@RequestParam(value = "name", defaultValue = "") String name,
+                                                       @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                       @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                                       @RequestParam(value = "sort", defaultValue = "code") String sort,
+                                                       @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
+        return ResultUtil.success(sendEntryHeaderService.getBySupplierNameLikeByPage(name, page, size, sort, asc));
+    }
+
+    /**
      * 通过公司编码查询-分页
      *
      * @param page

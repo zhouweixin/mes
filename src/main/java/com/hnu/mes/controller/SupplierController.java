@@ -2,6 +2,7 @@ package com.hnu.mes.controller;
 
 import com.hnu.mes.domain.Result;
 import com.hnu.mes.domain.Supplier;
+import com.hnu.mes.domain.SupplierType;
 import com.hnu.mes.exception.EnumException;
 import com.hnu.mes.exception.MesException;
 import com.hnu.mes.service.SupplierService;
@@ -33,9 +34,9 @@ public class SupplierController {
 
     @PostMapping(value = "/add")
     public Result<Supplier> save(@Valid Supplier supplier, BindingResult bindingResult) {
-        /**
+        /**sciption 添加
          * save
-         * @Desciption 添加
+         * @De
          * @param [supplier, bindingResult]
          */
         if (bindingResult.hasErrors()) {
@@ -136,5 +137,24 @@ public class SupplierController {
          * @param [name, page, size, sort, asc]
          */
         return ResultUtil.success(supplierService.findAllByLikeNameByPage(name, page, size, sort, asc));
+    }
+
+    /**
+     * 通过公司类型查询-分页
+     *
+     * @param supplierType
+     * @param page
+     * @param size
+     * @param sort
+     * @param asc
+     * @return
+     */
+    @PostMapping(value = "/getBySupplierTypeByPage")
+    public Result<Page<Supplier>> getBySupplierTypeByPage(SupplierType supplierType,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "sort", defaultValue = "code") String sort,
+            @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
+        return ResultUtil.success(supplierService.getBySupplierTypeByPage(supplierType, page, size, sort, asc));
     }
 }

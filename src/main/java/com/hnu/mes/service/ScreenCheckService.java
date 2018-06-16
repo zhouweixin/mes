@@ -20,7 +20,6 @@ public class ScreenCheckService {
     @Autowired
     ScreenCheckRepository screenCheckRepository;
 
-
     /**
      * 新增/更新
      * @param screenCheck

@@ -90,12 +90,12 @@ public class ProductOrderController {
      * @return
      */
     @RequestMapping(value = "/getByBatchNumberLikeByPage")
-    public Result<Page<ProductOrder>> getByNameLikeByPage(@RequestParam(value = "batchNumber" , defaultValue = "") String batchNumber,
+    public Result<Page<ProductOrder>> getByBatchNumberLikeByPage(@RequestParam(value = "batchNumber" , defaultValue = "") String batchNumber,
                                                      @RequestParam(value = "page" , defaultValue = "0") Integer page,
                                                      @RequestParam(value = "size" , defaultValue = "10") Integer size,
-                                                     @RequestParam(value = "sortFieldName" , defaultValue = "id") String sortFieldName,
+                                                     @RequestParam(value = "sortFieldName" , defaultValue = "batchNumber") String sortFieldName,
                                                      @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
-        return ResultUtil.success(productOrderService.findByNameLikeByPage(batchNumber , page, size , sortFieldName , asc));
+        return ResultUtil.success(productOrderService.findByBatchNumberLike(batchNumber , page, size , sortFieldName , asc));
     }
 
     /**

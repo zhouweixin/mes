@@ -245,4 +245,23 @@ public class CustomerManageController {
     public Result<List<Customer>> getBySupplier(Supplier supplier){
         return ResultUtil.success(customerService.findBySupplier(supplier));
     }
+
+    /**
+     * 通过公司查询-分页
+     *
+     * @param supplier
+     * @param page
+     * @param size
+     * @param sort
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getBySupplierByPage")
+    public Result<Page<Customer>> getBySupplierByPage(Supplier supplier,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "sort", defaultValue = "code") String sort,
+            @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
+        return ResultUtil.success(customerService.findBySupplierByPage(supplier, page, size, sort, asc));
+    }
 }

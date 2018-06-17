@@ -3,7 +3,6 @@ package com.hnu.mes.domain;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 指导书信息表
@@ -46,7 +45,7 @@ public class Guide {
      */
     @ManyToOne(targetEntity = Cycle.class)
     @JoinColumn(name = "cyclecode", referencedColumnName = "code")
-    private Cycle cycleCode;
+    private Cycle cycle;
 
     /**
      * 指导书头部
@@ -92,12 +91,12 @@ public class Guide {
         this.standard = standard;
     }
 
-    public Cycle getCycleCode() {
-        return cycleCode;
+    public Cycle getCycle() {
+        return cycle;
     }
 
-    public void setCycleCode(Cycle cycleCode) {
-        this.cycleCode = cycleCode;
+    public void setCycle(Cycle cycle) {
+        this.cycle = cycle;
     }
 
     @JsonIgnore

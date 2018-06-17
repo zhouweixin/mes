@@ -81,7 +81,7 @@ public class TallyController {
      * @param code
      */
     @PostMapping(value = "/deleteByCode")
-    public Result<Object> delete(@RequestParam(value = "code") String code) {
+    public Result<Object> delete(@RequestParam(value = "code") Long code) {
 
         tallyService.delete(code);
         return ResultUtil.success();
@@ -94,7 +94,7 @@ public class TallyController {
      * @return
      */
     @PostMapping(value = "/getByCode")
-    public Result<Tally> findOne(@RequestParam(value = "code") String code) {
+    public Result<Tally> findOne(@RequestParam(value = "code") Long code) {
 
         return ResultUtil.success(tallyService.findOne(code));
     }
@@ -128,30 +128,5 @@ public class TallyController {
                                          @RequestParam(value = "sort", defaultValue = "code") String sort,
                                          @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
         return ResultUtil.success(tallyService.getTallyByPage(page, size, sort, asc));
-    }
-
-    /**
-     * 通过分页查询所有
-     *
-     * @param archivecode
-     *            名称
-     * @param page
-     *            当前页,从0开始,默认是0
-     * @param size
-     *            每页的记录数,默认是10
-     * @param sort
-     *            排序的字段名,默认是code
-     * @param asc
-     *            排序的方式,0是减序,1是增序,默认是增序
-     * @return
-     */
-    @PostMapping(value = "/getAllByLikeNameByPage")
-    public Result<Page<Tally>> findAllByLikeNameByPage(
-            @RequestParam(value = "archivecode", defaultValue = "") String archivecode,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "10") Integer size,
-            @RequestParam(value = "sort", defaultValue = "code") String sort,
-            @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
-        return ResultUtil.success(tallyService.findAllByLikeNameByPage(archivecode, page, size, sort, asc));
     }
 }

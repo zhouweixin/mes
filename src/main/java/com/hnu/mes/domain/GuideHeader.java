@@ -27,6 +27,10 @@ public class GuideHeader {
     @NotBlank(message = "指导书编码不能为空")
     private String code;
 
+    @ManyToOne(targetEntity = Equipment.class)
+    @JoinColumn(name = "equipment_code", referencedColumnName = "code")
+    private Equipment equipment;
+
 
     /**
      * 指导书名称
@@ -73,7 +77,7 @@ public class GuideHeader {
     /**
      * 指导书
      */
-    @OneToMany(targetEntity = Guide.class, cascade = CascadeType.ALL, fetch =  FetchType.LAZY)
+    @OneToMany(targetEntity = Guide.class, cascade = CascadeType.ALL, fetch =  FetchType.EAGER)
     @JoinColumn(name = "guide_header_code")
     private List<Guide> guides = new ArrayList<Guide>();
 
@@ -147,6 +151,14 @@ public class GuideHeader {
 
     public void setGuides(List<Guide> guides) {
         this.guides = guides;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
     }
 
     @Override

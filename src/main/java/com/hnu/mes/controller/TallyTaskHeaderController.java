@@ -29,7 +29,7 @@ public class TallyTaskHeaderController {
     private TallyTaskService tallyTaskService;
 
     /**
-     * 通过状态点检人和状态查询
+     * 通过点检人和状态查询
      *
      * @param user
      * @param status

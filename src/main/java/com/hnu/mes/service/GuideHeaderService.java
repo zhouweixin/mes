@@ -3,6 +3,7 @@ package com.hnu.mes.service;
 import java.util.List;
 import java.util.Set;
 
+import com.hnu.mes.domain.Equipment;
 import com.hnu.mes.exception.EnumException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -151,5 +152,9 @@ public class GuideHeaderService {
 
     public void deleteInBatch(Set<GuideHeader> guideHeaders) {
         guideHeaderRepository.deleteInBatch(guideHeaders);
+    }
+
+    public GuideHeader findByEquipment(Equipment equipment) {
+        return guideHeaderRepository.findByEquipment(equipment);
     }
 }

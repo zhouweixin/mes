@@ -1,10 +1,6 @@
 package com.hnu.mes.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-import org.apache.ibatis.annotations.Many;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 菜单信息表
@@ -32,8 +28,8 @@ public class Archive {
      * 设备编码
      */
     @ManyToOne(targetEntity = Equipment.class)
-    @JoinColumn(name = "equipmentCode", referencedColumnName = "code")
-    private Equipment equipmentCode;
+    @JoinColumn(name = "equipment_code", referencedColumnName = "code")
+    private Equipment equipment;
 
     /**
      * 安装时间
@@ -93,12 +89,12 @@ public class Archive {
         this.name = name;
     }
 
-    public Equipment getEquipmentCode() {
-        return equipmentCode;
+    public Equipment getEquipment() {
+        return equipment;
     }
 
-    public void setEquipmentCode(Equipment equipmentCode) {
-        this.equipmentCode = equipmentCode;
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
     }
 
 
@@ -172,7 +168,7 @@ public class Archive {
         return "Archive{" +
                 "code=" + code +
                 ", name='" + name + '\'' +
-                ", equipmentCode=" + equipmentCode +
+                ", equipment=" + equipment +
                 ", installTime='" + installTime + '\'' +
                 ", equipmentName='" + equipmentName + '\'' +
                 ", defectPeriod='" + defectPeriod + '\'' +

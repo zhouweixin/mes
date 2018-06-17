@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.hnu.mes.domain.Equipment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -157,4 +158,15 @@ public class GuideHeaderController {
             @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
         return ResultUtil.success(guideHeaderService.findAllByLikeNameByPage(name, page, size, sort, asc));
     }
+
+    /**
+     * 通过设备查询
+     *
+     * @param equipment
+     * @return
+     */
+    @RequestMapping(value = "/getByEquipment")
+     public Result<GuideHeader> getByEquipment(Equipment equipment){
+        return ResultUtil.success(guideHeaderService.findByEquipment(equipment));
+     }
 }

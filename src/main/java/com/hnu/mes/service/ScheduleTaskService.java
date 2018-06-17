@@ -43,13 +43,13 @@ public class ScheduleTaskService {
 
     @Transactional
 //    @Scheduled(cron = "0 0 0,12 * * ?")
-    @Scheduled(fixedRate = 120000)
+    @Scheduled(fixedRate = 300000)// TODO 临时测试
     public void execute() {
 
         // 创建当前时间
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);// TODO 临时测试, 需要删除
 
         List<TallyTaskHeader> tallyTaskHeaders = new ArrayList<>();
 

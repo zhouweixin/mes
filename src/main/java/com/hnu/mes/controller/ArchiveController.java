@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import com.hnu.mes.domain.Archive;
+import com.hnu.mes.domain.Equipment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
@@ -161,5 +162,16 @@ public class ArchiveController {
             @RequestParam(value = "sort", defaultValue = "code") String sort,
             @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
         return ResultUtil.success(archiveService.findAllByLikeNameByPage(name, page, size, sort, asc));
+    }
+
+    /**
+     * 通过设备查询
+     *
+     * @param equipment
+     * @return
+     */
+    @PostMapping(value = "/getByEquipment")
+    public Result<Archive> getByEquipment(Equipment equipment){
+        return ResultUtil.success(archiveService.findByEquipment(equipment));
     }
 }

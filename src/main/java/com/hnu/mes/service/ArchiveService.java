@@ -158,4 +158,8 @@ public class ArchiveService {
     public void deleteInBatch(Set<Archive> archives) {
         archiveRepository.deleteInBatch(archives);
     }
+
+    public Archive findByEquipment(Equipment equipment) {
+        return archiveRepository.findFirstByEquipment(equipment);
+    }
 }

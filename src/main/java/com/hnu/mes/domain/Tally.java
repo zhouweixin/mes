@@ -2,7 +2,11 @@ package com.hnu.mes.domain;
 
 import javax.persistence.*;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * 巡检信息表
@@ -17,163 +21,179 @@ public class Tally {
      * 编码
      */
     @Id
-    @NotBlank(message = "巡检编码不能为空")
-    private String code;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long code;
 
     /**
      * 设备编码
      */
-
-    private String archivecode;
-
-    /**
-     * 异常编码
-     */
-
-    private String abnormalcode;
+    @ManyToOne(targetEntity = Equipment.class)
+    @JoinColumn(name = "equipment_code", referencedColumnName = "code")
+    private Equipment equipment;
 
     /**
-     * 巡检人编码
+     * 点检时间
      */
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date time;
 
-    private String inspectorcode;
+    @ManyToOne(targetEntity = Guide.class)
+    @JoinColumn(name = "guide_code", referencedColumnName = "code")
+    private Guide guide;
 
-    /**
-     * 键和人编码
-     */
+    // 序号
+    private Integer num;
 
-    private String verificationcode;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "inspector_code", referencedColumnName = "code")
+    private User inspector;
 
-    /**
-     * 指导书编码
-     */
+    // 点检状态:0未点检;1合格;2不合格
+    private Integer inspectorStatus;
 
-    private String guidecode;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "verification_code", referencedColumnName = "code")
+    private User verification;
 
-    /**
-     * 日期
-     */
-    private String date;
+    private Integer verificationStatus;
 
-    /**
-     * 序号
-     */
-    private String num;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date verificationTime;
 
+    @ManyToOne(targetEntity = Abnormal.class)
+    @JoinColumn(name = "abnormal_code", referencedColumnName = "code")
+    private Abnormal abnormal;
 
-    private String inspectorstatus;
+    @ManyToOne(targetEntity = TallyTask.class)
+    @JoinColumn(name = "tally_task_code", referencedColumnName = "code")
+    private TallyTask tallyTask;
 
+    public Tally() {
+    }
 
+    public Tally(TallyTask tallyTask) {
+        if(tallyTask != null){
+            // 设备
+            Equipment equipment = tallyTask.getEquipment();
+            this.equipment = equipment;
+            if(equipment != null){
+                // 点检人
+                this.inspector = equipment.getUser();
+                if(this.inspector != null){
+                    this.inspector.setRoles(null);
+                }
+            }
 
-    private String verificationstatus;
+            // 指导书
+            this.guide = tallyTask.getGuide();
+            if (tallyTask.getGuide() != null) {
+                // 序号
+                this.num = tallyTask.getGuide().getNum();
+            }
+        }
 
-    private String verificationtime;
+        // 点检时间
+        this.time = new Date();
 
+        // 点检任务
+        this.tallyTask = tallyTask;
+    }
 
-    public String getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
-    public String getArchivecode() {
-        return archivecode;
+    public Equipment getEquipment() {
+        return equipment;
     }
 
-    public void setArchivecode(String archivecode) {
-        this.archivecode = archivecode;
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
     }
 
-    public String getAbnormalcode() {
-        return abnormalcode;
+    public Date getTime() {
+        return time;
     }
 
-    public void setAbnormalcode(String abnormalcode) {
-        this.abnormalcode = abnormalcode;
+    public void setTime(Date time) {
+        this.time = time;
     }
 
-    public String getInspectorcode() {
-        return inspectorcode;
-    }
-
-    public void setInspectorcode(String inspectorcode) {
-        this.inspectorcode = inspectorcode;
-    }
-
-    public String getVerificationcode() {
-        return verificationcode;
-    }
-
-    public void setVerificationcode(String verificationcode) {
-        this.verificationcode = verificationcode;
-    }
-
-    public String getGuidecode() {
-        return guidecode;
-    }
-
-    public void setGuidecode(String guidecode) {
-        this.guidecode = guidecode;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getNum() {
+    public Integer getNum() {
         return num;
     }
 
-    public void setNum(String num) {
+    public void setNum(Integer num) {
         this.num = num;
     }
 
-    public String getInspectorstatus() {
-        return inspectorstatus;
+    public User getInspector() {
+        return inspector;
     }
 
-    public void setInspectorstatus(String inspectorstatus) {
-        this.inspectorstatus = inspectorstatus;
+    public void setInspector(User inspector) {
+        this.inspector = inspector;
     }
 
-    public String getVerificationstatus() {
-        return verificationstatus;
+    public Integer getInspectorStatus() {
+        return inspectorStatus;
     }
 
-    public void setVerificationstatus(String verificationstatus) {
-        this.verificationstatus = verificationstatus;
+    public void setInspectorStatus(Integer inspectorStatus) {
+        this.inspectorStatus = inspectorStatus;
     }
 
-    public String getVerificationtime() {
-        return verificationtime;
+    public User getVerification() {
+        return verification;
     }
 
-    public void setVerificationtime(String verificationtime) {
-        this.verificationtime = verificationtime;
+    public void setVerification(User verification) {
+        this.verification = verification;
     }
 
+    public Integer getVerificationStatus() {
+        return verificationStatus;
+    }
 
+    public void setVerificationStatus(Integer verificationStatus) {
+        this.verificationStatus = verificationStatus;
+    }
 
-    @Override
-    public String toString() {
-        return "Tally{" +
-                "code='" + code +'\'' +
-                ", archivecode=" + archivecode +
-                ", date=" + date +'\'' +
-                ", guidecode=" + guidecode +
-                ", num=" + num +'\'' +
-                ", inspectorcode=" + inspectorcode +
-                ", inspectorStatus=" + inspectorstatus +'\'' +
-                ", verificationcode=" + verificationcode +
-                ", verificationStatus=" + verificationstatus +
-                ", verificationTime=" + verificationtime +
-                ", abnormalcode=" + abnormalcode +
-                '}';
+    public Date getVerificationTime() {
+        return verificationTime;
+    }
+
+    public void setVerificationTime(Date verificationTime) {
+        this.verificationTime = verificationTime;
+    }
+
+    public Abnormal getAbnormal() {
+        return abnormal;
+    }
+
+    public void setAbnormal(Abnormal abnormal) {
+        this.abnormal = abnormal;
+    }
+
+    public TallyTask getTallyTask() {
+        return tallyTask;
+    }
+
+    public void setTallyTask(TallyTask tallyTask) {
+        this.tallyTask = tallyTask;
+    }
+
+    public Guide getGuide() {
+        return guide;
+    }
+
+    public void setGuide(Guide guide) {
+        this.guide = guide;
     }
 }

@@ -45,7 +45,7 @@ public class TallyService {
      *
      * @param code
      */
-    public void delete(String code) {
+    public void delete(Long code) {
         tallyRepository.delete(code);
     }
 
@@ -55,7 +55,7 @@ public class TallyService {
      * @param code
      * @return
      */
-    public Tally findOne(String code) {
+    public Tally findOne(Long code) {
         return tallyRepository.findOne(code);
     }
 
@@ -99,53 +99,5 @@ public class TallyService {
         }
         Pageable pageable = new PageRequest(page, size, sort);
         return tallyRepository.findAll(pageable);
-    }
-
-    /**
-     * 通过名称模糊查询
-     *
-     * @param archivecode
-     *            名称
-     * @param page
-     *            当前页
-     * @param size
-     *            每页的记录数
-     * @param sortFieldName
-     *            排序的字段名
-     * @param asc
-     *            增序或减序
-     * @return
-     */
-    public Page<Tally> findAllByLikeNameByPage(String archivecode, Integer page, Integer size, String sortFieldName,
-                                                 Integer asc) {
-
-        try {
-            Tally.class.getDeclaredField(sortFieldName);
-        } catch (Exception e) {
-            // 排序的字段名不存在
-            throw new MesException(EnumException.SORT_FIELD);
-        }
-
-        Sort sort = null;
-        if (asc == 0) {
-            sort = new Sort(Direction.DESC, sortFieldName);
-        } else {
-            sort = new Sort(Direction.ASC, sortFieldName);
-        }
-
-        // 分页
-        Pageable pageable = new PageRequest(page, size, sort);
-
-        // 只匹配name,其它属性全都忽略
-        ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("archivecode", GenericPropertyMatchers.contains())
-                .withIgnorePaths("code", "date", "guideCode", "num", "inspectorCode", "inspectorStatus", "verificationCode", "verificationStatus", "abnormalCode", "verificationTime");
-        Tally tally = new Tally();
-        tally.setArchivecode(archivecode);
-
-        // 创建实例
-        Example<Tally> example = Example.of(tally, matcher);
-
-        // 查询
-        return tallyRepository.findAll(example, pageable);
     }
 }

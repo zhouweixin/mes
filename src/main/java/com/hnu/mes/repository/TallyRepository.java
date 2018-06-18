@@ -9,5 +9,5 @@ import com.hnu.mes.domain.Tally;
  * @author chenpingxiao
  *
  */
-public interface TallyRepository extends JpaRepository<Tally, String> {
+public interface TallyRepository extends JpaRepository<Tally, Long> {
 }

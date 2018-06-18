@@ -96,6 +96,9 @@ public enum EnumException {
 	IMAGE_NOT_EXIST(84, "图片不存在"),
     DELETE_FAILED_REPAIR_REF(85, "删除失败，被维修单引用"),
     AUDIT_FAILED_ONLY_SUBMIT_CAN_AUDIT(86, "审核失败, 只有状态为待审核的才可以审核"),
+    TALLY_FAILED_TASK_NOT_EXIST(87, "点检失败, 任务不存在"),
+    TALLY_FAILED_TALLY(88, "点检失败, 任务已完成"),
+    TALLY_FAILED_TASK_DEADLINE(89, "点检失败, 任务已过期"),
 
 
     ;

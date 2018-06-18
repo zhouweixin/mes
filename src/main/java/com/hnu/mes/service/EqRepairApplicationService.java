@@ -268,6 +268,8 @@ public class EqRepairApplicationService {
 
         application.setApplicationPersonContact(applicationPerson.getContact());//设置申请人电话
 
+        application.setEquipment(webBean.getEquipment());
+
         eqRepairApplicationRepository.save(application);
     }
 

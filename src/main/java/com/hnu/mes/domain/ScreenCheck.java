@@ -11,6 +11,7 @@ import java.util.Date;
  * @Date: 2018/6/16 17:54
  */
 @Entity
+@Table(name = "release_screen_check")
 public class ScreenCheck {
     /**
      * 编码

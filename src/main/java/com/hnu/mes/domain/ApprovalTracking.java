@@ -1,6 +1,7 @@
 package com.hnu.mes.domain;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -132,6 +133,7 @@ public class ApprovalTracking {
      * 录入时间
      */
     @CreatedDate
+    @LastModifiedDate
     private Date entryTime;
 
     /**

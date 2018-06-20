@@ -1,7 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.ProductOrder;
-import com.hnu.mes.repository.ProductOrderRepository;
+import com.hnu.mes.domain.ProcessTracking;
+import com.hnu.mes.repository.ProcessTrackingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,28 +13,29 @@ import java.util.Collection;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/14 22:05
+ * @Date: 2018/6/20 14:55
  */
 @Service
-public class ProductOrderService {
+public class ProcessTrackingService {
     @Autowired
-    private ProductOrderRepository productOrderRepository;
+    private ProcessTrackingRepository processTrackingRepository;
+
 
     /**
      * 新增/更新
-     * @param productOrder
+     * @param processTracking
      * @return
      */
-    public ProductOrder save(ProductOrder productOrder){
-        return productOrderRepository.save(productOrder);
+    public ProcessTracking save(ProcessTracking processTracking){
+        return processTrackingRepository.save(processTracking);
     }
 
     /**
      * 批量删除
-     * @param productOrder
+     * @param processTracking
      */
-    public void deleteInBatch(Collection<ProductOrder> productOrder) {
-        productOrderRepository.deleteInBatch(productOrder);
+    public void deleteInBatch(Collection<ProcessTracking> processTracking) {
+        processTrackingRepository.deleteInBatch(processTracking);
     }
 
     /**
@@ -45,11 +46,11 @@ public class ProductOrderService {
      * @param asc
      * @return
      */
-    public Page<ProductOrder> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<ProcessTracking> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {
-            ProductOrder.class.getDeclaredField(sortFieldName);
+            ProcessTracking.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为code
             sortFieldName = "code";
@@ -62,26 +63,26 @@ public class ProductOrderService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return productOrderRepository.findAll(pageable);
+        return processTrackingRepository.findAll(pageable);
     }
 
     /**
-     * 通过批号模糊查询-分页
-     * @param batchNumber
+     * 通过预烧物料编号模糊查询-分页
+     * @param premixedCode
      * @param page
      * @param size
      * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<ProductOrder> findByBatchNumberLike(String batchNumber , Integer page , Integer size , String sortFieldName ,
-                                              Integer asc) {
+    public Page<ProcessTracking> findByPremixedCodeLike(String premixedCode , Integer page , Integer size , String sortFieldName ,
+                                                    Integer asc) {
         // 判断排序字段名是否存在
         try {
-            ProductOrder.class.getDeclaredField(sortFieldName);
+            ProcessTracking.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
-            // 如果不存在就设置为batchNumber
-            sortFieldName = "batchNumber";
+            // 如果不存在就设置为premixedCode
+            sortFieldName = "premixedCode";
         }
 
         Sort sort;
@@ -92,14 +93,14 @@ public class ProductOrderService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return productOrderRepository.findByBatchNumberLike("%" + batchNumber + "%", pageable);
+        return processTrackingRepository.findByPremixedCodeLike("%" + premixedCode + "%", pageable);
     }
     /**
      * 通过code删除
      * @param code
      */
     public void delete(Integer code){
-        productOrderRepository.delete(code);
+        processTrackingRepository.delete(code);
     }
 
     /**
@@ -107,8 +108,8 @@ public class ProductOrderService {
      * @param code
      * @return
      */
-    public ProductOrder findByCode(Integer code){
-        return productOrderRepository.findOne(code);
+    public ProcessTracking findByCode(Integer code){
+        return processTrackingRepository.findOne(code);
     }
 
 }

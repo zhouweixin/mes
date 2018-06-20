@@ -1,7 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.ProductOrder;
-import com.hnu.mes.repository.ProductOrderRepository;
+import com.hnu.mes.domain.ApprovalTracking;
+import com.hnu.mes.repository.ApprovalTrackingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,28 +13,28 @@ import java.util.Collection;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/14 22:05
+ * @Date: 2018/6/20 20:41
  */
 @Service
-public class ProductOrderService {
+public class ApprovalTrackingService {
     @Autowired
-    private ProductOrderRepository productOrderRepository;
+    ApprovalTrackingRepository approvalTrackingRepository;
 
     /**
      * 新增/更新
-     * @param productOrder
+     * @param approvalTracking
      * @return
      */
-    public ProductOrder save(ProductOrder productOrder){
-        return productOrderRepository.save(productOrder);
+    public ApprovalTracking save(ApprovalTracking approvalTracking){
+        return approvalTrackingRepository.save(approvalTracking);
     }
 
     /**
      * 批量删除
-     * @param productOrder
+     * @param approvalTracking
      */
-    public void deleteInBatch(Collection<ProductOrder> productOrder) {
-        productOrderRepository.deleteInBatch(productOrder);
+    public void deleteInBatch(Collection<ApprovalTracking> approvalTracking) {
+        approvalTrackingRepository.deleteInBatch(approvalTracking);
     }
 
     /**
@@ -45,11 +45,11 @@ public class ProductOrderService {
      * @param asc
      * @return
      */
-    public Page<ProductOrder> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<ApprovalTracking> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {
-            ProductOrder.class.getDeclaredField(sortFieldName);
+            ApprovalTracking.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为code
             sortFieldName = "code";
@@ -62,26 +62,26 @@ public class ProductOrderService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return productOrderRepository.findAll(pageable);
+        return approvalTrackingRepository.findAll(pageable);
     }
 
     /**
-     * 通过批号模糊查询-分页
-     * @param batchNumber
+     * 通过物料打包编号模糊查询-分页
+     * @param packagingCode
      * @param page
      * @param size
      * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<ProductOrder> findByBatchNumberLike(String batchNumber , Integer page , Integer size , String sortFieldName ,
-                                              Integer asc) {
+    public Page<ApprovalTracking> findByPackagingCodeLike(String packagingCode , Integer page , Integer size , String sortFieldName ,
+                                                    Integer asc) {
         // 判断排序字段名是否存在
         try {
-            ProductOrder.class.getDeclaredField(sortFieldName);
+            ApprovalTracking.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
-            // 如果不存在就设置为batchNumber
-            sortFieldName = "batchNumber";
+            // 如果不存在就设置为packagingCode
+            sortFieldName = "packagingCode";
         }
 
         Sort sort;
@@ -92,14 +92,14 @@ public class ProductOrderService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return productOrderRepository.findByBatchNumberLike("%" + batchNumber + "%", pageable);
+        return approvalTrackingRepository.findByPackagingCodeLike("%" + packagingCode + "%", pageable);
     }
     /**
      * 通过code删除
      * @param code
      */
     public void delete(Integer code){
-        productOrderRepository.delete(code);
+        approvalTrackingRepository.delete(code);
     }
 
     /**
@@ -107,8 +107,8 @@ public class ProductOrderService {
      * @param code
      * @return
      */
-    public ProductOrder findByCode(Integer code){
-        return productOrderRepository.findOne(code);
+    public ApprovalTracking findByCode(Integer code){
+        return approvalTrackingRepository.findOne(code);
     }
 
 }

@@ -26,9 +26,9 @@ public class ScreenCheck {
     private String shakerCode;
 
     /**
-     * 图片内容
+     * 图片编号
      */
-    private Blob picture;
+    private Long picture;
 
     /**
      * 检查人
@@ -64,11 +64,11 @@ public class ScreenCheck {
         this.shakerCode = shakerCode;
     }
 
-    public Blob getPicture() {
+    public long getPicture() {
         return picture;
     }
 
-    public void setPicture(Blob picture) {
+    public void setPicture(long picture) {
         this.picture = picture;
     }
 

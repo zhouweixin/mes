@@ -25,7 +25,7 @@ import java.util.Collection;
 @RequestMapping(value = "/byproduct")
 public class ByproductController {
     @Autowired
-    ByproductService byproductService;
+    private ByproductService byproductService;
 
 
     /**
@@ -82,7 +82,7 @@ public class ByproductController {
     }
 
     /**
-     * 通过批号模糊查询-分页
+     * 通过名称模糊查询-分页
      * @param name
      * @param page
      * @param size
@@ -90,8 +90,8 @@ public class ByproductController {
      * @param asc
      * @return
      */
-    @RequestMapping(value = "/getByNameLikeByPage")
-    public Result<Page<Byproduct>> getByNameLikeByPage(@RequestParam(value = "name" , defaultValue = "") String name,
+    @RequestMapping(value = "/getAllByNameLikeByPage")
+    public Result<Page<Byproduct>> getAllByNameLikeByPage(@RequestParam(value = "name" , defaultValue = "") String name,
                                                               @RequestParam(value = "page" , defaultValue = "0") Integer page,
                                                               @RequestParam(value = "size" , defaultValue = "10") Integer size,
                                                               @RequestParam(value = "sortFieldName" , defaultValue = "batchNumber") String sortFieldName,

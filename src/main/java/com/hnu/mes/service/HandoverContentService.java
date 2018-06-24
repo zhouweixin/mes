@@ -1,7 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.Byproduct;
-import com.hnu.mes.repository.ByproductRepository;
+import com.hnu.mes.domain.HandoverContent;
+import com.hnu.mes.repository.HandoverContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,28 +13,29 @@ import java.util.Collection;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/24 8:14
+ * @Date: 2018/6/24 10:55
  */
 @Service
-public class ByproductService {
+public class HandoverContentService {
     @Autowired
-    private ByproductRepository byproductRepository;
+    private HandoverContentRepository handoverContentRepository;
+
 
     /**
      * 新增/更新
-     * @param byproduct
+     * @param handoverContent
      * @return
      */
-    public Byproduct save(Byproduct byproduct){
-        return byproductRepository.save(byproduct);
+    public HandoverContent save(HandoverContent handoverContent){
+        return handoverContentRepository.save(handoverContent);
     }
 
     /**
      * 批量删除
-     * @param byproduct
+     * @param handoverContent
      */
-    public void deleteInBatch(Collection<Byproduct> byproduct) {
-        byproductRepository.deleteInBatch(byproduct);
+    public void deleteInBatch(Collection<HandoverContent> handoverContent) {
+        handoverContentRepository.deleteInBatch(handoverContent);
     }
 
     /**
@@ -45,11 +46,11 @@ public class ByproductService {
      * @param asc
      * @return
      */
-    public Page<Byproduct> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<HandoverContent> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {
-            Byproduct.class.getDeclaredField(sortFieldName);
+            HandoverContent.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为code
             sortFieldName = "code";
@@ -62,7 +63,7 @@ public class ByproductService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return byproductRepository.findAll(pageable);
+        return handoverContentRepository.findAll(pageable);
     }
 
     /**
@@ -74,11 +75,11 @@ public class ByproductService {
      * @param asc
      * @return
      */
-    public Page<Byproduct> findByNameLike(String name , Integer page , Integer size , String sortFieldName ,
+    public Page<HandoverContent> findByNameLike(String name , Integer page , Integer size , String sortFieldName ,
                                           Integer asc) {
         // 判断排序字段名是否存在
         try {
-            Byproduct.class.getDeclaredField(sortFieldName);
+            HandoverContent.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为code
             sortFieldName = "code";
@@ -92,14 +93,14 @@ public class ByproductService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return byproductRepository.findByNameLike("%" + name + "%", pageable);
+        return handoverContentRepository.findByNameLike("%" + name + "%", pageable);
     }
     /**
      * 通过code删除
      * @param code
      */
     public void delete(Integer code){
-        byproductRepository.delete(code);
+        handoverContentRepository.delete(code);
     }
 
     /**
@@ -107,8 +108,8 @@ public class ByproductService {
      * @param code
      * @return
      */
-    public Byproduct findByCode(Integer code){
-        return byproductRepository.findOne(code);
+    public HandoverContent findByCode(Integer code){
+        return handoverContentRepository.findOne(code);
     }
 
 }

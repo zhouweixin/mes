@@ -81,6 +81,23 @@ public class ScreenCheckController {
     }
 
     /**
+     * 通过筛网编号查询-分页
+     * @param shakerCode
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getByShakerCodeLikeByPage")
+    public Result<Page<ScreenCheck>> getByBatchNumberLikeByPage(@RequestParam(value = "shakerCode" , defaultValue = "") String shakerCode,
+                                                                 @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                                 @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                                 @RequestParam(value = "sortFieldName" , defaultValue = "shakerCode") String sortFieldName,
+                                                                 @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(screenCheckService.findByShakerCodeLike(shakerCode , page, size , sortFieldName , asc));
+    }
+    /**
      * 通过code删除
      * @param code
      * @return

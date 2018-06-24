@@ -65,6 +65,36 @@ public class ScreenCheckService {
         return screenCheckRepository.findAll(pageable);
     }
 
+
+    /**
+     * 通过筛网编号查询-分页
+     * @param shakerCode
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<ScreenCheck> findByShakerCodeLike(String shakerCode , Integer page , Integer size , String sortFieldName ,
+                                                    Integer asc) {
+        // 判断排序字段名是否存在
+        try {
+            ScreenCheck.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为shakerCode
+            sortFieldName = "shakerCode";
+        }
+
+        Sort sort;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Pageable pageable = new PageRequest(page, size, sort);
+        return screenCheckRepository.findByShakerCodeLike("%" + shakerCode + "%", pageable);
+    }
     /**
      * 通过code删除
      * @param code

@@ -70,25 +70,25 @@ public class ProductOrderService {
      * @param batchNumber
      * @param page
      * @param size
-     * @param sortFielName
+     * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<ProductOrder> findByBatchNumberLike(String batchNumber , Integer page , Integer size , String sortFielName ,
+    public Page<ProductOrder> findByBatchNumberLike(String batchNumber , Integer page , Integer size , String sortFieldName ,
                                               Integer asc) {
         // 判断排序字段名是否存在
         try {
-            ProductOrder.class.getDeclaredField(sortFielName);
+            ProductOrder.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为batchNumber
-            sortFielName = "batchNumber";
+            sortFieldName = "batchNumber";
         }
 
         Sort sort;
         if (asc == 0) {
-            sort = new Sort(Sort.Direction.DESC, sortFielName);
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
         } else {
-            sort = new Sort(Sort.Direction.ASC, sortFielName);
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
         }
 
         Pageable pageable = new PageRequest(page, size, sort);

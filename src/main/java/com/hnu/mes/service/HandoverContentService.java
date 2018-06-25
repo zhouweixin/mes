@@ -1,7 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.ScreenCheck;
-import com.hnu.mes.repository.ScreenCheckRepository;
+import com.hnu.mes.domain.HandoverContent;
+import com.hnu.mes.repository.HandoverContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,28 +13,29 @@ import java.util.Collection;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/16 18:32
+ * @Date: 2018/6/24 10:55
  */
 @Service
-public class ScreenCheckService {
+public class HandoverContentService {
     @Autowired
-    ScreenCheckRepository screenCheckRepository;
+    private HandoverContentRepository handoverContentRepository;
+
 
     /**
      * 新增/更新
-     * @param screenCheck
+     * @param handoverContent
      * @return
      */
-    public ScreenCheck save(ScreenCheck screenCheck){
-        return screenCheckRepository.save(screenCheck);
+    public HandoverContent save(HandoverContent handoverContent){
+        return handoverContentRepository.save(handoverContent);
     }
 
     /**
      * 批量删除
-     * @param screenCheck
+     * @param handoverContent
      */
-    public void deleteInBatch(Collection<ScreenCheck> screenCheck) {
-        screenCheckRepository.deleteInBatch(screenCheck);
+    public void deleteInBatch(Collection<HandoverContent> handoverContent) {
+        handoverContentRepository.deleteInBatch(handoverContent);
     }
 
     /**
@@ -45,11 +46,11 @@ public class ScreenCheckService {
      * @param asc
      * @return
      */
-    public Page<ScreenCheck> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<HandoverContent> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {
-            ScreenCheck.class.getDeclaredField(sortFieldName);
+            HandoverContent.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为code
             sortFieldName = "code";
@@ -62,27 +63,26 @@ public class ScreenCheckService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return screenCheckRepository.findAll(pageable);
+        return handoverContentRepository.findAll(pageable);
     }
 
-
     /**
-     * 通过筛网编号查询-分页
-     * @param shakerCode
+     * 通过名称模糊查询-分页
+     * @param name
      * @param page
      * @param size
      * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<ScreenCheck> findByShakerCodeLike(String shakerCode , Integer page , Integer size , String sortFieldName ,
-                                                    Integer asc) {
+    public Page<HandoverContent> findByNameLike(String name , Integer page , Integer size , String sortFieldName ,
+                                          Integer asc) {
         // 判断排序字段名是否存在
         try {
-            ScreenCheck.class.getDeclaredField(sortFieldName);
+            HandoverContent.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
-            // 如果不存在就设置为shakerCode
-            sortFieldName = "shakerCode";
+            // 如果不存在就设置为code
+            sortFieldName = "code";
         }
 
         Sort sort;
@@ -93,14 +93,14 @@ public class ScreenCheckService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return screenCheckRepository.findByShakerCodeLike("%" + shakerCode + "%", pageable);
+        return handoverContentRepository.findByNameLike("%" + name + "%", pageable);
     }
     /**
      * 通过code删除
      * @param code
      */
     public void delete(Integer code){
-        screenCheckRepository.delete(code);
+        handoverContentRepository.delete(code);
     }
 
     /**
@@ -108,8 +108,8 @@ public class ScreenCheckService {
      * @param code
      * @return
      */
-    public ScreenCheck findByCode(Integer code){
-        return screenCheckRepository.findOne(code);
+    public HandoverContent findByCode(Integer code){
+        return handoverContentRepository.findOne(code);
     }
 
 }

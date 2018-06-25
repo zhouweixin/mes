@@ -1,7 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.ScreenCheck;
-import com.hnu.mes.repository.ScreenCheckRepository;
+import com.hnu.mes.domain.ProcessTracking;
+import com.hnu.mes.repository.ProcessTrackingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,28 +13,29 @@ import java.util.Collection;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/16 18:32
+ * @Date: 2018/6/20 14:55
  */
 @Service
-public class ScreenCheckService {
+public class ProcessTrackingService {
     @Autowired
-    ScreenCheckRepository screenCheckRepository;
+    private ProcessTrackingRepository processTrackingRepository;
+
 
     /**
      * 新增/更新
-     * @param screenCheck
+     * @param processTracking
      * @return
      */
-    public ScreenCheck save(ScreenCheck screenCheck){
-        return screenCheckRepository.save(screenCheck);
+    public ProcessTracking save(ProcessTracking processTracking){
+        return processTrackingRepository.save(processTracking);
     }
 
     /**
      * 批量删除
-     * @param screenCheck
+     * @param processTracking
      */
-    public void deleteInBatch(Collection<ScreenCheck> screenCheck) {
-        screenCheckRepository.deleteInBatch(screenCheck);
+    public void deleteInBatch(Collection<ProcessTracking> processTracking) {
+        processTrackingRepository.deleteInBatch(processTracking);
     }
 
     /**
@@ -45,11 +46,11 @@ public class ScreenCheckService {
      * @param asc
      * @return
      */
-    public Page<ScreenCheck> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<ProcessTracking> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {
-            ScreenCheck.class.getDeclaredField(sortFieldName);
+            ProcessTracking.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为code
             sortFieldName = "code";
@@ -62,27 +63,26 @@ public class ScreenCheckService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return screenCheckRepository.findAll(pageable);
+        return processTrackingRepository.findAll(pageable);
     }
 
-
     /**
-     * 通过筛网编号查询-分页
-     * @param shakerCode
+     * 通过预烧物料编号模糊查询-分页
+     * @param premixedCode
      * @param page
      * @param size
      * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<ScreenCheck> findByShakerCodeLike(String shakerCode , Integer page , Integer size , String sortFieldName ,
+    public Page<ProcessTracking> findByPremixedCodeLike(String premixedCode , Integer page , Integer size , String sortFieldName ,
                                                     Integer asc) {
         // 判断排序字段名是否存在
         try {
-            ScreenCheck.class.getDeclaredField(sortFieldName);
+            ProcessTracking.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
-            // 如果不存在就设置为shakerCode
-            sortFieldName = "shakerCode";
+            // 如果不存在就设置为premixedCode
+            sortFieldName = "premixedCode";
         }
 
         Sort sort;
@@ -93,14 +93,14 @@ public class ScreenCheckService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return screenCheckRepository.findByShakerCodeLike("%" + shakerCode + "%", pageable);
+        return processTrackingRepository.findByPremixedCodeLike("%" + premixedCode + "%", pageable);
     }
     /**
      * 通过code删除
      * @param code
      */
     public void delete(Integer code){
-        screenCheckRepository.delete(code);
+        processTrackingRepository.delete(code);
     }
 
     /**
@@ -108,8 +108,8 @@ public class ScreenCheckService {
      * @param code
      * @return
      */
-    public ScreenCheck findByCode(Integer code){
-        return screenCheckRepository.findOne(code);
+    public ProcessTracking findByCode(Integer code){
+        return processTrackingRepository.findOne(code);
     }
 
 }

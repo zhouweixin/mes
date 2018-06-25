@@ -1,10 +1,10 @@
 package com.hnu.mes.controller;
 
+import com.hnu.mes.domain.ByproductCount;
 import com.hnu.mes.domain.Result;
-import com.hnu.mes.domain.ScreenCheck;
 import com.hnu.mes.exception.EnumException;
 import com.hnu.mes.exception.MesException;
-import com.hnu.mes.service.ScreenCheckService;
+import com.hnu.mes.service.ByproductCountService;
 import com.hnu.mes.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,48 +19,48 @@ import java.util.Collection;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/16 18:39
+ * @Date: 2018/6/24 9:17
  */
 @RestController
-@RequestMapping(value = "/screenCheck")
-public class ScreenCheckController {
+@RequestMapping(value = "/byproductCount")
+public class ByproductCountController {
     @Autowired
-    ScreenCheckService screenCheckService;
+    ByproductCountService byproductCountService;
 
     /**
      * 新增
-     * @param screenCheck
+     * @param byproductCount
      * @param bindingResult
      * @return
      */
     @RequestMapping(value = "/add")
-    public Result<ScreenCheck> add(@Valid ScreenCheck screenCheck, BindingResult bindingResult){
+    public Result<ByproductCount> add(@Valid ByproductCount byproductCount, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
-        return ResultUtil.success(screenCheckService.save(screenCheck));
+        return ResultUtil.success(byproductCountService.save(byproductCount));
     }
 
     @RequestMapping(value = "/update")
-    public Result<ScreenCheck> update(@Valid ScreenCheck screenCheck, BindingResult bindingResult){
+    public Result<ByproductCount> update(@Valid ByproductCount byproductCount, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
         //判断是否重复
-        if (screenCheckService.findByCode(screenCheck.getCode()) == null) {
+        if (byproductCountService.findByCode(byproductCount.getCode()) == null) {
             return ResultUtil.error(new MesException(EnumException.UPDATE_FAILED_NOT_EXIST));
         }
-        return ResultUtil.success(screenCheckService.save(screenCheck));
+        return ResultUtil.success(byproductCountService.save(byproductCount));
     }
 
     /**
      * 批量删除
-     * @param screenCheck
+     * @param byproductCount
      * @return
      */
     @RequestMapping(value = "/deleteByIdBatch")
-    public Result<Object> deleteByIdBatch(@RequestBody Collection<ScreenCheck> screenCheck) {
-        screenCheckService.deleteInBatch(screenCheck);
+    public Result<Object> deleteByIdBatch(@RequestBody Collection<ByproductCount> byproductCount) {
+        byproductCountService.deleteInBatch(byproductCount);
         return ResultUtil.success();
     }
 
@@ -73,30 +73,31 @@ public class ScreenCheckController {
      * @return
      */
     @RequestMapping(value = "/getAllByPage")
-    public Result<Page<ScreenCheck>> getAllByPage(@RequestParam(value = "page" , defaultValue = "0" ) Integer page,
+    public Result<Page<ByproductCount>> getAllByPage(@RequestParam(value = "page" , defaultValue = "0" ) Integer page,
                                                   @RequestParam(value = "size" , defaultValue = "10") Integer size,
                                                   @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
                                                   @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
-        return ResultUtil.success(screenCheckService.findAllByPage(page , size , sortFieldName ,asc));
+        return ResultUtil.success(byproductCountService.findAllByPage(page , size , sortFieldName ,asc));
     }
 
     /**
-     * 通过筛网编号查询-分页
-     * @param shakerCode
+     * 通过批号模糊查询-分页
+     * @param batchNumber
      * @param page
      * @param size
      * @param sortFieldName
      * @param asc
      * @return
      */
-    @RequestMapping(value = "/getByShakerCodeLikeByPage")
-    public Result<Page<ScreenCheck>> getByBatchNumberLikeByPage(@RequestParam(value = "shakerCode" , defaultValue = "") String shakerCode,
-                                                                 @RequestParam(value = "page" , defaultValue = "0") Integer page,
-                                                                 @RequestParam(value = "size" , defaultValue = "10") Integer size,
-                                                                 @RequestParam(value = "sortFieldName" , defaultValue = "shakerCode") String sortFieldName,
-                                                                 @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
-        return ResultUtil.success(screenCheckService.findByShakerCodeLike(shakerCode , page, size , sortFieldName , asc));
+    @RequestMapping(value = "/getByBatchNumberLikeByPage")
+    public Result<Page<ByproductCount>> getByBatchNumberLikeByPage(@RequestParam(value = "batchNumber" , defaultValue = "") String batchNumber,
+                                                                @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                                @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                                @RequestParam(value = "sortFieldName" , defaultValue = "batchNumber") String sortFieldName,
+                                                                @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(byproductCountService.findByBatchNumberLike(batchNumber , page, size , sortFieldName , asc));
     }
+
     /**
      * 通过code删除
      * @param code
@@ -104,7 +105,7 @@ public class ScreenCheckController {
      */
     @RequestMapping(value = "/deleteByCode")
     public Result<Object> deleteById(Integer code) {
-        screenCheckService.delete(code);
+        byproductCountService.delete(code);
         return ResultUtil.success();
     }
 
@@ -113,8 +114,9 @@ public class ScreenCheckController {
      * @param code
      * @return
      */
-    @RequestMapping(value = "/getById")
-    public Result<ScreenCheck> findByCode(Integer code) {
-        return ResultUtil.success(screenCheckService.findByCode(code));
+    @RequestMapping(value = "/getByCode")
+    public Result<ByproductCount> findByCode(Integer code) {
+        return ResultUtil.success(byproductCountService.findByCode(code));
     }
+
 }

@@ -70,25 +70,25 @@ public class KilnOrderService {
      * @param kilnCode
      * @param page
      * @param size
-     * @param sortFielName
+     * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<KilnOrder> findByKilnCodeLike(String kilnCode , Integer page , Integer size , String sortFielName ,
+    public Page<KilnOrder> findByKilnCodeLike(String kilnCode , Integer page , Integer size , String sortFieldName ,
                                                    Integer asc) {
         // 判断排序字段名是否存在
         try {
-            KilnOrder.class.getDeclaredField(sortFielName);
+            KilnOrder.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为kilnCode
-            sortFielName = "kilnCode";
+            sortFieldName = "kilnCode";
         }
 
         Sort sort;
         if (asc == 0) {
-            sort = new Sort(Sort.Direction.DESC, sortFielName);
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
         } else {
-            sort = new Sort(Sort.Direction.ASC, sortFielName);
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
         }
 
         Pageable pageable = new PageRequest(page, size, sort);

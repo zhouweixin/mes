@@ -1,7 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.ScreenCheck;
-import com.hnu.mes.repository.ScreenCheckRepository;
+import com.hnu.mes.domain.HandoverState;
+import com.hnu.mes.repository.HandoverStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,28 +13,29 @@ import java.util.Collection;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/16 18:32
+ * @Date: 2018/6/24 10:57
  */
 @Service
-public class ScreenCheckService {
+public class HandoverStateService {
     @Autowired
-    ScreenCheckRepository screenCheckRepository;
+    private HandoverStateRepository handoverStateRepository;
+
 
     /**
      * 新增/更新
-     * @param screenCheck
+     * @param handoverState
      * @return
      */
-    public ScreenCheck save(ScreenCheck screenCheck){
-        return screenCheckRepository.save(screenCheck);
+    public HandoverState save(HandoverState handoverState){
+        return handoverStateRepository.save(handoverState);
     }
 
     /**
      * 批量删除
-     * @param screenCheck
+     * @param handoverState
      */
-    public void deleteInBatch(Collection<ScreenCheck> screenCheck) {
-        screenCheckRepository.deleteInBatch(screenCheck);
+    public void deleteInBatch(Collection<HandoverState> handoverState) {
+        handoverStateRepository.deleteInBatch(handoverState);
     }
 
     /**
@@ -45,11 +46,11 @@ public class ScreenCheckService {
      * @param asc
      * @return
      */
-    public Page<ScreenCheck> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<HandoverState> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {
-            ScreenCheck.class.getDeclaredField(sortFieldName);
+            HandoverState.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为code
             sortFieldName = "code";
@@ -62,27 +63,26 @@ public class ScreenCheckService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return screenCheckRepository.findAll(pageable);
+        return handoverStateRepository.findAll(pageable);
     }
 
-
     /**
-     * 通过筛网编号查询-分页
-     * @param shakerCode
+     * 通过名称模糊查询-分页
+     * @param name
      * @param page
      * @param size
      * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<ScreenCheck> findByShakerCodeLike(String shakerCode , Integer page , Integer size , String sortFieldName ,
-                                                    Integer asc) {
+    public Page<HandoverState> findByNameLike(String name , Integer page , Integer size , String sortFieldName ,
+                                          Integer asc) {
         // 判断排序字段名是否存在
         try {
-            ScreenCheck.class.getDeclaredField(sortFieldName);
+            HandoverState.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
-            // 如果不存在就设置为shakerCode
-            sortFieldName = "shakerCode";
+            // 如果不存在就设置为code
+            sortFieldName = "code";
         }
 
         Sort sort;
@@ -93,14 +93,14 @@ public class ScreenCheckService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return screenCheckRepository.findByShakerCodeLike("%" + shakerCode + "%", pageable);
+        return handoverStateRepository.findByNameLike("%" + name + "%", pageable);
     }
     /**
      * 通过code删除
      * @param code
      */
     public void delete(Integer code){
-        screenCheckRepository.delete(code);
+        handoverStateRepository.delete(code);
     }
 
     /**
@@ -108,8 +108,8 @@ public class ScreenCheckService {
      * @param code
      * @return
      */
-    public ScreenCheck findByCode(Integer code){
-        return screenCheckRepository.findOne(code);
+    public HandoverState findByCode(Integer code){
+        return handoverStateRepository.findOne(code);
     }
 
 }

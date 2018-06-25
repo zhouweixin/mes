@@ -1,7 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.ScreenCheck;
-import com.hnu.mes.repository.ScreenCheckRepository;
+import com.hnu.mes.domain.Byproduct;
+import com.hnu.mes.repository.ByproductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,28 +13,28 @@ import java.util.Collection;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/16 18:32
+ * @Date: 2018/6/24 8:14
  */
 @Service
-public class ScreenCheckService {
+public class ByproductService {
     @Autowired
-    ScreenCheckRepository screenCheckRepository;
+    private ByproductRepository byproductRepository;
 
     /**
      * 新增/更新
-     * @param screenCheck
+     * @param byproduct
      * @return
      */
-    public ScreenCheck save(ScreenCheck screenCheck){
-        return screenCheckRepository.save(screenCheck);
+    public Byproduct save(Byproduct byproduct){
+        return byproductRepository.save(byproduct);
     }
 
     /**
      * 批量删除
-     * @param screenCheck
+     * @param byproduct
      */
-    public void deleteInBatch(Collection<ScreenCheck> screenCheck) {
-        screenCheckRepository.deleteInBatch(screenCheck);
+    public void deleteInBatch(Collection<Byproduct> byproduct) {
+        byproductRepository.deleteInBatch(byproduct);
     }
 
     /**
@@ -45,11 +45,11 @@ public class ScreenCheckService {
      * @param asc
      * @return
      */
-    public Page<ScreenCheck> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
+    public Page<Byproduct> findAllByPage(Integer page, Integer size, String sortFieldName, Integer asc) {
 
         // 判断排序字段名是否存在
         try {
-            ScreenCheck.class.getDeclaredField(sortFieldName);
+            Byproduct.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为code
             sortFieldName = "code";
@@ -62,27 +62,26 @@ public class ScreenCheckService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return screenCheckRepository.findAll(pageable);
+        return byproductRepository.findAll(pageable);
     }
 
-
     /**
-     * 通过筛网编号查询-分页
-     * @param shakerCode
+     * 通过名称模糊查询-分页
+     * @param name
      * @param page
      * @param size
      * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<ScreenCheck> findByShakerCodeLike(String shakerCode , Integer page , Integer size , String sortFieldName ,
-                                                    Integer asc) {
+    public Page<Byproduct> findByNameLike(String name , Integer page , Integer size , String sortFieldName ,
+                                          Integer asc) {
         // 判断排序字段名是否存在
         try {
-            ScreenCheck.class.getDeclaredField(sortFieldName);
+            Byproduct.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
-            // 如果不存在就设置为shakerCode
-            sortFieldName = "shakerCode";
+            // 如果不存在就设置为code
+            sortFieldName = "code";
         }
 
         Sort sort;
@@ -93,14 +92,14 @@ public class ScreenCheckService {
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return screenCheckRepository.findByShakerCodeLike("%" + shakerCode + "%", pageable);
+        return byproductRepository.findByNameLike("%" + name + "%", pageable);
     }
     /**
      * 通过code删除
      * @param code
      */
     public void delete(Integer code){
-        screenCheckRepository.delete(code);
+        byproductRepository.delete(code);
     }
 
     /**
@@ -108,8 +107,8 @@ public class ScreenCheckService {
      * @param code
      * @return
      */
-    public ScreenCheck findByCode(Integer code){
-        return screenCheckRepository.findOne(code);
+    public Byproduct findByCode(Integer code){
+        return byproductRepository.findOne(code);
     }
 
 }

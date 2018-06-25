@@ -89,7 +89,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 	 * @param inteCircCard
 	 * @return
 	 */
-	public User findByInteCircCard(String inteCircCard);
+	public User findFirstByInteCircCard(String inteCircCard);
 
 	/**
 	 * 通过部门查询用户

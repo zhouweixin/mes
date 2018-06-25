@@ -99,6 +99,7 @@ public enum EnumException {
     TALLY_FAILED_TASK_NOT_EXIST(87, "点检失败, 任务不存在"),
     TALLY_FAILED_TALLY(88, "点检失败, 任务已完成"),
     TALLY_FAILED_TASK_DEADLINE(89, "点检失败, 任务已过期"),
+    UPDATE_FAILED_IC_EXIST(90, "卡号已经被用"),
 
 
     ;

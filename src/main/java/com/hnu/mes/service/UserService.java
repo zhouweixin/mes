@@ -42,6 +42,13 @@ public class UserService {
      * @return
      */
     public User save(User user) {
+        if(user != null) {
+            User user1 = userRepository.findFirstByInteCircCard(user.getInteCircCard());
+            if (user1 != null) {
+                throw new MesException(EnumException.UPDATE_FAILED_IC_EXIST);
+            }
+        }
+
         return userRepository.save(user);
     }
 
@@ -87,6 +94,10 @@ public class UserService {
      */
     @Transactional
     public void updateUserInteCircCard(String code, String inteCircCard, Integer enableIc) {
+        User user = userRepository.findFirstByInteCircCard(inteCircCard);
+        if(user != null && user.getCode() != code){
+            throw new MesException(EnumException.UPDATE_FAILED_IC_EXIST);
+        }
         userRepository.updateUserInteCircCard(inteCircCard, enableIc, code);
     }
 
@@ -131,8 +142,8 @@ public class UserService {
      * @return
      */
     @Transactional
-    public User findByInteCircCard(String inteCircCard) {
-        return userRepository.findByInteCircCard(inteCircCard);
+    public User findFirstByInteCircCard(String inteCircCard) {
+        return userRepository.findFirstByInteCircCard(inteCircCard);
     }
 
     /**

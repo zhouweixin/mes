@@ -63,6 +63,7 @@ public class LossEntryHeaderService {
 
         // 设置原料类型
         lossEntryHeader.setRawType(materialsTotal.getRawType());
+        lossEntryHeader.setTime(new Date());
 
         if(materialsTotal.getStatus() > GlobalUtil.StockStatus.START_SOTCK){
             // 已盘库
@@ -89,6 +90,7 @@ public class LossEntryHeaderService {
             lossEntryHeader.setAuditStatus(GlobalUtil.LossEntryAuditStatus.PRE_AUDIT);
         }
 
+        System.out.println(lossEntryHeader);
         LossEntryHeader save = lossEntryHeaderRepository.save(lossEntryHeader);
 
         return save;

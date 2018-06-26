@@ -56,8 +56,8 @@ public class LossEntryHeader {
     private Integer auditStatus = 0;
 
     // 报损单详情
-    @OneToMany(targetEntity = LossEntry.class)
-    @JoinColumn(name = "loss_entry_header_code")
+    @OneToMany(targetEntity = LossEntry.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "loss_entry_header_code", referencedColumnName = "code")
     private Set<LossEntry> lossEntries = new HashSet<LossEntry>();
 
     public Long getCode() {
@@ -139,6 +139,7 @@ public class LossEntryHeader {
     public void setLossWeight(Double lossWeight) {
         this.lossWeight = lossWeight;
     }
+
 
     @Override
     public String toString() {

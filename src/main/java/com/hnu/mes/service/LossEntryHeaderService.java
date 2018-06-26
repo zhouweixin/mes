@@ -50,8 +50,6 @@ public class LossEntryHeaderService {
     @Transactional
     public LossEntryHeader save(LossEntryHeader lossEntryHeader){
 
-        System.out.println(lossEntryHeader);
-
         if(lossEntryHeader == null){
             // 不存在
             throw new MesException(EnumException.SUBMIT_FAILED_STOCKING_NOT_EXIST);
@@ -62,6 +60,9 @@ public class LossEntryHeaderService {
             // 不存在
             throw new MesException(EnumException.SUBMIT_FAILED_STOCKING_NOT_EXIST);
         }
+
+        // 设置原料类型
+        lossEntryHeader.setRawType(materialsTotal.getRawType());
 
         if(materialsTotal.getStatus() > GlobalUtil.StockStatus.START_SOTCK){
             // 已盘库

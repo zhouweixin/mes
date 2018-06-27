@@ -93,7 +93,7 @@ public class UserController {
 		// 判断是否存在
 		User findOne = userService.findOne(user.getCode());
 		if (findOne == null) {
-			return ResultUtil.error(new MesException(EnumException.CODE_DUPLICATE));
+			return ResultUtil.error(new MesException(EnumException.UPDATE_FAILED_NOT_EXIST));
 		}
 
 		userService.updateUser(user);
@@ -246,7 +246,7 @@ public class UserController {
 			return ResultUtil.error(new MesException(EnumException.INTE_CIRC_CARD_BLANK));
 		}
 
-		User user = userService.findByInteCircCard(inteCircCard);
+		User user = userService.findFirstByInteCircCard(inteCircCard);
 
 		if (user == null) {
 			return ResultUtil.error(new MesException(EnumException.INTE_CIRC_CARD_MAY_NO));

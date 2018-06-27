@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -35,6 +36,13 @@ public class ByproductService {
      */
     public void deleteInBatch(Collection<Byproduct> byproduct) {
         byproductRepository.deleteInBatch(byproduct);
+    }
+
+    /**
+     * 查询所有
+     */
+    public List<Byproduct> findAll(){
+        return byproductRepository.findAll();
     }
 
     /**

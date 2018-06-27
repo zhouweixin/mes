@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -51,6 +52,15 @@ public class HandoverTypeController {
             return ResultUtil.error(new MesException(EnumException.UPDATE_FAILED_NOT_EXIST));
         }
         return ResultUtil.success(handoverTypeService.save(handoverType));
+    }
+
+    /**
+     * 查询所有
+     * @return
+     */
+    @RequestMapping(value = "/getAll")
+    public Result<List<HandoverType>> getAll(){
+        return ResultUtil.success(handoverTypeService.findAll());
     }
 
     /**

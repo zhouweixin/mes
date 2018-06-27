@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -35,6 +36,13 @@ public class HandoverTypeService {
      */
     public void deleteInBatch(Collection<HandoverType> handoverType) {
         handoverTypeRepository.deleteInBatch(handoverType);
+    }
+
+    /**
+     * 查询所有
+     */
+    public List<HandoverType> findAll(){
+        return handoverTypeRepository.findAll();
     }
 
     /**

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -63,6 +64,15 @@ public class HandoverContentController {
     public Result<Object> deleteByIdBatch(@RequestBody Collection<HandoverContent> handoverContent) {
         handoverContentService.deleteInBatch(handoverContent);
         return ResultUtil.success();
+    }
+
+    /**
+     * 查询所有
+     * @return
+     */
+    @RequestMapping(value = "/getAll")
+    public Result<List<HandoverContent>> getAll(){
+        return ResultUtil.success(handoverContentService.findAll());
     }
 
     /**

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -63,6 +64,15 @@ public class ByproductController {
     public Result<Object> deleteByIdBatch(@RequestBody Collection<Byproduct> byproduct) {
         byproductService.deleteInBatch(byproduct);
         return ResultUtil.success();
+    }
+
+    /**
+     * 查询所有
+     * @return
+     */
+    @RequestMapping(value = "/getAll")
+    public Result<List<Byproduct>> getAll(){
+        return ResultUtil.success(byproductService.findAll());
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.hnu.mes.service;
 
+import com.hnu.mes.domain.Jobs;
 import com.hnu.mes.domain.JobsHandover;
 import com.hnu.mes.repository.JobsHandoverRepository;
+import com.hnu.mes.repository.JobsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,9 @@ import java.util.Collection;
 public class JobsHandoverService {
     @Autowired
     private JobsHandoverRepository jobsHandoverRepository;
+
+    @Autowired
+    private JobsRepository jobsRepository;
 
     /**
      * 新增/更新
@@ -65,6 +70,35 @@ public class JobsHandoverService {
         return jobsHandoverRepository.findAll(pageable);
     }
 
+    /**
+     * 通过岗位编号查询-分页
+     * @param jobsCode
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<JobsHandover> findByJobsCodeByPage(Integer jobsCode,Integer page, Integer size, String sortFieldName, Integer asc){
+        // 判断排序字段名是否存在
+        try {
+            JobsHandover.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为code
+            sortFieldName = "code";
+        }
+        Sort sort;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Jobs jobs = jobsRepository.findOne(jobsCode);
+
+        Pageable pageable = new PageRequest(page, size, sort);
+        return jobsHandoverRepository.findByJobsCode(jobs,pageable);
+    }
     /**
      * 通过code删除
      * @param code

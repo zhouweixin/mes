@@ -1,5 +1,6 @@
 package com.hnu.mes.controller;
 
+import com.hnu.mes.domain.Jobs;
 import com.hnu.mes.domain.JobsHandover;
 import com.hnu.mes.domain.Result;
 import com.hnu.mes.exception.EnumException;
@@ -79,7 +80,23 @@ public class JobsHandoverController {
                                                 @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
         return ResultUtil.success(jobsHandoverService.findAllByPage(page , size , sortFieldName ,asc));
     }
-
+    /**
+     * 通过岗位编号查询-分页
+     * @param jobsCode
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getByJobsCodeByPage")
+    public Result<Page<JobsHandover>> findByJobsCodeByPage(@RequestParam(value = "jobsCode" , defaultValue = "") Integer jobsCode,
+                                                           @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                           @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                           @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
+                                                           @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(jobsHandoverService.findByJobsCodeByPage(jobsCode , page, size , sortFieldName , asc));
+    }
     /**
      * 通过code删除
      * @param code

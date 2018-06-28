@@ -1,5 +1,7 @@
 package com.hnu.mes.domain;
 
+import org.apache.ibatis.annotations.Many;
+
 import javax.persistence.*;
 
 /**
@@ -44,6 +46,13 @@ public class JobsHandover {
     @JoinColumn(name = "handover_statetype",referencedColumnName = "code")
     private HandoverStateType handoverStateType;
 
+    /**
+     * 记录表头id
+     */
+    @ManyToOne
+    @JoinColumn(name = "header_code",referencedColumnName = "code")
+    private HandoverHeader headerCode;
+
     public Integer getCode() {
         return code;
     }
@@ -84,6 +93,14 @@ public class JobsHandover {
         this.handoverStateType = handoverStateType;
     }
 
+    public HandoverHeader getHeaderCode() {
+        return headerCode;
+    }
+
+    public void setHeaderCode(HandoverHeader headerCode) {
+        this.headerCode = headerCode;
+    }
+
     @Override
     public String toString() {
         return "JobsHandover{" +
@@ -92,6 +109,7 @@ public class JobsHandover {
                 ", handoverType=" + handoverType +
                 ", handoverContent=" + handoverContent +
                 ", handoverStateType=" + handoverStateType +
+                ", headerCode=" + headerCode +
                 '}';
     }
 }

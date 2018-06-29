@@ -1,5 +1,7 @@
 package com.hnu.mes.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -45,6 +47,7 @@ public class HandoverRecord {
         this.code = code;
     }
 
+    @JsonIgnore
     public HandoverHeader getHeaderCode() {
         return headerCode;
     }
@@ -67,15 +70,5 @@ public class HandoverRecord {
 
     public void setStateCode(HandoverState stateCode) {
         this.stateCode = stateCode;
-    }
-
-    @Override
-    public String toString() {
-        return "HandoverRecord{" +
-                "code=" + code +
-                ", headerCode=" + headerCode +
-                ", contentCode=" + contentCode +
-                ", stateCode=" + stateCode +
-                '}';
     }
 }

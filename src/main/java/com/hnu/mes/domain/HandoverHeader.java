@@ -4,6 +4,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author: WaveLee
@@ -54,6 +56,13 @@ public class HandoverHeader {
     @JoinColumn(name = "successor_code",referencedColumnName = "code")
     private User successorCode;
 
+    /**
+     * 交接内容
+     */
+    @OneToMany(targetEntity = HandoverRecord.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "header_code", referencedColumnName = "code")
+    private Set<HandoverRecord> handoverRecords = new HashSet<>();
+
     public Integer getCode() {
         return code;
     }
@@ -102,15 +111,11 @@ public class HandoverHeader {
         this.successorCode = successorCode;
     }
 
-    @Override
-    public String toString() {
-        return "HandoverHeader{" +
-                "code=" + code +
-                ", jobsCode=" + jobsCode +
-                ", handoverDate=" + handoverDate +
-                ", dutyCode=" + dutyCode +
-                ", shifterCode=" + shifterCode +
-                ", successorCode=" + successorCode +
-                '}';
+    public Set<HandoverRecord> getHandoverRecords() {
+        return handoverRecords;
+    }
+
+    public void setHandoverRecords(Set<HandoverRecord> handoverRecords) {
+        this.handoverRecords = handoverRecords;
     }
 }

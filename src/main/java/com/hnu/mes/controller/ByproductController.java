@@ -104,7 +104,7 @@ public class ByproductController {
     public Result<Page<Byproduct>> getAllByNameLikeByPage(@RequestParam(value = "name" , defaultValue = "") String name,
                                                               @RequestParam(value = "page" , defaultValue = "0") Integer page,
                                                               @RequestParam(value = "size" , defaultValue = "10") Integer size,
-                                                              @RequestParam(value = "sortFieldName" , defaultValue = "batchNumber") String sortFieldName,
+                                                              @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
                                                               @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
         return ResultUtil.success(byproductService.findByNameLike(name , page, size , sortFieldName , asc));
     }

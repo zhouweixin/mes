@@ -296,4 +296,13 @@ public class UserService {
      public List<User> findByDepartment(Department department){
         return userRepository.findByDepartment(department);
      }
+
+    /**
+     * 通过员工code查询同部门所有员工
+     * @param code
+     * @return
+     */
+     public List<User> findAllDepartmentUserByUserCode(String code){
+         return userRepository.findByDepartment(userRepository.findOne(code).getDepartment());
+     }
 }

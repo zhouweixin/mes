@@ -475,7 +475,12 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/getByDepartment")
-     public Result<List<User>> getByDepartment(Department department){
+    public Result<List<User>> getByDepartment(Department department){
         return ResultUtil.success(userService.findByDepartment(department));
-     }
+    }
+    @RequestMapping(value = "/getAllDepartmentUserByUserCode")
+    public Result<List<User>> getAllDepartmentUserByUserCode(String code){
+        return ResultUtil.success(userService.findAllDepartmentUserByUserCode(code));
+    }
+
 }

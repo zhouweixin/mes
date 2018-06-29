@@ -1,9 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.Jobs;
-import com.hnu.mes.domain.JobsHandover;
-import com.hnu.mes.repository.JobsHandoverRepository;
-import com.hnu.mes.repository.JobsRepository;
+import com.hnu.mes.domain.*;
+import com.hnu.mes.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -24,6 +23,9 @@ public class JobsHandoverService {
 
     @Autowired
     private JobsRepository jobsRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * 新增/更新
@@ -97,8 +99,17 @@ public class JobsHandoverService {
         Jobs jobs = jobsRepository.findOne(jobsCode);
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return jobsHandoverRepository.findByJobsCode(jobs,pageable);
+        return jobsHandoverRepository.findByRecordCode_HeaderCode_JobsCode(jobs,pageable);
     }
+
+    public List<JobsHandover> findByJobsCodeAndRecordCode(Integer jobsCode,String shifterCode){
+        Jobs jobs = jobsRepository.findOne(jobsCode);
+
+        User user = userRepository.findOne(shifterCode);
+
+        return jobsHandoverRepository.findByRecordCode_HeaderCode_JobsCodeAndRecordCode_HeaderCode_ShifterCode(jobs,user);
+    }
+
     /**
      * 通过code删除
      * @param code

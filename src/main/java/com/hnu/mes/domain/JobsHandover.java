@@ -1,7 +1,5 @@
 package com.hnu.mes.domain;
 
-import org.apache.ibatis.annotations.Many;
-
 import javax.persistence.*;
 
 /**
@@ -17,13 +15,6 @@ public class JobsHandover {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer code;
-
-    /**
-     * 岗位名称id
-     */
-    @ManyToOne
-    @JoinColumn(name = "jobs_code",referencedColumnName = "code")
-    private Jobs jobsCode;
 
     /**
      * 交接类型
@@ -47,11 +38,11 @@ public class JobsHandover {
     private HandoverStateType handoverStateType;
 
     /**
-     * 记录表头id
+     * 记录表内容id
      */
     @ManyToOne
-    @JoinColumn(name = "header_code",referencedColumnName = "code")
-    private HandoverHeader headerCode;
+    @JoinColumn(name = "record_code",referencedColumnName = "code")
+    private HandoverRecord recordCode;
 
     public Integer getCode() {
         return code;
@@ -59,14 +50,6 @@ public class JobsHandover {
 
     public void setCode(Integer code) {
         this.code = code;
-    }
-
-    public Jobs getJobsCode() {
-        return jobsCode;
-    }
-
-    public void setJobsCode(Jobs jobsCode) {
-        this.jobsCode = jobsCode;
     }
 
     public HandoverType getHandoverType() {
@@ -93,23 +76,22 @@ public class JobsHandover {
         this.handoverStateType = handoverStateType;
     }
 
-    public HandoverHeader getHeaderCode() {
-        return headerCode;
+    public HandoverRecord getRecordCode() {
+        return recordCode;
     }
 
-    public void setHeaderCode(HandoverHeader headerCode) {
-        this.headerCode = headerCode;
+    public void setRecordCode(HandoverRecord recordCode) {
+        this.recordCode = recordCode;
     }
 
     @Override
     public String toString() {
         return "JobsHandover{" +
                 "code=" + code +
-                ", jobsCode=" + jobsCode +
                 ", handoverType=" + handoverType +
                 ", handoverContent=" + handoverContent +
                 ", handoverStateType=" + handoverStateType +
-                ", headerCode=" + headerCode +
+                ", recordCode=" + recordCode +
                 '}';
     }
 }

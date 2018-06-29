@@ -35,7 +35,7 @@ public class KilnOrderController {
      * @return
      */
     @RequestMapping(value = "/add")
-    public Result<KilnOrder> add(@Valid KilnOrder kilnOrder, BindingResult bindingResult){
+    public Result<KilnOrder> add(@RequestBody KilnOrder kilnOrder, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
@@ -43,7 +43,7 @@ public class KilnOrderController {
     }
 
     @RequestMapping(value = "/update")
-    public Result<KilnOrder> update(@Valid KilnOrder kilnOrder, BindingResult bindingResult){
+    public Result<KilnOrder> update(@RequestBody KilnOrder kilnOrder, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }

@@ -4,6 +4,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author: WaveLee
@@ -80,6 +82,10 @@ public class KilnOrder {
      * 状态标志
      */
     private boolean state;
+
+    @OneToMany(targetEntity = KilnParameter.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "kiln_order_code", referencedColumnName = "code")
+    private Set<KilnParameter> KilnParameters = new HashSet<>();
 
     public Integer getCode() {
         return code;
@@ -177,21 +183,11 @@ public class KilnOrder {
         this.state = state;
     }
 
-    @Override
-    public String toString() {
-        return "KilnOrder{" +
-                "code=" + code +
-                ", kilnCode='" + kilnCode + '\'' +
-                ", exhaust='" + exhaust + '\'' +
-                ", exhaustType='" + exhaustType + '\'' +
-                ", exhaustWeight='" + exhaustWeight + '\'' +
-                ", exhaustTop='" + exhaustTop + '\'' +
-                ", exhaustBottom='" + exhaustBottom + '\'' +
-                ", note='" + note + '\'' +
-                ", effectiveDate=" + effectiveDate +
-                ", compactor=" + compactor +
-                ", compileTime=" + compileTime +
-                ", state=" + state +
-                '}';
+    public Set<KilnParameter> getKilnParameters() {
+        return KilnParameters;
+    }
+
+    public void setKilnParameters(Set<KilnParameter> kilnParameters) {
+        KilnParameters = kilnParameters;
     }
 }

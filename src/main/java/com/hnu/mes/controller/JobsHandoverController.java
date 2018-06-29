@@ -107,8 +107,19 @@ public class JobsHandoverController {
      */
     @RequestMapping(value = "/getByJobsCodeAndShifterCode")
     public Result<List<JobsHandover>> findByJobsCodeAndShifterCode(Integer jobsCode,String shifterCode){
-        return ResultUtil.success(jobsHandoverService.findByJobsCodeAndRecordCode(jobsCode,shifterCode));
+        return ResultUtil.success(jobsHandoverService.findByJobsCodeAndShifterCode(jobsCode,shifterCode));
     }
+
+    /**
+     * 通过交接类型查询
+     * @param handoverTypeCode
+     * @return
+     */
+    @RequestMapping(value = "/getByHandoverTypeCode")
+    public Result<List<JobsHandover>> findByHandoverTypeCode(Integer handoverTypeCode){
+        return ResultUtil.success(jobsHandoverService.findByHandoverType(handoverTypeCode));
+    }
+
     /**
      * 通过code删除
      * @param code

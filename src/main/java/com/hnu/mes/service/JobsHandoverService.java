@@ -27,6 +27,9 @@ public class JobsHandoverService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private HandoverTypeRepository handoverTypeRepository;
+
     /**
      * 新增/更新
      * @param jobsHandover
@@ -102,7 +105,13 @@ public class JobsHandoverService {
         return jobsHandoverRepository.findByRecordCode_HeaderCode_JobsCode(jobs,pageable);
     }
 
-    public List<JobsHandover> findByJobsCodeAndRecordCode(Integer jobsCode,String shifterCode){
+    /**
+     * 通过岗位编号和交班人查询
+     * @param jobsCode
+     * @param shifterCode
+     * @return
+     */
+    public List<JobsHandover> findByJobsCodeAndShifterCode(Integer jobsCode,String shifterCode){
         Jobs jobs = jobsRepository.findOne(jobsCode);
 
         User user = userRepository.findOne(shifterCode);
@@ -110,6 +119,16 @@ public class JobsHandoverService {
         return jobsHandoverRepository.findByRecordCode_HeaderCode_JobsCodeAndRecordCode_HeaderCode_ShifterCode(jobs,user);
     }
 
+    /**
+     * 通过交接类型查询
+     * @param handoverTypeCode
+     * @return
+     */
+    public List<JobsHandover> findByHandoverType(Integer handoverTypeCode){
+        HandoverType handoverType = handoverTypeRepository.findOne(handoverTypeCode);
+
+        return jobsHandoverRepository.findByHandoverType(handoverType);
+    }
     /**
      * 通过code删除
      * @param code

@@ -1,10 +1,10 @@
 package com.hnu.mes.controller;
 
-import com.hnu.mes.domain.KilnOrder;
+import com.hnu.mes.domain.Audit;
 import com.hnu.mes.domain.Result;
 import com.hnu.mes.exception.EnumException;
 import com.hnu.mes.exception.MesException;
-import com.hnu.mes.service.KilnOrderService;
+import com.hnu.mes.service.AuditService;
 import com.hnu.mes.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,53 +16,62 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
- * @Date: 2018/6/16 10:40
+ * @Date: 2018/6/29 14:42
  */
 @RestController
-@RequestMapping(value = "/kilnOrder")
-public class KilnOrderController {
+@RequestMapping(value = "/audit")
+public class AuditController {
     @Autowired
-    KilnOrderService kilnOrderService;
-
+    private AuditService auditService;
 
     /**
      * 新增
-     * @param kilnOrder
+     * @param audit
      * @param bindingResult
      * @return
      */
     @RequestMapping(value = "/add")
-    public Result<KilnOrder> add(@RequestBody KilnOrder kilnOrder, BindingResult bindingResult){
+    public Result<Audit> add(@Valid Audit audit, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
-        return ResultUtil.success(kilnOrderService.save(kilnOrder));
+        return ResultUtil.success(auditService.save(audit));
     }
 
     @RequestMapping(value = "/update")
-    public Result<KilnOrder> update(@RequestBody KilnOrder kilnOrder, BindingResult bindingResult){
+    public Result<Audit> update(@Valid Audit audit, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
         //判断是否重复
-        if (kilnOrderService.findByCode(kilnOrder.getCode()) == null) {
+        if (auditService.findByCode(audit.getCode()) == null) {
             return ResultUtil.error(new MesException(EnumException.UPDATE_FAILED_NOT_EXIST));
         }
-        return ResultUtil.success(kilnOrderService.save(kilnOrder));
+        return ResultUtil.success(auditService.save(audit));
     }
 
     /**
      * 批量删除
-     * @param kilnOrder
+     * @param audit
      * @return
      */
     @RequestMapping(value = "/deleteByIdBatch")
-    public Result<Object> deleteByIdBatch(@RequestBody Collection<KilnOrder> kilnOrder) {
-        kilnOrderService.deleteInBatch(kilnOrder);
+    public Result<Object> deleteByIdBatch(@RequestBody Collection<Audit> audit) {
+        auditService.deleteInBatch(audit);
         return ResultUtil.success();
+    }
+
+    /**
+     * 查询所有
+     * @return
+     */
+    @RequestMapping(value = "/getAll")
+    public Result<List<Audit>> getAll(){
+        return ResultUtil.success(auditService.findAll());
     }
 
     /**
@@ -74,29 +83,29 @@ public class KilnOrderController {
      * @return
      */
     @RequestMapping(value = "/getAllByPage")
-    public Result<Page<KilnOrder>> getAllByPage(@RequestParam(value = "page" , defaultValue = "0" ) Integer page,
-                                                   @RequestParam(value = "size" , defaultValue = "10") Integer size,
-                                                   @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
-                                                   @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
-        return ResultUtil.success(kilnOrderService.findAllByPage(page , size , sortFieldName ,asc));
+    public Result<Page<Audit>> getAllByPage(@RequestParam(value = "page" , defaultValue = "0" ) Integer page,
+                                                @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
+                                                @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(auditService.findAllByPage(page , size , sortFieldName ,asc));
     }
 
     /**
-     * 通过窑炉编号模糊查询-分页
-     * @param kilnCode
+     * 通过电子秤编号查询-分页
+     * @param equipmentCode
      * @param page
      * @param size
      * @param sortFieldName
      * @param asc
      * @return
      */
-    @RequestMapping(value = "/getByKilnCodeLikeByPage")
-    public Result<Page<KilnOrder>> getByKilnCodeLikeByPage(@RequestParam(value = "kilnCode" , defaultValue = "") String kilnCode,
+    @RequestMapping(value = "/getByEquipmentCodeByPage")
+    public Result<Page<Audit>> getByEquipmentCodeByPage(@RequestParam(value = "equipmentCode" , defaultValue = "") String equipmentCode,
                                                           @RequestParam(value = "page" , defaultValue = "0") Integer page,
                                                           @RequestParam(value = "size" , defaultValue = "10") Integer size,
-                                                          @RequestParam(value = "sortFieldName" , defaultValue = "kilnCode") String sortFieldName,
+                                                          @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
                                                           @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
-        return ResultUtil.success(kilnOrderService.findByKilnCodeLike(kilnCode , page, size , sortFieldName , asc));
+        return ResultUtil.success(auditService.findByEquipmentCodeByPage(equipmentCode , page, size , sortFieldName , asc));
     }
 
     /**
@@ -106,7 +115,7 @@ public class KilnOrderController {
      */
     @RequestMapping(value = "/deleteByCode")
     public Result<Object> deleteById(Integer code) {
-        kilnOrderService.delete(code);
+        auditService.delete(code);
         return ResultUtil.success();
     }
 
@@ -115,9 +124,9 @@ public class KilnOrderController {
      * @param code
      * @return
      */
-    @RequestMapping(value = "/getById")
-    public Result<KilnOrder> findByCode(Integer code) {
-        return ResultUtil.success(kilnOrderService.findByCode(code));
+    @RequestMapping(value = "/getByCode")
+    public Result<Audit> findByCode(Integer code) {
+        return ResultUtil.success(auditService.findByCode(code));
     }
 
 }

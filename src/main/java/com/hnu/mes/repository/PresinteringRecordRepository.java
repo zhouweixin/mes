@@ -14,4 +14,9 @@ public interface PresinteringRecordRepository extends JpaRepository<Presintering
      * 通过批号模糊查询-分页
      */
     public Page<PresinteringRecord> findByBatchNumberLike(String batchNumber, Pageable pageable);
+
+    /**
+     * 通过窑炉编号和生产批号查询
+     */
+    public Page<PresinteringRecord> findByKilnCodeAndBatchNumber(String kilnOrder,String batchNumber,Pageable pageable);
 }

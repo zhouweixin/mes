@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -97,6 +98,28 @@ public class JobsHandoverController {
                                                            @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
         return ResultUtil.success(jobsHandoverService.findByJobsCodeByPage(jobsCode , page, size , sortFieldName , asc));
     }
+
+    /**
+     * 通过岗位编号和交班人编号查询
+     * @param jobsCode
+     * @param shifterCode
+     * @return
+     */
+    @RequestMapping(value = "/getByJobsCodeAndShifterCode")
+    public Result<List<JobsHandover>> findByJobsCodeAndShifterCode(Integer jobsCode,String shifterCode){
+        return ResultUtil.success(jobsHandoverService.findByJobsCodeAndShifterCode(jobsCode,shifterCode));
+    }
+
+    /**
+     * 通过交接类型查询
+     * @param handoverTypeCode
+     * @return
+     */
+    @RequestMapping(value = "/getByHandoverTypeCode")
+    public Result<List<JobsHandover>> findByHandoverTypeCode(Integer handoverTypeCode){
+        return ResultUtil.success(jobsHandoverService.findByHandoverType(handoverTypeCode));
+    }
+
     /**
      * 通过code删除
      * @param code

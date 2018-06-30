@@ -1,9 +1,7 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.Jobs;
-import com.hnu.mes.domain.JobsHandover;
-import com.hnu.mes.repository.JobsHandoverRepository;
-import com.hnu.mes.repository.JobsRepository;
+import com.hnu.mes.domain.*;
+import com.hnu.mes.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -24,6 +23,12 @@ public class JobsHandoverService {
 
     @Autowired
     private JobsRepository jobsRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private HandoverTypeRepository handoverTypeRepository;
 
     /**
      * 新增/更新
@@ -97,7 +102,32 @@ public class JobsHandoverService {
         Jobs jobs = jobsRepository.findOne(jobsCode);
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return jobsHandoverRepository.findByJobsCode(jobs,pageable);
+        return jobsHandoverRepository.findByHeaderCode_JobsCode(jobs,pageable);
+    }
+
+    /**
+     * 通过岗位编号和交班人查询
+     * @param jobsCode
+     * @param shifterCode
+     * @return
+     */
+    public List<JobsHandover> findByJobsCodeAndShifterCode(Integer jobsCode,String shifterCode){
+        Jobs jobs = jobsRepository.findOne(jobsCode);
+
+        User user = userRepository.findOne(shifterCode);
+
+        return jobsHandoverRepository.findByHeaderCode_JobsCodeAndHeaderCode_ShifterCode(jobs,user);
+    }
+
+    /**
+     * 通过交接类型查询
+     * @param handoverTypeCode
+     * @return
+     */
+    public List<JobsHandover> findByHandoverType(Integer handoverTypeCode){
+        HandoverType handoverType = handoverTypeRepository.findOne(handoverTypeCode);
+
+        return jobsHandoverRepository.findByHandoverType(handoverType);
     }
     /**
      * 通过code删除

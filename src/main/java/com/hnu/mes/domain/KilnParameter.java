@@ -1,5 +1,7 @@
 package com.hnu.mes.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -62,6 +64,7 @@ public class KilnParameter {
         this.code = code;
     }
 
+    @JsonIgnore
     public KilnOrder getKilnOrder() {
         return kilnOrder;
     }

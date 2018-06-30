@@ -17,13 +17,6 @@ public class JobsHandover {
     private Integer code;
 
     /**
-     * 岗位名称id
-     */
-    @ManyToOne
-    @JoinColumn(name = "jobs_code",referencedColumnName = "code")
-    private Jobs jobsCode;
-
-    /**
      * 交接类型
      */
     @ManyToOne
@@ -44,20 +37,19 @@ public class JobsHandover {
     @JoinColumn(name = "handover_statetype",referencedColumnName = "code")
     private HandoverStateType handoverStateType;
 
+    /**
+     * 记录表头id
+     */
+    @ManyToOne
+    @JoinColumn(name = "header_code",referencedColumnName = "code")
+    private HandoverHeader headerCode;
+
     public Integer getCode() {
         return code;
     }
 
     public void setCode(Integer code) {
         this.code = code;
-    }
-
-    public Jobs getJobsCode() {
-        return jobsCode;
-    }
-
-    public void setJobsCode(Jobs jobsCode) {
-        this.jobsCode = jobsCode;
     }
 
     public HandoverType getHandoverType() {
@@ -84,14 +76,22 @@ public class JobsHandover {
         this.handoverStateType = handoverStateType;
     }
 
+    public HandoverHeader getHeaderCode() {
+        return headerCode;
+    }
+
+    public void setHeaderCode(HandoverHeader headerCode) {
+        this.headerCode = headerCode;
+    }
+
     @Override
     public String toString() {
         return "JobsHandover{" +
                 "code=" + code +
-                ", jobsCode=" + jobsCode +
                 ", handoverType=" + handoverType +
                 ", handoverContent=" + handoverContent +
                 ", handoverStateType=" + handoverStateType +
+                ", headerCode=" + headerCode +
                 '}';
     }
 }

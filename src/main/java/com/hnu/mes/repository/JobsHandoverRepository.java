@@ -1,11 +1,14 @@
 package com.hnu.mes.repository;
 
+import com.hnu.mes.domain.HandoverType;
 import com.hnu.mes.domain.Jobs;
 import com.hnu.mes.domain.JobsHandover;
+import com.hnu.mes.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -13,6 +16,26 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface JobsHandoverRepository extends JpaRepository<JobsHandover,Integer> {
 
- //   @Query(value = "SELECT SUM(s.tag_points) FROM hackathon.stackoverflow_tags s", nativeQuery = true)
-    public Page<JobsHandover> findByJobsCode(Jobs jobs, Pageable pageable);
+    /**
+     * 通过岗位id查询
+     * @param jobs
+     * @param pageable
+     * @return
+     */
+    public Page<JobsHandover> findByHeaderCode_JobsCode(Jobs jobs, Pageable pageable);
+
+    /**
+     * 通过岗位id和交班人id查询
+     * @param jobs
+     * @param user
+     * @return
+     */
+    public List<JobsHandover> findByHeaderCode_JobsCodeAndHeaderCode_ShifterCode(Jobs jobs,User user);
+
+    /**
+     * 通过交接类型查询
+     * @param handoverType
+     * @return
+     */
+    public List<JobsHandover> findByHandoverType(HandoverType handoverType);
 }

@@ -105,7 +105,7 @@ public class ProcessController {
     public Result<Object> deleteByBatchCode(@RequestBody Set<Process> processes){
         // 系统变量,不允许删除
         for(Process process : processes){
-            if(process.getCode() == GlobalUtil.SYSTEM_FLAG){
+            if(process.getFlag() == GlobalUtil.SYSTEM_FLAG){
                 processes.remove(process);
             }
         }

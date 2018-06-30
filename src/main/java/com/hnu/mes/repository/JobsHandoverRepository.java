@@ -22,7 +22,7 @@ public interface JobsHandoverRepository extends JpaRepository<JobsHandover,Integ
      * @param pageable
      * @return
      */
-    public Page<JobsHandover> findByRecordCode_HeaderCode_JobsCode(Jobs jobs, Pageable pageable);
+    public Page<JobsHandover> findByHeaderCode_JobsCode(Jobs jobs, Pageable pageable);
 
     /**
      * 通过岗位id和交班人id查询
@@ -30,7 +30,7 @@ public interface JobsHandoverRepository extends JpaRepository<JobsHandover,Integ
      * @param user
      * @return
      */
-    public List<JobsHandover> findByRecordCode_HeaderCode_JobsCodeAndRecordCode_HeaderCode_ShifterCode(Jobs jobs,User user);
+    public List<JobsHandover> findByHeaderCode_JobsCodeAndHeaderCode_ShifterCode(Jobs jobs,User user);
 
     /**
      * 通过交接类型查询

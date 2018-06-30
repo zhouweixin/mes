@@ -102,7 +102,7 @@ public class JobsHandoverService {
         Jobs jobs = jobsRepository.findOne(jobsCode);
 
         Pageable pageable = new PageRequest(page, size, sort);
-        return jobsHandoverRepository.findByRecordCode_HeaderCode_JobsCode(jobs,pageable);
+        return jobsHandoverRepository.findByHeaderCode_JobsCode(jobs,pageable);
     }
 
     /**
@@ -116,7 +116,7 @@ public class JobsHandoverService {
 
         User user = userRepository.findOne(shifterCode);
 
-        return jobsHandoverRepository.findByRecordCode_HeaderCode_JobsCodeAndRecordCode_HeaderCode_ShifterCode(jobs,user);
+        return jobsHandoverRepository.findByHeaderCode_JobsCodeAndHeaderCode_ShifterCode(jobs,user);
     }
 
     /**

@@ -94,6 +94,29 @@ public class PresinteringRecordService {
         Pageable pageable = new PageRequest(page, size, sort);
         return presinteringRecordRepository.findByBatchNumberLike("%" + batchNumber + "%", pageable);
     }
+
+    /**
+     * 通过窑炉编号和生产批号查询-分页
+     */
+    public Page<PresinteringRecord> findByKilnCodeAndBatchNumberByPage(String kilnCode,String batchNumber,Integer page, Integer size, String sortFieldName, Integer asc) {
+
+        // 判断排序字段名是否存在
+        try {
+            PresinteringRecord.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为kilnOrder
+            sortFieldName = "kilnOrder";
+        }
+        Sort sort;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Pageable pageable = new PageRequest(page, size, sort);
+        return presinteringRecordRepository.findByKilnCodeAndBatchNumber(kilnCode, batchNumber,pageable);
+    }
     /**
      * 通过code删除
      * @param code

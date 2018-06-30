@@ -38,11 +38,11 @@ public class JobsHandover {
     private HandoverStateType handoverStateType;
 
     /**
-     * 记录表内容id
+     * 记录表头id
      */
     @ManyToOne
-    @JoinColumn(name = "record_code",referencedColumnName = "code")
-    private HandoverRecord recordCode;
+    @JoinColumn(name = "header_code",referencedColumnName = "code")
+    private HandoverHeader headerCode;
 
     public Integer getCode() {
         return code;
@@ -76,12 +76,12 @@ public class JobsHandover {
         this.handoverStateType = handoverStateType;
     }
 
-    public HandoverRecord getRecordCode() {
-        return recordCode;
+    public HandoverHeader getHeaderCode() {
+        return headerCode;
     }
 
-    public void setRecordCode(HandoverRecord recordCode) {
-        this.recordCode = recordCode;
+    public void setHeaderCode(HandoverHeader headerCode) {
+        this.headerCode = headerCode;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class JobsHandover {
                 ", handoverType=" + handoverType +
                 ", handoverContent=" + handoverContent +
                 ", handoverStateType=" + handoverStateType +
-                ", recordCode=" + recordCode +
+                ", headerCode=" + headerCode +
                 '}';
     }
 }

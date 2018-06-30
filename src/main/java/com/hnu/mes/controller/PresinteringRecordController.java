@@ -100,6 +100,26 @@ public class PresinteringRecordController {
     }
 
     /**
+     * 通过窑炉编号和生产批号查询-分页
+     * @param kilnCode
+     * @param batchNumber
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getByKilnCodeAndBatchNumberByPage")
+    public Result<Page<PresinteringRecord>> getByKilnCodeAndBatchNumberByPage(@RequestParam(value = "kilnCode" , defaultValue = "") String kilnCode,
+                                                                        @RequestParam(value = "batchNumber" , defaultValue = "") String batchNumber,
+                                                                        @RequestParam(value = "page" , defaultValue = "0" ) Integer page,
+                                                                        @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                                        @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
+                                                                        @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(presinteringRecordService.findByKilnCodeAndBatchNumberByPage(kilnCode,batchNumber,page , size , sortFieldName ,asc));
+    }
+
+    /**
      * 通过code删除
      * @param code
      * @return

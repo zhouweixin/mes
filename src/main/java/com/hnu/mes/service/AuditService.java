@@ -1,8 +1,10 @@
 package com.hnu.mes.service;
 
 import com.hnu.mes.domain.Audit;
+import com.hnu.mes.domain.ElectronicBalance;
 import com.hnu.mes.domain.Equipment;
 import com.hnu.mes.repository.AuditRepository;
+import com.hnu.mes.repository.ElectronicBalanceRepository;
 import com.hnu.mes.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,17 +28,34 @@ public class AuditService {
     private AuditRepository auditRepository;
 
     @Autowired
-    private EquipmentRepository equipmentRepository;
+    private ElectronicBalanceRepository electronicBalanceRepository;
 
 
     /**
-     * 新增/更新
+     * 新增
      * @param audit
      * @return
      */
-    public Audit save(Audit audit){
+    public Audit add(Audit audit){
+        Date currentTime = new Date();
+        audit.setAuditTime(currentTime);
         return auditRepository.save(audit);
     }
+
+    /**
+     * 更新——确认
+     * @param audit
+     * @return
+     */
+    public Audit update(Audit audit){
+        Date currentTime = new Date();
+        if(audit.getConfirm() == 1){
+            audit.setConfirmTime(currentTime);
+        }
+        audit.setAuditTime(auditRepository.findOne(audit.getCode()).getAuditTime());
+        return auditRepository.save(audit);
+    }
+
 
     /**
      * 批量删除
@@ -88,7 +109,7 @@ public class AuditService {
      * @param asc
      * @return
      */
-    public Page<Audit> findByEquipmentCodeByPage(String equipmentCode , Integer page , Integer size , String sortFieldName ,
+    public Page<Audit> findByEquipmentCodeByPage(Integer equipmentCode , Integer page , Integer size , String sortFieldName ,
                                           Integer asc) {
         // 判断排序字段名是否存在
         try {
@@ -105,11 +126,16 @@ public class AuditService {
             sort = new Sort(Sort.Direction.ASC, sortFieldName);
         }
 
-        Equipment equipment = equipmentRepository.findOne(equipmentCode);
+        ElectronicBalance equipment = electronicBalanceRepository.findOne(equipmentCode);
         Pageable pageable = new PageRequest(page, size, sort);
 
         return auditRepository.findByEquipmentCode(equipment, pageable);
     }
+
+    public List<Audit> findByEquipmentCodeAndConfirm(Integer equipmentCode,Integer confirm){
+        return auditRepository.findByEquipmentCode_CodeAndConfirm(equipmentCode,confirm);
+    }
+
     /**
      * 通过code删除
      * @param code

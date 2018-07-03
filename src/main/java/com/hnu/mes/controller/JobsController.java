@@ -32,27 +32,16 @@ public class JobsController {
     /**
      * 新增
      * @param jobs
-     * @param bindingResult
      * @return
      */
     @RequestMapping(value = "/add")
-    public Result<Jobs> add(@Valid Jobs jobs, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
-        }
-        return ResultUtil.success(jobsService.save(jobs));
+    public Result<Jobs> add(@RequestBody Jobs jobs ){
+        return ResultUtil.success(jobsService.add(jobs));
     }
 
     @RequestMapping(value = "/update")
-    public Result<Jobs> update(@Valid Jobs jobs, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
-        }
-        //判断是否重复
-        if (jobsService.findByCode(jobs.getCode()) == null) {
-            return ResultUtil.error(new MesException(EnumException.UPDATE_FAILED_NOT_EXIST));
-        }
-        return ResultUtil.success(jobsService.save(jobs));
+    public Result<Jobs> update(@RequestBody Jobs jobs ){
+        return ResultUtil.success(jobsService.update(jobs));
     }
 
     /**

@@ -22,11 +22,21 @@ public class JobsService {
     private JobsRepository jobsRepository;
 
     /**
-     * 新增/更新
+     * 新增
      * @param jobs
      * @return
      */
-    public Jobs save(Jobs jobs){
+    public Jobs add(Jobs jobs){
+        return jobsRepository.save(jobs);
+    }
+
+    /**
+     * 更新
+     * @param jobs
+     * @return
+     */
+    public Jobs update(Jobs jobs){
+        jobsRepository.delete(jobs.getCode());
         return jobsRepository.save(jobs);
     }
 

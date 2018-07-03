@@ -81,34 +81,6 @@ public class JobsHandoverController {
                                                 @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
         return ResultUtil.success(jobsHandoverService.findAllByPage(page , size , sortFieldName ,asc));
     }
-    /**
-     * 通过岗位编号查询-分页
-     * @param jobsCode
-     * @param page
-     * @param size
-     * @param sortFieldName
-     * @param asc
-     * @return
-     */
-    @RequestMapping(value = "/getByJobsCodeByPage")
-    public Result<Page<JobsHandover>> findByJobsCodeByPage(@RequestParam(value = "jobsCode" , defaultValue = "") Integer jobsCode,
-                                                           @RequestParam(value = "page" , defaultValue = "0") Integer page,
-                                                           @RequestParam(value = "size" , defaultValue = "10") Integer size,
-                                                           @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
-                                                           @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
-        return ResultUtil.success(jobsHandoverService.findByJobsCodeByPage(jobsCode , page, size , sortFieldName , asc));
-    }
-
-    /**
-     * 通过岗位编号和交班人编号查询
-     * @param jobsCode
-     * @param shifterCode
-     * @return
-     */
-    @RequestMapping(value = "/getByJobsCodeAndShifterCode")
-    public Result<List<JobsHandover>> findByJobsCodeAndShifterCode(Integer jobsCode,String shifterCode){
-        return ResultUtil.success(jobsHandoverService.findByJobsCodeAndShifterCode(jobsCode,shifterCode));
-    }
 
     /**
      * 通过交接类型查询
@@ -118,6 +90,16 @@ public class JobsHandoverController {
     @RequestMapping(value = "/getByHandoverTypeCode")
     public Result<List<JobsHandover>> findByHandoverTypeCode(Integer handoverTypeCode){
         return ResultUtil.success(jobsHandoverService.findByHandoverType(handoverTypeCode));
+    }
+
+    /**
+     * 通过岗位查询
+     * @param jobsCode
+     * @return
+     */
+    @RequestMapping(value = "/getByJobsCode")
+    public Result<List<JobsHandover>> findByJobsCode(Integer jobsCode){
+        return ResultUtil.success(jobsHandoverService.findByJobsCode(jobsCode));
     }
 
     /**

@@ -27,7 +27,7 @@ public class Audit {
      */
     @ManyToOne
     @JoinColumn(name = "equipment_code",referencedColumnName = "code")
-    private Equipment equipmentCode;
+    private ElectronicBalance equipmentCode;
 
     /**
      * 班次编码
@@ -81,8 +81,6 @@ public class Audit {
     /**
      * 核称时间
      */
-    @CreatedDate
-    @LastModifiedDate
     private Date auditTime;
 
     /**
@@ -100,8 +98,6 @@ public class Audit {
     /**
      * 确认时间
      */
-    @CreatedDate
-    @LastModifiedDate
     private Date confirmTime;
 
     public Integer getCode() {
@@ -112,11 +108,11 @@ public class Audit {
         this.code = code;
     }
 
-    public Equipment getEquipmentCode() {
+    public ElectronicBalance getEquipmentCode() {
         return equipmentCode;
     }
 
-    public void setEquipmentCode(Equipment equipmentCode) {
+    public void setEquipmentCode(ElectronicBalance equipmentCode) {
         this.equipmentCode = equipmentCode;
     }
 

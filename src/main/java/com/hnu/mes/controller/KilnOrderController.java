@@ -31,27 +31,18 @@ public class KilnOrderController {
     /**
      * 新增
      * @param kilnOrder
-     * @param bindingResult
      * @return
      */
     @RequestMapping(value = "/add")
-    public Result<KilnOrder> add(@RequestBody KilnOrder kilnOrder, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
-        }
-        return ResultUtil.success(kilnOrderService.save(kilnOrder));
+    public Result<KilnOrder> add(@RequestBody KilnOrder kilnOrder){
+
+        return ResultUtil.success(kilnOrderService.add(kilnOrder));
     }
 
     @RequestMapping(value = "/update")
-    public Result<KilnOrder> update(@RequestBody KilnOrder kilnOrder, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
-        }
-        //判断是否重复
-        if (kilnOrderService.findByCode(kilnOrder.getCode()) == null) {
-            return ResultUtil.error(new MesException(EnumException.UPDATE_FAILED_NOT_EXIST));
-        }
-        return ResultUtil.success(kilnOrderService.save(kilnOrder));
+    public Result<KilnOrder> update(@RequestBody KilnOrder kilnOrder){
+
+        return ResultUtil.success(kilnOrderService.update(kilnOrder));
     }
 
     /**

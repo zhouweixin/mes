@@ -39,7 +39,7 @@ public class AuditController {
         if (bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
-        return ResultUtil.success(auditService.save(audit));
+        return ResultUtil.success(auditService.add(audit));
     }
 
     @RequestMapping(value = "/update")
@@ -51,7 +51,7 @@ public class AuditController {
         if (auditService.findByCode(audit.getCode()) == null) {
             return ResultUtil.error(new MesException(EnumException.UPDATE_FAILED_NOT_EXIST));
         }
-        return ResultUtil.success(auditService.save(audit));
+        return ResultUtil.success(auditService.update(audit));
     }
 
     /**
@@ -100,12 +100,17 @@ public class AuditController {
      * @return
      */
     @RequestMapping(value = "/getByEquipmentCodeByPage")
-    public Result<Page<Audit>> getByEquipmentCodeByPage(@RequestParam(value = "equipmentCode" , defaultValue = "") String equipmentCode,
+    public Result<Page<Audit>> getByEquipmentCodeByPage(@RequestParam(value = "equipmentCode" , defaultValue = "") Integer equipmentCode,
                                                           @RequestParam(value = "page" , defaultValue = "0") Integer page,
                                                           @RequestParam(value = "size" , defaultValue = "10") Integer size,
                                                           @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
                                                           @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
         return ResultUtil.success(auditService.findByEquipmentCodeByPage(equipmentCode , page, size , sortFieldName , asc));
+    }
+
+    @RequestMapping(value = "/getByEquipmentCodeAndConfirm")
+    public Result<List<Audit>> getByEquipmentCodeAndConfirm(Integer equipmentCode,Integer confirm){
+        return ResultUtil.success(auditService.findByEquipmentCodeAndConfirm(equipmentCode,confirm));
     }
 
     /**

@@ -21,15 +21,6 @@ public class JobsHandoverService {
     @Autowired
     private JobsHandoverRepository jobsHandoverRepository;
 
-    @Autowired
-    private JobsRepository jobsRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private HandoverTypeRepository handoverTypeRepository;
-
     /**
      * 新增/更新
      * @param jobsHandover
@@ -76,59 +67,21 @@ public class JobsHandoverService {
     }
 
     /**
-     * 通过岗位编号查询-分页
-     * @param jobsCode
-     * @param page
-     * @param size
-     * @param sortFieldName
-     * @param asc
-     * @return
-     */
-    public Page<JobsHandover> findByJobsCodeByPage(Integer jobsCode,Integer page, Integer size, String sortFieldName, Integer asc){
-        // 判断排序字段名是否存在
-        try {
-            JobsHandover.class.getDeclaredField(sortFieldName);
-        } catch (Exception e) {
-            // 如果不存在就设置为code
-            sortFieldName = "code";
-        }
-        Sort sort;
-        if (asc == 0) {
-            sort = new Sort(Sort.Direction.DESC, sortFieldName);
-        } else {
-            sort = new Sort(Sort.Direction.ASC, sortFieldName);
-        }
-
-        Jobs jobs = jobsRepository.findOne(jobsCode);
-
-        Pageable pageable = new PageRequest(page, size, sort);
-        return jobsHandoverRepository.findByHeaderCode_JobsCode(jobs,pageable);
-    }
-
-    /**
-     * 通过岗位编号和交班人查询
-     * @param jobsCode
-     * @param shifterCode
-     * @return
-     */
-    public List<JobsHandover> findByJobsCodeAndShifterCode(Integer jobsCode,String shifterCode){
-        Jobs jobs = jobsRepository.findOne(jobsCode);
-
-        User user = userRepository.findOne(shifterCode);
-
-        return jobsHandoverRepository.findByHeaderCode_JobsCodeAndHeaderCode_ShifterCode(jobs,user);
-    }
-
-    /**
      * 通过交接类型查询
      * @param handoverTypeCode
      * @return
      */
     public List<JobsHandover> findByHandoverType(Integer handoverTypeCode){
-        HandoverType handoverType = handoverTypeRepository.findOne(handoverTypeCode);
-
-        return jobsHandoverRepository.findByHandoverType(handoverType);
+        return jobsHandoverRepository.findByHandoverType_Code(handoverTypeCode);
     }
+
+    /**
+     * 通过岗位查询
+     */
+    public List<JobsHandover> findByJobsCode(Integer jobsCode){
+        return jobsHandoverRepository.findByJobsCode_Code(jobsCode);
+    }
+
     /**
      * 通过code删除
      * @param code

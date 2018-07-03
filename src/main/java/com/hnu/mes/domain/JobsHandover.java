@@ -1,5 +1,7 @@
 package com.hnu.mes.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -15,6 +17,13 @@ public class JobsHandover {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer code;
+
+    /**
+     * 岗位名称id
+     */
+    @ManyToOne(targetEntity = Jobs.class)
+    @JoinColumn(name = "jobs_code",referencedColumnName = "code")
+    private Jobs jobsCode;
 
     /**
      * 交接类型
@@ -36,13 +45,6 @@ public class JobsHandover {
     @ManyToOne
     @JoinColumn(name = "handover_statetype",referencedColumnName = "code")
     private HandoverStateType handoverStateType;
-
-    /**
-     * 记录表头id
-     */
-    @ManyToOne
-    @JoinColumn(name = "header_code",referencedColumnName = "code")
-    private HandoverHeader headerCode;
 
     public Integer getCode() {
         return code;
@@ -76,22 +78,23 @@ public class JobsHandover {
         this.handoverStateType = handoverStateType;
     }
 
-    public HandoverHeader getHeaderCode() {
-        return headerCode;
+    @JsonIgnore
+    public Jobs getJobsCode() {
+        return jobsCode;
     }
 
-    public void setHeaderCode(HandoverHeader headerCode) {
-        this.headerCode = headerCode;
+    public void setJobsCode(Jobs jobsCode) {
+        this.jobsCode = jobsCode;
     }
 
     @Override
     public String toString() {
         return "JobsHandover{" +
                 "code=" + code +
+                ", jobsCode=" + jobsCode +
                 ", handoverType=" + handoverType +
                 ", handoverContent=" + handoverContent +
                 ", handoverStateType=" + handoverStateType +
-                ", headerCode=" + headerCode +
                 '}';
     }
 }

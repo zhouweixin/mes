@@ -1,7 +1,9 @@
 package com.hnu.mes.service;
 
 import com.hnu.mes.domain.KilnOrder;
+import com.hnu.mes.domain.KilnParameter;
 import com.hnu.mes.repository.KilnOrderRepository;
+import com.hnu.mes.repository.KilnParameterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: WaveLee
@@ -21,14 +25,23 @@ public class KilnOrderService {
     KilnOrderRepository kilnOrderRepository;
 
     /**
-     * 新增/更新
+     * 新增
      * @param kilnOrder
      * @return
      */
-    public KilnOrder save(KilnOrder kilnOrder){
+    public KilnOrder add(KilnOrder kilnOrder){
         return kilnOrderRepository.save(kilnOrder);
     }
 
+    /**
+     * 更新
+     * @param kilnOrder
+     * @return
+     */
+    public KilnOrder update(KilnOrder kilnOrder){
+        kilnOrderRepository.delete(kilnOrder.getCode());
+        return kilnOrderRepository.save(kilnOrder);
+    }
     /**
      * 批量删除
      * @param kilnOrder

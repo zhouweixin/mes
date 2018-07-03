@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -79,6 +83,67 @@ public class HandoverHeaderController {
                                                 @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
                                                 @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
         return ResultUtil.success(handoverHeaderService.findAllByPage(page , size , sortFieldName ,asc));
+    }
+
+    /**
+     * 通过岗位编号查询-分页
+     * @param jobsCode
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getByJobsCodeByPage")
+    public Result<Page<HandoverHeader>> findByJobsCodeByPage(@RequestParam(value = "jobsCode" , defaultValue = "") Integer jobsCode,
+                                                           @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                           @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                           @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
+                                                           @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(handoverHeaderService.findByJobsCodeByPage(jobsCode , page, size , sortFieldName , asc));
+    }
+
+    /**
+     * 通过岗位编号和交班人编号查询
+     * @param jobsCode
+     * @param shifterCode
+     * @return
+     */
+    @RequestMapping(value = "/getByJobsCodeAndShifterCode")
+    public Result<List<HandoverHeader>> findByJobsCodeAndShifterCode(Integer jobsCode, String shifterCode){
+        return ResultUtil.success(handoverHeaderService.findByJobsCodeAndShifterCode(jobsCode,shifterCode));
+    }
+
+    /**
+     * 通过岗位编号和交班人编号查询
+     * @param jobsCode
+     * @param successorCode
+     * @return
+     */
+    @RequestMapping(value = "/getByJobsCodeAndSuccessorCode")
+    public Result<List<HandoverHeader>> findByJobsCodeAndSuccessorCode(Integer jobsCode,String successorCode){
+        return ResultUtil.success(handoverHeaderService.findByJobsCodeAndSuccessorCode(jobsCode,successorCode));
+    }
+
+    /**
+     * 通过岗位名称模糊和日期查询
+     * @param jobsName
+     * @param handoverDate
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getByJobsNameLikeAndHandoverDateByPage")
+    public Result<Page<HandoverHeader>> findByJobsNameLikeAndHandoverDateByPage(@RequestParam(value = "jobsName" , defaultValue = "") String jobsName,
+                                                             @RequestParam(value = "handoverDate" , defaultValue = "") String handoverDate,
+                                                             @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                             @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                             @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
+                                                             @RequestParam(value = "asc" , defaultValue = "1") Integer asc) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return ResultUtil.success(handoverHeaderService.findByJobsNameAndHandoverDateByPage(jobsName ,sdf.parse(handoverDate), page, size , sortFieldName , asc));
     }
 
     /**

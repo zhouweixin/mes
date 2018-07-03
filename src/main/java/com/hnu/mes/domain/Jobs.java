@@ -6,6 +6,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author: WaveLee
@@ -41,6 +43,10 @@ public class Jobs {
     @LastModifiedDate
     private Date compileTime;
 
+    @OneToMany(targetEntity = JobsHandover.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "jobs_code", referencedColumnName = "code")
+    private Set<JobsHandover> JobsHandover = new HashSet<>();
+
     public Integer getCode() {
         return code;
     }
@@ -73,13 +79,11 @@ public class Jobs {
         this.compileTime = compileTime;
     }
 
-    @Override
-    public String toString() {
-        return "Jobs{" +
-                "code=" + code +
-                ", name='" + name + '\'' +
-                ", compilerCode=" + compilerCode +
-                ", compileTime=" + compileTime +
-                '}';
+    public Set<JobsHandover> getJobsHandover() {
+        return JobsHandover;
+    }
+
+    public void setJobsHandover(Set<JobsHandover> jobsHandover) {
+        JobsHandover = jobsHandover;
     }
 }

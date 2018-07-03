@@ -6,6 +6,7 @@ import com.hnu.mes.exception.CustomerException;
 import com.hnu.mes.exception.EnumException;
 import com.hnu.mes.exception.MesException;
 import com.hnu.mes.repository.CustomerDao;
+import com.hnu.mes.repository.CustomerRoleRepository;
 import com.hnu.mes.repository.DefaultPasswordRepository;
 import com.hnu.mes.repository.SupplierDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class CustomerService {
     private DefaultPasswordRepository defaultPasswordRepository;
     @Autowired
     private SupplierDao supplierDao;
+
+    @Autowired
+    private CustomerRoleRepository customerRoleRepository;
 
     Customer findOne(String code) {
         return customerDao.findOne(code);
@@ -65,12 +69,23 @@ public class CustomerService {
         customerDao.save(exist);
     }
 
+    @Transactional
     public void add(Customer one) {
         if (customerDao.exists(one.getCode())) {
             throw new CustomerException(CustomerExceptionEnum.PRIMARY_KEY_ERROR.getMessage());
         }
         String password = defaultPasswordRepository.getOne(1).getPassword();
         one.setPassword(password);
+
+        if (one.getSupplier() != null && one.getSupplier().getSupplierType() != null && one.getSupplier().getSupplierType().getCode() == 1) {
+            // 供应商
+            CustomerRole customerRole = new CustomerRole(one.getCode(), 9);
+            customerRoleRepository.save(customerRole);
+        } else if (one.getSupplier() != null && one.getSupplier().getSupplierType() != null && one.getSupplier().getSupplierType().getCode() == 2) {
+            // 客户
+            CustomerRole customerRole = new CustomerRole(one.getCode(), 10);
+            customerRoleRepository.save(customerRole);
+        }
         customerDao.saveAndFlush(one);
     }
 

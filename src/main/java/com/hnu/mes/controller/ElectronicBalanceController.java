@@ -76,10 +76,6 @@ public class ElectronicBalanceController {
      */
     @RequestMapping(value = "/deleteByBatchCode")
     public Result<Object> deleteByBatchCode(@RequestBody Set<ElectronicBalance> electronicBalances){
-        for(ElectronicBalance electronicBalance : electronicBalances){
-            electronicBalances.remove(electronicBalance);
-        }
-
         electronicBalanceService.deleteInBatch(electronicBalances);
         return ResultUtil.success();
     }

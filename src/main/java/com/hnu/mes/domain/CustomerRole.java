@@ -15,6 +15,14 @@ public class CustomerRole {
     @Id
     private int roleCode;
 
+    public CustomerRole() {
+    }
+
+    public CustomerRole(String customerCode, int roleCode) {
+        this.customerCode = customerCode;
+        this.roleCode = roleCode;
+    }
+
     public String getCustomerCode() {
         return customerCode;
     }

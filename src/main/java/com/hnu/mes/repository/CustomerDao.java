@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -35,4 +36,6 @@ public interface CustomerDao extends JpaRepository<Customer, String>, JpaSpecifi
     public List<Customer> findBySupplier(Supplier supplier);
 
     public Page<Customer> findBySupplier(Supplier supplier, Pageable pageable);
+
+    public Page<Customer> findBySupplierIn(Collection<Supplier> suppliers, Pageable pageable);
 }

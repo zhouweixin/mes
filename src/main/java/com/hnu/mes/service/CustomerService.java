@@ -187,4 +187,35 @@ public class CustomerService {
 
         return customerDao.findBySupplier(supplier, pageable);
     }
+
+    /**
+     * 通过公司类型查询用户
+     *
+     * @param supplierType
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<Customer> getBySupplierTypeByPage(SupplierType supplierType, Integer page, Integer size, String sortFieldName, Integer asc) {
+        try {
+            Customer.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 排序的字段名不存在
+            throw new MesException(EnumException.SORT_FIELD);
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        // 分页
+        Pageable pageable = new PageRequest(page, size, sort);
+        List<Supplier> suppliers = supplierDao.findBySupplierType(supplierType);
+        return customerDao.findBySupplierIn(suppliers, pageable);
+    }
 }

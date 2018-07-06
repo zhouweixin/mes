@@ -17,7 +17,7 @@ public class Bound {
     /**
      * 序号
      */
-    private Integer num;
+    private String num;
 
     /**
      * 指标
@@ -59,11 +59,11 @@ public class Bound {
         this.code = code;
     }
 
-    public Integer getNum() {
+    public String getNum() {
         return num;
     }
 
-    public void setNum(Integer num) {
+    public void setNum(String num) {
         this.num = num;
     }
 

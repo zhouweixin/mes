@@ -18,4 +18,5 @@ public interface SupplierDao extends JpaRepository<Supplier, String>, JpaSpecifi
     public Page<Supplier> findByNameLike(String s, Pageable pageable);
     public List<Supplier> findByNameLike(String s);
     public Page<Supplier> findBySupplierType(SupplierType supplierType, Pageable pageable);
+    public List<Supplier> findBySupplierType(SupplierType supplierType);
 }

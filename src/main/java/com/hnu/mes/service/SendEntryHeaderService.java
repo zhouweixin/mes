@@ -306,4 +306,35 @@ public class SendEntryHeaderService {
         Pageable pageable = new PageRequest(page, size, sort);
         return sendEntryHeaderRepository.findSendEntryHeadersByStatusAndSender(status, sender, pageable);
     }
+
+    /**
+     * 通过公司类型查询
+     *
+     * @param supplierType
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<SendEntryHeader> getBySupplierTypeByPage(SupplierType supplierType, Integer page, Integer size, String sortFieldName, Integer asc) {
+
+        // 判断字段名是否存在
+        try {
+            SendEntryHeader.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            throw new MesException(EnumException.SORT_FIELD);
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        List<Supplier> suppliers = supplierDao.findBySupplierType(supplierType);
+        return sendEntryHeaderRepository.findBySupplierIn(suppliers, pageable);
+    }
 }

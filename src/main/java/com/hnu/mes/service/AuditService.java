@@ -27,10 +27,6 @@ public class AuditService {
     @Autowired
     private AuditRepository auditRepository;
 
-    @Autowired
-    private ElectronicBalanceRepository electronicBalanceRepository;
-
-
     /**
      * 新增
      * @param audit
@@ -126,14 +122,50 @@ public class AuditService {
             sort = new Sort(Sort.Direction.ASC, sortFieldName);
         }
 
-        ElectronicBalance equipment = electronicBalanceRepository.findOne(equipmentCode);
         Pageable pageable = new PageRequest(page, size, sort);
 
-        return auditRepository.findByEquipmentCode(equipment, pageable);
+        return auditRepository.findByEquipmentCode_Code(equipmentCode, pageable);
     }
 
+    /**
+     * 通过电子秤编号和确认状态查询
+     * @param equipmentCode
+     * @param confirm
+     * @return
+     */
     public List<Audit> findByEquipmentCodeAndConfirm(Integer equipmentCode,Integer confirm){
         return auditRepository.findByEquipmentCode_CodeAndConfirm(equipmentCode,confirm);
+    }
+
+    /**
+     * 通过确认状态查询-分页
+     * @param confirm
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<Audit> findByConfirm(Integer confirm , Integer page , Integer size , String sortFieldName ,
+                                                 Integer asc) {
+        // 判断排序字段名是否存在
+        try {
+            Audit.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为code
+            sortFieldName = "code";
+        }
+
+        Sort sort;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        return auditRepository.findByConfirm(confirm, pageable);
     }
 
     /**

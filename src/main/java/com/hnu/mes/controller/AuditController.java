@@ -108,9 +108,33 @@ public class AuditController {
         return ResultUtil.success(auditService.findByEquipmentCodeByPage(equipmentCode , page, size , sortFieldName , asc));
     }
 
+    /**
+     * 根据电子秤编号和确认状态查询
+     * @param equipmentCode
+     * @param confirm
+     * @return
+     */
     @RequestMapping(value = "/getByEquipmentCodeAndConfirm")
     public Result<List<Audit>> getByEquipmentCodeAndConfirm(Integer equipmentCode,Integer confirm){
         return ResultUtil.success(auditService.findByEquipmentCodeAndConfirm(equipmentCode,confirm));
+    }
+
+    /**
+     * 根据确认状态查询-分页
+     * @param confirm
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getByConfirm")
+    public Result<Page<Audit>> findByConfirm(@RequestParam(value = "confirm" , defaultValue = "") Integer confirm,
+                                                        @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                        @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                        @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
+                                                        @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(auditService.findByConfirm(confirm , page, size , sortFieldName , asc));
     }
 
     /**

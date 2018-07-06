@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
@@ -23,9 +27,6 @@ import java.util.Collection;
 public class ByproductCountService {
     @Autowired
     ByproductCountRepository byproductCountRepository;
-
-    @Autowired
-    UserRepository userRepository;
 
     /**
      * 新增/更新
@@ -80,30 +81,78 @@ public class ByproductCountService {
      * @param batchNumber
      * @param page
      * @param size
-     * @param sortFielName
+     * @param sortFieldName
      * @param asc
      * @return
      */
-    public Page<ByproductCount> findByBatchNumberLike(String batchNumber , Integer page , Integer size , String sortFielName ,
+    public Page<ByproductCount> findByBatchNumberLike(String batchNumber , Integer page , Integer size , String sortFieldName ,
                                                    Integer asc) {
         // 判断排序字段名是否存在
         try {
-            ByproductCount.class.getDeclaredField(sortFielName);
+            ByproductCount.class.getDeclaredField(sortFieldName);
         } catch (Exception e) {
             // 如果不存在就设置为batchNumber
-            sortFielName = "batchNumber";
+            sortFieldName = "batchNumber";
         }
 
         Sort sort;
         if (asc == 0) {
-            sort = new Sort(Sort.Direction.DESC, sortFielName);
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
         } else {
-            sort = new Sort(Sort.Direction.ASC, sortFielName);
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
         }
 
         Pageable pageable = new PageRequest(page, size, sort);
         return byproductCountRepository.findByBatchNumberLike("%" + batchNumber + "%", pageable);
     }
+
+    /**
+     * 通过副产品编号查询
+     * @param byproductCode
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<ByproductCount> findByByproductCode_Code(Integer byproductCode , Integer page , Integer size , String sortFieldName ,
+                                                      Integer asc) {
+        // 判断排序字段名是否存在
+        try {
+            ByproductCount.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为byproductCode
+            sortFieldName = "byproductCode";
+        }
+
+        Sort sort;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Pageable pageable = new PageRequest(page, size, sort);
+        return byproductCountRepository.findByByproductCode_Code(byproductCode, pageable);
+    }
+
+    /**
+     * 通过副产品类型和生产年月查询-分页-按日期升序排序
+     * @param byproductCode
+     * @param year
+     * @param month
+     * @param page
+     * @param size
+     * @return
+     */
+    public Page<ByproductCount> findByByproductCodeAndYearAndMonth(Integer byproductCode,Integer year,Integer month , Integer page , Integer size) {
+        Sort sort;
+        sort = new Sort(Sort.Direction.ASC, "date");
+        Pageable pageable = new PageRequest(page, size, sort);
+        return byproductCountRepository.findByByproductCodeAndYearAndMonth(byproductCode,year,month, pageable);
+
+    }
+
     /**
      * 通过code删除
      * @param code

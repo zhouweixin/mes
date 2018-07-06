@@ -99,6 +99,33 @@ public class ByproductCountController {
     }
 
     /**
+     * 通过副产品编号查询-分页
+     * @param byproductCode
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getByByproductCodeByPage")
+    public Result<Page<ByproductCount>> getByByproductCode(@RequestParam(value = "byproductCode" , defaultValue = "") Integer byproductCode,
+                                                                   @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                                   @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                                   @RequestParam(value = "sortFieldName" , defaultValue = "batchNumber") String sortFieldName,
+                                                                   @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(byproductCountService.findByByproductCode_Code(byproductCode , page, size , sortFieldName , asc));
+    }
+
+    @RequestMapping(value = "/getByByproductCodeAndYearMonth")
+    public Result<Page<ByproductCount>> getByByproductCodeAndYearMonth(@RequestParam(value = "byproductCode" , defaultValue = "") Integer byproductCode,
+                                                                       @RequestParam(value = "year" , defaultValue = "1") Integer year,
+                                                                       @RequestParam(value = "month" , defaultValue = "1") Integer month,
+                                                                       @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                                       @RequestParam(value = "size" , defaultValue = "10") Integer size) {
+        return ResultUtil.success(byproductCountService.findByByproductCodeAndYearAndMonth(byproductCode ,year,month, page, size));
+    }
+
+    /**
      * 通过code删除
      * @param code
      * @return

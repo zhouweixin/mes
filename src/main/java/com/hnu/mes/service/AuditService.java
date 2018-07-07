@@ -105,7 +105,7 @@ public class AuditService {
      * @param asc
      * @return
      */
-    public Page<Audit> findByEquipmentCodeByPage(Integer equipmentCode , Integer page , Integer size , String sortFieldName ,
+    public Page<Audit> findByEquipmentCodeByPage(String equipmentCode , Integer page , Integer size , String sortFieldName ,
                                           Integer asc) {
         // 判断排序字段名是否存在
         try {
@@ -133,7 +133,7 @@ public class AuditService {
      * @param confirm
      * @return
      */
-    public List<Audit> findByEquipmentCodeAndConfirm(Integer equipmentCode,Integer confirm){
+    public List<Audit> findByEquipmentCodeAndConfirm(String equipmentCode,Integer confirm){
         return auditRepository.findByEquipmentCode_CodeAndConfirm(equipmentCode,confirm);
     }
 

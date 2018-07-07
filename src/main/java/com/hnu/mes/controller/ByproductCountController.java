@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -117,12 +118,10 @@ public class ByproductCountController {
     }
 
     @RequestMapping(value = "/getByByproductCodeAndYearMonth")
-    public Result<Page<ByproductCount>> getByByproductCodeAndYearMonth(@RequestParam(value = "byproductCode" , defaultValue = "") Integer byproductCode,
+    public Result<List<ByproductCount>> getByByproductCodeAndYearMonth(@RequestParam(value = "byproductCode" , defaultValue = "") Integer byproductCode,
                                                                        @RequestParam(value = "year" , defaultValue = "1") Integer year,
-                                                                       @RequestParam(value = "month" , defaultValue = "1") Integer month,
-                                                                       @RequestParam(value = "page" , defaultValue = "0") Integer page,
-                                                                       @RequestParam(value = "size" , defaultValue = "10") Integer size) {
-        return ResultUtil.success(byproductCountService.findByByproductCodeAndYearAndMonth(byproductCode ,year,month, page, size));
+                                                                       @RequestParam(value = "month" , defaultValue = "1") Integer month) {
+        return ResultUtil.success(byproductCountService.findByByproductCodeAndYearAndMonth(byproductCode ,year,month));
     }
 
     /**

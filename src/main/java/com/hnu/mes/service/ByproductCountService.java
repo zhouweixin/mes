@@ -18,6 +18,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -145,11 +146,8 @@ public class ByproductCountService {
      * @param size
      * @return
      */
-    public Page<ByproductCount> findByByproductCodeAndYearAndMonth(Integer byproductCode,Integer year,Integer month , Integer page , Integer size) {
-        Sort sort;
-        sort = new Sort(Sort.Direction.ASC, "date");
-        Pageable pageable = new PageRequest(page, size, sort);
-        return byproductCountRepository.findByByproductCodeAndYearAndMonth(byproductCode,year,month, pageable);
+    public List<ByproductCount> findByByproductCodeAndYearAndMonth(Integer byproductCode, Integer year, Integer month ) {
+        return byproductCountRepository.findByByproductCodeAndYearAndMonth(byproductCode,year,month);
 
     }
 

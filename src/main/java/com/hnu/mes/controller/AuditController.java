@@ -100,7 +100,7 @@ public class AuditController {
      * @return
      */
     @RequestMapping(value = "/getByEquipmentCodeByPage")
-    public Result<Page<Audit>> getByEquipmentCodeByPage(@RequestParam(value = "equipmentCode" , defaultValue = "") Integer equipmentCode,
+    public Result<Page<Audit>> getByEquipmentCodeByPage(@RequestParam(value = "equipmentCode" , defaultValue = "") String equipmentCode,
                                                           @RequestParam(value = "page" , defaultValue = "0") Integer page,
                                                           @RequestParam(value = "size" , defaultValue = "10") Integer size,
                                                           @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
@@ -115,7 +115,7 @@ public class AuditController {
      * @return
      */
     @RequestMapping(value = "/getByEquipmentCodeAndConfirm")
-    public Result<List<Audit>> getByEquipmentCodeAndConfirm(Integer equipmentCode,Integer confirm){
+    public Result<List<Audit>> getByEquipmentCodeAndConfirm(String equipmentCode,Integer confirm){
         return ResultUtil.success(auditService.findByEquipmentCodeAndConfirm(equipmentCode,confirm));
     }
 

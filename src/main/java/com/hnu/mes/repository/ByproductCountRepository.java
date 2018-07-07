@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 /**
  * @Author: WaveLee
  * @Date: 2018/6/24 9:06
@@ -33,6 +35,6 @@ public interface ByproductCountRepository extends JpaRepository<ByproductCount,I
      * @param month
      * @return
      */
-    @Query(value = "select * from  release_byproduct_count where byproduct_code=?1 and year(date)=?2 and MONTH(date)=?3 ORDER BY ?#{#pageable}", nativeQuery = true)
-    public Page<ByproductCount> findByByproductCodeAndYearAndMonth(Integer byproductCode,Integer year,Integer month,Pageable pageable);
+    @Query(value = "select * from  release_byproduct_count where byproduct_code=?1 and year(date)=?2 and MONTH(date)=?3 ORDER BY date ASC", nativeQuery = true)
+    public List<ByproductCount> findByByproductCodeAndYearAndMonth(Integer byproductCode, Integer year, Integer month);
 }

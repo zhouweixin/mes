@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * @Modified By:
  */
 @Repository
-public interface ElectronicBalanceRepository extends JpaRepository<ElectronicBalance, Integer> {
+public interface ElectronicBalanceRepository extends JpaRepository<ElectronicBalance, String> {
     /**
      * 通过名称模糊查询-分页
      * @param name

@@ -3,6 +3,7 @@ package com.hnu.mes.service;
 import com.hnu.mes.domain.Audit;
 import com.hnu.mes.domain.ElectronicBalance;
 import com.hnu.mes.domain.Equipment;
+import com.hnu.mes.domain.RealData;
 import com.hnu.mes.repository.AuditRepository;
 import com.hnu.mes.repository.ElectronicBalanceRepository;
 import com.hnu.mes.repository.EquipmentRepository;
@@ -26,6 +27,8 @@ import java.util.List;
 public class AuditService {
     @Autowired
     private AuditRepository auditRepository;
+    @Autowired
+    private FileService fileService;
 
     /**
      * 新增
@@ -168,6 +171,14 @@ public class AuditService {
         return auditRepository.findByConfirm(confirm, pageable);
     }
 
+    public RealData findRealDate(String code){
+        List<RealData> list = fileService.getData();
+        for (int index = 0;index < list.size();index ++) {
+            if(list.get(index).getWeihao().equals(code))
+                return list.get(index);
+        }
+        return null;
+    }
     /**
      * 通过code删除
      * @param code

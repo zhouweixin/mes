@@ -34,7 +34,7 @@ public class ElectronicBalanceService {
         return electronicBalanceRepository.save(electronicBalance);
     }
 
-    public void delete(Integer code) {
+    public void delete(String code) {
         /**
          * delete
          * @Desciption 删除
@@ -43,7 +43,7 @@ public class ElectronicBalanceService {
         electronicBalanceRepository.delete(code);
     }
 
-    public ElectronicBalance findOne(Integer code) {
+    public ElectronicBalance findOne(String code) {
         /**
          * findOne
          * @Desciption 查询

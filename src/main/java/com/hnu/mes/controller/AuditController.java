@@ -1,6 +1,7 @@
 package com.hnu.mes.controller;
 
 import com.hnu.mes.domain.Audit;
+import com.hnu.mes.domain.RealData;
 import com.hnu.mes.domain.Result;
 import com.hnu.mes.exception.EnumException;
 import com.hnu.mes.exception.MesException;
@@ -135,6 +136,11 @@ public class AuditController {
                                                         @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
                                                         @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
         return ResultUtil.success(auditService.findByConfirm(confirm , page, size , sortFieldName , asc));
+    }
+
+    @RequestMapping(value = "/getRealDateByEquipmentCode")
+    public Result<RealData> getRealDate(String equipmentCode){
+        return ResultUtil.success(auditService.findRealDate(equipmentCode));
     }
 
     /**

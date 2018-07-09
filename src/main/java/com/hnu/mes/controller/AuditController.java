@@ -1,6 +1,7 @@
 package com.hnu.mes.controller;
 
 import com.hnu.mes.domain.Audit;
+import com.hnu.mes.domain.RealData;
 import com.hnu.mes.domain.Result;
 import com.hnu.mes.exception.EnumException;
 import com.hnu.mes.exception.MesException;
@@ -100,7 +101,7 @@ public class AuditController {
      * @return
      */
     @RequestMapping(value = "/getByEquipmentCodeByPage")
-    public Result<Page<Audit>> getByEquipmentCodeByPage(@RequestParam(value = "equipmentCode" , defaultValue = "") Integer equipmentCode,
+    public Result<Page<Audit>> getByEquipmentCodeByPage(@RequestParam(value = "equipmentCode" , defaultValue = "") String equipmentCode,
                                                           @RequestParam(value = "page" , defaultValue = "0") Integer page,
                                                           @RequestParam(value = "size" , defaultValue = "10") Integer size,
                                                           @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
@@ -108,9 +109,38 @@ public class AuditController {
         return ResultUtil.success(auditService.findByEquipmentCodeByPage(equipmentCode , page, size , sortFieldName , asc));
     }
 
+    /**
+     * 根据电子秤编号和确认状态查询
+     * @param equipmentCode
+     * @param confirm
+     * @return
+     */
     @RequestMapping(value = "/getByEquipmentCodeAndConfirm")
-    public Result<List<Audit>> getByEquipmentCodeAndConfirm(Integer equipmentCode,Integer confirm){
+    public Result<List<Audit>> getByEquipmentCodeAndConfirm(String equipmentCode,Integer confirm){
         return ResultUtil.success(auditService.findByEquipmentCodeAndConfirm(equipmentCode,confirm));
+    }
+
+    /**
+     * 根据确认状态查询-分页
+     * @param confirm
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    @RequestMapping(value = "/getByConfirm")
+    public Result<Page<Audit>> findByConfirm(@RequestParam(value = "confirm" , defaultValue = "") Integer confirm,
+                                                        @RequestParam(value = "page" , defaultValue = "0") Integer page,
+                                                        @RequestParam(value = "size" , defaultValue = "10") Integer size,
+                                                        @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
+                                                        @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
+        return ResultUtil.success(auditService.findByConfirm(confirm , page, size , sortFieldName , asc));
+    }
+
+    @RequestMapping(value = "/getRealDateByEquipmentCode")
+    public Result<RealData> getRealDate(String equipmentCode){
+        return ResultUtil.success(auditService.findRealDate(equipmentCode));
     }
 
     /**

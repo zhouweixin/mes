@@ -15,6 +15,10 @@ public class Byproduct {
 
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "indicator_code",referencedColumnName = "code")
+    private  Indicator indicatorCode;
+
     public Integer getCode() {
         return code;
     }
@@ -31,11 +35,20 @@ public class Byproduct {
         this.name = name;
     }
 
+    public Indicator getIndicatorCode() {
+        return indicatorCode;
+    }
+
+    public void setIndicatorCode(Indicator indicatorCode) {
+        this.indicatorCode = indicatorCode;
+    }
+
     @Override
     public String toString() {
         return "Byproduct{" +
                 "code=" + code +
                 ", name='" + name + '\'' +
+                ", indicatorCode=" + indicatorCode +
                 '}';
     }
 }

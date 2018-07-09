@@ -19,11 +19,19 @@ public interface AuditRepository extends JpaRepository<Audit,Integer> {
      * @param pageable
      * @return
      */
-    public Page<Audit> findByEquipmentCode(ElectronicBalance equipmentCode, Pageable pageable);
+    public Page<Audit> findByEquipmentCode_Code(String equipmentCode, Pageable pageable);
 
     /**
      * 通过电子秤编号确认状态查询
      * @return
      */
-    public List<Audit> findByEquipmentCode_CodeAndConfirm(Integer equipmentCode,Integer confirm);
+    public List<Audit> findByEquipmentCode_CodeAndConfirm(String equipmentCode,Integer confirm);
+
+    /**
+     * 通过确认状态查询
+     * @param confirm
+     * @param pageable
+     * @return
+     */
+    public Page<Audit> findByConfirm(Integer confirm,Pageable pageable);
 }

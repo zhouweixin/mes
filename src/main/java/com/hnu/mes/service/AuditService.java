@@ -3,6 +3,7 @@ package com.hnu.mes.service;
 import com.hnu.mes.domain.Audit;
 import com.hnu.mes.domain.ElectronicBalance;
 import com.hnu.mes.domain.Equipment;
+import com.hnu.mes.domain.RealData;
 import com.hnu.mes.repository.AuditRepository;
 import com.hnu.mes.repository.ElectronicBalanceRepository;
 import com.hnu.mes.repository.EquipmentRepository;
@@ -26,10 +27,8 @@ import java.util.List;
 public class AuditService {
     @Autowired
     private AuditRepository auditRepository;
-
     @Autowired
-    private ElectronicBalanceRepository electronicBalanceRepository;
-
+    private FileService fileService;
 
     /**
      * 新增
@@ -109,7 +108,7 @@ public class AuditService {
      * @param asc
      * @return
      */
-    public Page<Audit> findByEquipmentCodeByPage(Integer equipmentCode , Integer page , Integer size , String sortFieldName ,
+    public Page<Audit> findByEquipmentCodeByPage(String equipmentCode , Integer page , Integer size , String sortFieldName ,
                                           Integer asc) {
         // 判断排序字段名是否存在
         try {
@@ -126,16 +125,60 @@ public class AuditService {
             sort = new Sort(Sort.Direction.ASC, sortFieldName);
         }
 
-        ElectronicBalance equipment = electronicBalanceRepository.findOne(equipmentCode);
         Pageable pageable = new PageRequest(page, size, sort);
 
-        return auditRepository.findByEquipmentCode(equipment, pageable);
+        return auditRepository.findByEquipmentCode_Code(equipmentCode, pageable);
     }
 
-    public List<Audit> findByEquipmentCodeAndConfirm(Integer equipmentCode,Integer confirm){
+    /**
+     * 通过电子秤编号和确认状态查询
+     * @param equipmentCode
+     * @param confirm
+     * @return
+     */
+    public List<Audit> findByEquipmentCodeAndConfirm(String equipmentCode,Integer confirm){
         return auditRepository.findByEquipmentCode_CodeAndConfirm(equipmentCode,confirm);
     }
 
+    /**
+     * 通过确认状态查询-分页
+     * @param confirm
+     * @param page
+     * @param size
+     * @param sortFieldName
+     * @param asc
+     * @return
+     */
+    public Page<Audit> findByConfirm(Integer confirm , Integer page , Integer size , String sortFieldName ,
+                                                 Integer asc) {
+        // 判断排序字段名是否存在
+        try {
+            Audit.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 如果不存在就设置为code
+            sortFieldName = "code";
+        }
+
+        Sort sort;
+        if (asc == 0) {
+            sort = new Sort(Sort.Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Sort.Direction.ASC, sortFieldName);
+        }
+
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        return auditRepository.findByConfirm(confirm, pageable);
+    }
+
+    public RealData findRealDate(String code){
+        List<RealData> list = fileService.getData();
+        for (int index = 0;index < list.size();index ++) {
+            if(list.get(index).getWeihao().equals(code))
+                return list.get(index);
+        }
+        return null;
+    }
     /**
      * 通过code删除
      * @param code

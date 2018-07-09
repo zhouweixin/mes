@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -62,6 +63,15 @@ public class ScreenCheckController {
     public Result<Object> deleteByIdBatch(@RequestBody Collection<ScreenCheck> screenCheck) {
         screenCheckService.deleteInBatch(screenCheck);
         return ResultUtil.success();
+    }
+
+    /**
+     * 查询所有
+     * @return
+     */
+    @RequestMapping(value = "/getAll")
+    public Result<List<ScreenCheck>> findAll(){
+        return ResultUtil.success(screenCheckService.findAll());
     }
 
     /**

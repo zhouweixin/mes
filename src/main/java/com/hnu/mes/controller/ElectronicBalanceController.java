@@ -56,7 +56,7 @@ public class ElectronicBalanceController {
     }
 
     @RequestMapping(value = "/deleteByCode")
-    public Result<Object> delete(@RequestParam(value = "code") Integer code) {
+    public Result<Object> delete(@RequestParam(value = "code") String code) {
 
         //判断是否存在
         ElectronicBalance findOne = electronicBalanceService.findOne(code);
@@ -81,7 +81,7 @@ public class ElectronicBalanceController {
     }
 
     @RequestMapping(value = "/getByCode")
-    public Result<ElectronicBalance> findOne(@RequestParam(value = "code") Integer code) {
+    public Result<ElectronicBalance> findOne(@RequestParam(value = "code") String code) {
         //不存在时，会成功，data结果为null
         return ResultUtil.success(electronicBalanceService.findOne(code));
     }

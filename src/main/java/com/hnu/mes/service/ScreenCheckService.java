@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author: WaveLee
@@ -37,6 +38,13 @@ public class ScreenCheckService {
         screenCheckRepository.deleteInBatch(screenCheck);
     }
 
+    /**
+     * 查询所有
+     * @return
+     */
+    public List<ScreenCheck> findAll(){
+        return screenCheckRepository.findAll();
+    }
     /**
      * 查询所有-分页
      * @param page

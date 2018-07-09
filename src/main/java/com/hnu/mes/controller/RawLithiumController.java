@@ -187,4 +187,15 @@ public class RawLithiumController {
          */
         return ResultUtil.success(rawLithiumService.findByBatchNumberLikeAndStatusCode(batchNumber, statusCode, page, size, sort, asc));
     }
+
+    /**
+     * 通过批号查询
+     *
+     * @param batchNumber
+     * @return
+     */
+    @RequestMapping(value = "/getByBatchNumber")
+    public Result<RawLithium> getByBatchNumber(String batchNumber){
+        return ResultUtil.success(rawLithiumService.findFirstByBatchNumber(batchNumber));
+    }
 }

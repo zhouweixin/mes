@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: zhengyibin
@@ -173,5 +174,16 @@ public class ProductController {
          * @param [code, status, page, size, sort, asc]
          */
         return ResultUtil.success(productService.findByBatchNumberLikeAndStatusCode(batchNumber, statusCode, page, size, sort, asc));
+    }
+
+    /**
+     * 通过批号查询
+     *
+     * @param batchNumber
+     * @return
+     */
+    @RequestMapping(value = "/getByBatchNumber")
+    public Result<Product> getByBatchNumber(String batchNumber){
+        return ResultUtil.success(productService.findFirstByBatchNumber(batchNumber));
     }
 }

@@ -42,11 +42,9 @@ public class UserService {
      * @return
      */
     public User save(User user) {
-        if(user != null) {
-            User user1 = userRepository.findFirstByInteCircCard(user.getInteCircCard());
-            if (user1 != null) {
-                throw new MesException(EnumException.UPDATE_FAILED_IC_EXIST);
-            }
+        if(user.getInteCircCard() != null && !"".equals(user.getInteCircCard()) && userRepository.findFirstByInteCircCard(user.getInteCircCard()) != null){
+            System.out.println(user.getInteCircCard() == null);
+            throw new MesException(EnumException.UPDATE_FAILED_IC_EXIST);
         }
 
         return userRepository.save(user);

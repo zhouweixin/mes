@@ -41,7 +41,7 @@ public class User {
 	/**
 	 * IC卡
 	 */
-	private String inteCircCard = "";
+	private String inteCircCard;
 	/**
 	 * 描述
 	 */

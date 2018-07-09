@@ -25,7 +25,7 @@ public class AvailableRawPresoma {
     /**
      * 可用量
      */
-    private Double currentAvailableMaterial;
+    private Double currentAvailableMaterials;
     /**
      * 单位
      */
@@ -51,12 +51,12 @@ public class AvailableRawPresoma {
         this.currentActualMaterials = currentActualMaterials;
     }
 
-    public Double getCurrentAvailableMaterial() {
-        return currentAvailableMaterial;
+    public Double getCurrentAvailableMaterials() {
+        return currentAvailableMaterials;
     }
 
-    public void setCurrentAvailableMaterial(Double currentAvailableMaterial) {
-        this.currentAvailableMaterial = currentAvailableMaterial;
+    public void setCurrentAvailableMaterials(Double currentAvailableMaterials) {
+        this.currentAvailableMaterials = currentAvailableMaterials;
     }
 
     public String getMeterialsUnit() {
@@ -80,7 +80,7 @@ public class AvailableRawPresoma {
         return "AvailableRawPresoma{" +
                 "batchNumber='" + batchNumber + '\'' +
                 ", currentActualMaterials=" + currentActualMaterials +
-                ", currentAvailableMaterial=" + currentAvailableMaterial +
+                ", currentAvailableMaterials=" + currentAvailableMaterials +
                 ", meterialsUnit='" + meterialsUnit + '\'' +
                 ", judgeCode=" + judgeCode +
                 '}';

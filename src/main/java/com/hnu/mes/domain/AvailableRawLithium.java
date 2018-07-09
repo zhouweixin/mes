@@ -29,7 +29,7 @@ public class AvailableRawLithium {
     /**
      * 单位
      */
-    private String meterialsUnit;
+    private String materialsUnit;
     /**
      * 状态
      */
@@ -59,12 +59,12 @@ public class AvailableRawLithium {
         this.currentAvailableMaterials = currentAvailableMaterials;
     }
 
-    public String getMeterialsUnit() {
-        return meterialsUnit;
+    public String getMaterialsUnit() {
+        return materialsUnit;
     }
 
-    public void setMeterialsUnit(String meterialsUnit) {
-        this.meterialsUnit = meterialsUnit;
+    public void setMaterialsUnit(String materialsUnit) {
+        this.materialsUnit = materialsUnit;
     }
 
     public Integer getJudgeCode() {
@@ -81,7 +81,7 @@ public class AvailableRawLithium {
                 "batchNumber='" + batchNumber + '\'' +
                 ", currentActualMaterials=" + currentActualMaterials +
                 ", currentAvailableMaterials=" + currentAvailableMaterials +
-                ", meterialsUnit='" + meterialsUnit + '\'' +
+                ", materialsUnit='" + materialsUnit + '\'' +
                 ", judgeCode=" + judgeCode +
                 '}';
     }

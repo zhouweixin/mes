@@ -165,6 +165,26 @@ public class ArchiveController {
     }
 
     /**
+     * 通过设备名称查询
+     *
+     * @param name
+     * @param page
+     * @param size
+     * @param sort
+     * @param asc
+     * @return
+     */
+    @PostMapping(value = "/getByEquipmentNameLikeByPage")
+    public Result<Page<Archive>> getByEquipmentNameLikeByPage(
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "sort", defaultValue = "code") String sort,
+            @RequestParam(value = "asc", defaultValue = "1") Integer asc) {
+        return ResultUtil.success(archiveService.findByEquipmentNamLikeeByPage(name, page, size, sort, asc));
+    }
+
+    /**
      * 通过设备查询
      *
      * @param equipment

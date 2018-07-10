@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.hnu.mes.domain.Equipment;
 import com.hnu.mes.exception.EnumException;
+import com.hnu.mes.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -30,6 +31,9 @@ public class ArchiveService {
     // 注入
     @Autowired
     private ArchiveRepository archiveRepository;
+
+    @Autowired
+    private EquipmentRepository equipmentRepository;
 
     /**
      * 新增
@@ -137,17 +141,49 @@ public class ArchiveService {
         // 分页
         Pageable pageable = new PageRequest(page, size, sort);
 
-        // 只匹配name,其它属性全都忽略
-        ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("name", GenericPropertyMatchers.contains())
-                .withIgnorePaths("code", "installTime", "equipmentName", "defectPeriod", "supplyFactory", "supplyContact", "repairFactory", "repairContact", "document");
-        Archive archive = new Archive();
-        archive.setName(name);
+        // 查询
+        return archiveRepository.findByNameLike("%"+name+"%", pageable);
+    }
 
-        // 创建实例
-        Example<Archive> example = Example.of(archive, matcher);
+    /**
+     * 通过设备名称模糊查询
+     *
+     * @param name
+     *            名称
+     * @param page
+     *            当前页
+     * @param size
+     *            每页的记录数
+     * @param sortFieldName
+     *            排序的字段名
+     * @param asc
+     *            增序或减序
+     * @return
+     */
+    public Page<Archive> findByEquipmentNamLikeeByPage(String name, Integer page, Integer size, String sortFieldName,
+                                                 Integer asc) {
+
+        try {
+            Archive.class.getDeclaredField(sortFieldName);
+        } catch (Exception e) {
+            // 排序的字段名不存在
+            throw new MesException(EnumException.SORT_FIELD);
+        }
+
+        Sort sort = null;
+        if (asc == 0) {
+            sort = new Sort(Direction.DESC, sortFieldName);
+        } else {
+            sort = new Sort(Direction.ASC, sortFieldName);
+        }
+
+        // 分页
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        List<Equipment> equipments = equipmentRepository.findByNameLike("%" + name + "%");
 
         // 查询
-        return archiveRepository.findAll(example, pageable);
+        return archiveRepository.findByEquipmentIn(equipments, pageable);
     }
 
     /**

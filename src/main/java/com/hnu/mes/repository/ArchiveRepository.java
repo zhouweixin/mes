@@ -1,9 +1,13 @@
 package com.hnu.mes.repository;
 
 import com.hnu.mes.domain.Equipment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hnu.mes.domain.Archive;
+
+import java.util.Collection;
 
 /**
  *
@@ -26,4 +30,22 @@ public interface ArchiveRepository extends JpaRepository<Archive, Long> {
      * @return
      */
     public Archive findFirstByEquipment(Equipment equipment);
+
+
+    /**
+     * 通过名称查询-分页
+     *
+     * @param name
+     * @param pageable
+     * @return
+     */
+    public Page<Archive> findByNameLike(String name, Pageable pageable);
+
+    /**
+     * 通过设备查询-分页
+     *
+     * @param equipment
+     * @return
+     */
+    public Page<Archive> findByEquipmentIn(Collection<Equipment> equipment, Pageable pageable);
 }

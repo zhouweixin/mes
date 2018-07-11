@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -79,7 +80,13 @@ public class EqRepairApplicationService {
      */
     public Page<EqRepairApplication> findByApplicationTimeInPages(int i, int i1, String id, int i2, Date date) {
         Pageable pageable = getPageable(i, i1, id, i2);
-        return eqRepairApplicationRepository.findByApplicationTime(date, pageable);
+
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date);
+        c2.setTime(date);
+        c2.add(Calendar.DAY_OF_MONTH, 1);
+        return eqRepairApplicationRepository.findByApplicationTimeBetween(c1.getTime(), c2.getTime(), pageable);
     }
 
     /**

@@ -17,7 +17,7 @@ import java.util.Date;
 public interface EqRepairApplicationRepository extends JpaRepository<EqRepairApplication, String>, JpaSpecificationExecutor {
     Page<EqRepairApplication> findByFlag(Flag flag, Pageable pageable);
 
-    Page<EqRepairApplication> findByApplicationTime(Date date, Pageable pageable);
+    Page<EqRepairApplication> findByApplicationTimeBetween(Date date1, Date date2, Pageable pageable);
 
     Page<EqRepairApplication> findByFlagAndApplicationTime(Flag flag, Date date, Pageable pageable);
 

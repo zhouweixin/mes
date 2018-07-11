@@ -76,6 +76,7 @@ public class CustomerService {
         }
         String password = defaultPasswordRepository.getOne(1).getPassword();
         one.setPassword(password);
+        customerDao.saveAndFlush(one);
 
         if (one.getSupplier() != null && one.getSupplier().getSupplierType() != null && one.getSupplier().getSupplierType().getCode() == 1) {
             // 供应商
@@ -86,7 +87,6 @@ public class CustomerService {
             CustomerRole customerRole = new CustomerRole(one.getCode(), 10);
             customerRoleRepository.save(customerRole);
         }
-        customerDao.saveAndFlush(one);
     }
 
     public void delete(Customer one) {

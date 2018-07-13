@@ -38,11 +38,7 @@ public class ProcessController {
             return ResultUtil.error(bindingResult.getFieldError().toString());
         }
 
-        //判断是否重复
-        Process findOne = processService.findOne(process.getCode());
-        if (findOne != null) {
-            return ResultUtil.error(new MesException(EnumException.CODE_DUPLICATE));
-        }
+        process.setCode(null);
 
         return ResultUtil.success(processService.save(process));
     }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.hnu.mes.domain.ProcessManage;
+import com.hnu.mes.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -31,6 +32,9 @@ public class ProcessManageService {
     @Autowired
     private ProcessManageRepository processManageRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     /**
      * 新增
      *
@@ -38,6 +42,27 @@ public class ProcessManageService {
      * @return
      */
     public ProcessManage save(ProcessManage processManage) {
+        if(processManage.getLeader1() == null || processManage.getLeader1().getCode() == null || userRepository.findOne(processManage.getLeader1().getCode()) == null){
+            throw new MesException(EnumException.ADD_FAILED_AUDIT1_NOT_EXISTS);
+        }
+
+        if(processManage.getLeader5() == null || processManage.getLeader2().getCode() == null || "-1".equals(processManage.getLeader2().getCode())){
+            processManage.setLeader2(null);
+        }
+
+        if(processManage.getLeader5() == null || processManage.getLeader3().getCode() == null || "-1".equals(processManage.getLeader3().getCode())){
+            processManage.setLeader3(null);
+        }
+
+        if(processManage.getLeader5() == null || processManage.getLeader4().getCode() == null || "-1".equals(processManage.getLeader4().getCode())){
+            processManage.setLeader4(null);
+        }
+
+        if(processManage.getLeader5() == null || processManage.getLeader5().getCode() == null || "-1".equals(processManage.getLeader5().getCode())){
+            processManage.setLeader5(null);
+        }
+
+
         return processManageRepository.save(processManage);
     }
 

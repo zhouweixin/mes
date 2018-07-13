@@ -16,7 +16,6 @@ public class Material {
      * 编码
      */
     @Id
-    @NotBlank(message = "物资编码不能为空")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer code;
     /**

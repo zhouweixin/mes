@@ -80,7 +80,6 @@ public class ProcessManageController {
      */
     @PostMapping(value = "/deleteByCode")
     public Result<Object> delete(@RequestParam(value = "code") Integer code) {
-
         processManageService.delete(code);
         return ResultUtil.success();
     }

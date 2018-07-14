@@ -41,7 +41,10 @@ public class ExceptionHandle {
             if (e.getMessage().contains("Request method")) {
                 // 请求方法不匹配
                 return ResultUtil.error(new MesException(EnumException.REQUEST_METHOD));
-            } else {
+            }else if(e.getMessage().contains("constraint [null]")){
+                return ResultUtil.error(new MesException(EnumException.DELETE_FAILED_REF_KEY_EXISTS));
+            }else {
+                EnumException.UNKOWN_ERROR.setMessage(e.getMessage());
                 return ResultUtil.error(new MesException(EnumException.UNKOWN_ERROR));
             }
         }

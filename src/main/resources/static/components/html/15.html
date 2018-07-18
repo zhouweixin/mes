@@ -1,0 +1,47 @@
+<div id='model-li-hide-15' class="display-component-container" style="padding: 20px 20px 20px 20px;">
+    <div style="background: #f2f2f2;padding: 20px;">
+        <div class="fl">
+            <p style="color: #62a49a; font-size: 14px;">
+                <select id='model-li-hide-15-select'>
+                        <option value="43">一层高粉机</option>
+                        <option value="48">锅炉房</option>
+                        <option value="53">空压机站</option>
+                        <option value="58">四车间低压一段</option>
+                        <option value="63">三楼炉前控制室</option>
+                        <option value="68">三楼炉尾控制室1</option>
+                        <option value="73">四车间低压二段</option>
+                        <option value="78">四车间低压三段</option>
+                        <option value="83">三楼炉尾控制室2</option>
+                        <option value="88">四楼炉尾控制室</option>
+						<option value="560 ">41号辊道炉</option>
+						<option value="944 ">42号辊道炉</option>
+						<option value="1522">43号辊道炉</option>
+						<option value="2165">44号辊道炉</option>
+						<option value="2553">45号辊道炉</option>
+                </select>
+            </p>
+            <div>
+                <div style="padding: 5px;"></div>
+                <label>时间段&nbsp;&nbsp;</label><input id="timeGapInp" type="text" placeholder="24" value="24" style="width: 35%"/><br>
+                <div style="padding: 5px;"></div>
+                <label>时间段1</label><input style="padding-left: 0;height:20px;width:35%;display: inline" type="text" class="layui-input" id="start1" placeholder="起始时间"><span>&nbsp;-&nbsp;</span><input
+                    id="end1" type="text" placeholder="终止时间" style="width: 35%"/>
+                <div style="padding: 5px;"></div>
+                <label>时间段2</label><input style="padding-left: 0;height: 20px;width:35%;display: inline" type="text" class="layui-input" id="start2" placeholder="起始时间"><span>&nbsp;-&nbsp;</span><input
+                   id="end2" type="text" placeholder="终止时间" style="width: 35%"/>
+                <button id="submitBtn">查询</button>
+            </div>
+        </div>
+        <div style="clear: both; padding: 1px;"></div>
+    </div>
+    <div class="whitespace"></div>
+    <div class="canvas-container">
+
+    </div>
+    <script src="../components/js/fenshiduibi.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            fenshiduibi.init()
+        })
+    </script>
+</div>

@@ -1,0 +1,268 @@
+<div id='model-li-hide-29' class="display-component-container" style="padding: 20px 20px 20px 20px;">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <style>
+             #batching_record_detail_table td {
+                padding: 5px;
+                margin:30px;
+                border: 1px darkgrey solid;
+                font-size: 14px;
+                color: black;
+                text-align: center;
+                font-weight: 400;
+                height:25px;
+            }    
+            #batching_record_edtior_modal input{
+                width:100%;
+                height:100%;
+                border:none;
+                text-align: center;
+            }
+            #batching_record_edtior_modal select{
+                width:100%;
+                height:100%;
+                border:none;
+            }
+        </style>
+        <div class="block-quote">
+            <div class="fl">
+                <p style="color: #62a49a; font-size: 14px;">
+                    <!--&#xe608;-->
+                    <span id="model_li_hide_add_29"><a href="#"><i class="layui-icon">&#xe640;</i>新增</a></span>&nbsp;
+                    <span id="model_li_hide_delete_29"><a href="#"><i class="layui-icon">&#xe640;</i>删除</a></span>
+                </p>
+            </div>
+            <div class="fr">
+                <p style="color: #62a49a; font-size: 14px;">
+                    <span id="model_li_hide_refresh_29"><a href="#"><i class="layui-icon">&#x1002;</i>刷新</a></span>
+                    &nbsp;&nbsp;
+                    <input type="text" id="input_batch_num" placeholder="请输入批号"/> &nbsp;&nbsp;
+                    <span id="model_li_hide_search_29"><a href="#"><i class="layui-icon">&#xe615;</i>搜索</a></span>
+                </p>
+            </div>
+        </div>
+    
+        <div class="whitespace" ></div>
+    
+        <table id="batching_record_table" style="width: 100%;">
+            <thead style="background: #666666;">
+            <tr>
+                <!--<td><input id="mat_in_checkAll" type="checkbox"></td>-->
+                <td class="checkBox_td"><input id="batching_record_checkAll" type="checkbox"></td>
+                <td>序号</td>
+                <td>配料日期</td>
+                <td>生产批号</td>
+                <td>配料重量</td>
+                <td>混料开始时间</td>
+                <td>混料时间</td>
+                <td>混料频率</td>
+                <td>详情</td>
+                <td>编辑</td>
+                <td>删除</td>
+            </tr>
+            </thead>
+            <!--<td><input type="checkbox" class="mat_in_checkbox"></td>-->
+            <tbody>
+            </tbody>
+        </table>
+    
+        <div id="batching_record_page" ></div>
+        <script src="../components/js/batching_record.js"></script>
+        <script type="application/javascript">
+            $(function () {
+                batching_record.init()
+            })
+        </script>
+        <!--batching_record_detail_modal-->  
+        <div id="batching_record_detail_modal" class="hide" style="padding:30px;" >
+        <table id="batching_record_detail_table" width="100%">
+            <tr>
+                <td class="grey">配料日期</td>
+                <td colspan="2" class="grey">混料开始时间</td>
+                <td class="grey">混料时间</td>
+                <td class="grey">混料频率</td>
+                <td colspan="2" class="grey">生产批号</td>
+                <td class="grey">配料重量</td>
+            </tr>
+            <tr>
+                <td id="ingredientsDate"></td>
+                <td colspan="2" id="mixBegintime"></td>
+                <td id="mixTime"></td>
+                <td id="mixFrequency"></td>
+                <td colspan="2" id="batchNumber"></td>
+                <td id="ingredientsWeight"></td>
+            </tr>
+            <tr>
+                <td rowspan="2" class="grey">配料明细</td>
+                <td colspan="2" class="grey">三元前驱体批号</td>
+                <td colspan="2" class="grey">重量(kg)</td>
+                <td colspan="2" class="grey">碳酸锂批号</td>
+                <td class="grey">重量(kg)</td>
+            </tr>
+            <tr>
+                <td colspan="2" id="presomaCode"></td>
+                <td colspan="2" id="presomaWeight"></td>
+                <td colspan="2" id="lithiumCode"></td>
+                <td id="lithiumWeight"></td>
+            </tr>
+           <!-- <tr>
+                <td rowspan="4" class="grey">配料称量过程</td>
+                <td class="grey">序号</td>
+                <td class="grey">数量(包)</td>
+                <td colspan="2" class="grey">一次称量(kg)</td>
+                <td class="grey">序号</td>
+                <td class="grey">数量(包)</td>
+                <td class="grey">一次称量(kg)</td>
+            </tr>-->
+            <!--<tr>
+                <td class="grey">合计</td>
+                <td></td>
+                <td colspan="2"></td>
+                <td class="grey">合计</td>
+                <td></td>
+                <td></td>
+            </tr>-->
+             <tr>
+                <td rowspan="5" class="grey">配料称量过程</td>
+                <td colspan="2" class="grey">合计</td>
+                <td colspan="2" id="presomaWeigh"></td>
+                <td colspan="2" class="grey">合计</td>
+                <td id="lithiumWeigh"></td>
+            </tr>
+            <tr>
+                
+                <td colspan="2" class="grey">皮重</td>
+                <td colspan="2" id="presomaTare"></td>
+                <td colspan="2" class="grey">皮重</td>
+                <td id="lithiumTare"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="grey">净重</td>
+                <td colspan="2" id="presomaSuttle"></td>
+                <td colspan="2" class="grey">净重</td>
+                <td id="lithiumSuttle"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="grey">补加</td>
+                <td colspan="2" id="presomaAdd"></td>
+                <td colspan="2" class="grey">补加</td>
+                <td id="lithiumAdd"></td>
+            </tr>
+             <tr>
+                <td class="grey">添加剂编号</td>
+                <td id="additiveCode"></td>
+                <td class="grey">添加剂型号</td>
+                <td id="additiveModel"></td>
+                <td colspan="2" class="grey">添加剂重量</td>
+                <td id="additiveWeight"></td>
+            </tr>
+            <tr>
+                <td class="grey">操作人</td>
+                <td colspan="3" id="operator"></td>
+                <td class="grey">监督人</td>
+                <td colspan="3" id="supervisor"></td>
+            </tr>
+        </table>
+    </div>
+    <!--editor&&add-->
+    <div id="batching_record_edtior_modal" class="hide" style="padding:30px;" >
+            <table id="batching_record_detail_table" width="100%">
+                <tr>
+                    <td class="grey">配料日期</td>
+                    <td colspan="2" class="grey">混料开始时间</td>
+                    <td class="grey">混料时间</td>
+                    <td class="grey">混料频率</td>
+                    <td colspan="2" class="grey">生产批号</td>
+                    <td class="grey">配料重量</td>
+                </tr>
+                <tr>
+                    <td><input type="date"  id="ingredientsDate1"/></td>
+                    <td colspan="2"><input type="text" id="mixBegintime1"/></td>
+                    <td><input type="text" id="mixTime1"/></td>
+                    <td><input type="text" id="mixFrequency1"/></td>
+                    <td colspan="2"><input type="text" id="batchNumber1" onkeyup="num(this)" size="14"></td>
+                    <td><input type="text" id="ingredientsWeight1" onkeyup="num(this)" size="14"/></td>
+                </tr>
+                <tr>
+                    <td rowspan="2" class="grey">配料明细</td>
+                    <td colspan="2" class="grey">三元前驱体批号</td>
+                    <td colspan="2" class="grey">重量(kg)</td>
+                    <td colspan="2" class="grey">碳酸锂批号</td>
+                    <td class="grey">重量(kg)</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" id="presomaCode1"/></td>
+                    <td colspan="2"><input type="text" id="presomaWeight1" onkeyup="num(this)" size="14"/></td>
+                    <td colspan="2"><input type="text" id="lithiumCode1"/></td>
+                    <td><input type="text" id="lithiumWeight1" onkeyup="num(this)" size="14"/></td>
+                </tr>
+               <!-- <tr>
+                    <td rowspan="4" class="grey">配料称量过程</td>
+                    <td class="grey">序号</td>
+                    <td class="grey">数量(包)</td>
+                    <td colspan="2" class="grey">一次称量(kg)</td>
+                    <td class="grey">序号</td>
+                    <td class="grey">数量(包)</td>
+                    <td class="grey">一次称量(kg)</td>
+                </tr>-->
+                <!--<tr>
+                    <td class="grey">合计</td>
+                    <td></td>
+                    <td colspan="2"></td>
+                    <td class="grey">合计</td>
+                    <td></td>
+                    <td></td>
+                </tr>-->
+                 <tr>
+                    <td rowspan="5" class="grey">配料称量过程</td>
+                    <td colspan="2" class="grey">合计</td>
+                    <td colspan="2"><input type="text" id="presomaWeigh1" onkeyup="num(this)" size="14"/></td>
+                    <td colspan="2" class="grey">合计</td>
+                    <td><input type="text" id="lithiumWeigh1" onkeyup="num(this)"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="grey">皮重</td>
+                    <td colspan="2"><input type="text" id="presomaTare1" onkeyup="num(this)" size="14"/></td>
+                    <td colspan="2" class="grey">皮重</td>
+                    <td><input type="text" id="lithiumTare1" onkeyup="num(this)"/></td>
+
+                </tr>
+                <tr>
+                    <td colspan="2" class="grey">净重</td>
+                    <td colspan="2"><input type="text" id="presomaSuttle1" onkeyup="num(this)" size="14"/></td>
+                    <td colspan="2" class="grey">净重</td>
+                    <td><input type="text" id="lithiumSuttle1" onkeyup="num(this)"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="grey">补加</td>
+                    <td colspan="2"><input type="text" id="presomaAdd1" onkeyup="num(this)" size="14"/></td>
+                    <td colspan="2" class="grey">补加</td>
+                    <td><input type="text" id="lithiumAdd1" onkeyup="num(this)" size="14"/></td>
+                </tr>
+                 <tr>
+                    <td class="grey">添加剂编号</td>
+                    <td><input type="text" id="additiveCode1"/></td>
+                    <td class="grey">添加剂型号</td>
+                    <td><input type="text" id="additiveModel1"/></td>
+                    <td colspan="2" class="grey">添加剂重量</td>
+                    <td><input type="text" id="additiveWeight1" onkeyup="num(this)" size="14"/></td>
+                </tr>
+                <tr>
+                    <td class="grey">操作人</td>
+                    <td colspan="3"><select id="operator1"></select></td>
+                    <td class="grey">监督人</td>
+                    <td colspan="3"><select id="supervisor1"></select></td>
+                </tr>
+            </table>
+        </div>
+        <!--限制只能保留四位小数点-->
+    <script>
+        function num(obj){
+            obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+            obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
+            obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个, 清除多余的
+            obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3'); //只能输入两个小数  
+}  
+   </script>
+</div>

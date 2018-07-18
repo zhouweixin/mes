@@ -1,0 +1,50 @@
+<div id='model-li-hide-31' class="display-component-container" style="padding: 20px 20px 20px 20px;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+         #batching_record_detail_table td {
+            padding: 5px;
+            border: 1px darkgrey solid;
+            font-size: 14px;
+            color: black;
+            text-align: center;
+            font-weight: 400;
+            height:25px;
+        }    
+    </style>
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #1E9FFF; font-size: 14px;">
+                筛网检查     
+            </p>
+        </div>
+    </div>
+
+    <div class="whitespace" ></div>
+
+    <table id="screen_examination_table" style="width: 100%;">
+        <thead style="background: #666666;">
+        <tr>
+            <!--<td><input id="mat_in_checkAll" type="checkbox"></td>-->
+            <td class="checkBox_td"><input id="screen_examination_checkAll" type="checkbox"></td>
+            <td>序号</td>
+            <td>振筛编号</td>
+            <td>检查人</td>
+            <td>检查时间</td>
+            <td>图片详情</td>
+        </tr>
+        </thead>
+        <!--<td><input type="checkbox" class="mat_in_checkbox"></td>-->
+        <tbody>
+        </tbody>
+    </table>
+
+    <div id="screen_examination_page" ></div>
+    <script src="../components/js/screen_examination.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            screen_examination.init()
+        })
+    </script>
+    
+</div>

@@ -1,0 +1,137 @@
+<div id='model-li-hide-40' class="display-component-container" style="padding: 20px 20px 0px 20px;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+        #add-doc-modal {
+            text-align: center;
+        }
+
+        #add-doc-modal ul {
+            text-align: right;
+            padding-top: 5%;
+        }
+
+        #add-doc-modal select {
+            width: 150px;
+        }
+
+        #add-doc-modal input {
+            width: 150px;
+        }
+
+        .whitespace-small {
+            padding: 3px;
+        }
+    </style>
+
+
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id='model-li-hide-add-40'><a href="#"><i class="layui-icon">&#xe608;</i>新增</a></span>&nbsp;&nbsp;
+                <span id="model-li-hide-delete-40"><a href="#"><i class="layui-icon">&#xe640;</i>删除</a></span>&nbsp;&nbsp;
+
+            </p>
+        </div>
+        <div class="fr">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id="model-li-hide-refresh-40"><a href="#"><i class="layui-icon">&#x1002;</i>刷新</a></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <select id="role_name_input"></select>
+                <span id="model-li-hide-search-40"><a href="#"><i class="layui-icon">&#xe615;</i>搜索</a></span>
+            </p>
+        </div>
+    </div>
+    <div class="whitespace"></div>
+    <table id="archive_table" style="width: 100%;">
+        <thead style="background: #666666;">
+        <tr>
+            <td><input type="checkbox" id='arc_checkbox'></td>
+            <td>编码</td>
+            <td>档案名称</td>
+            </td>
+            <td>设备名称</td>
+            <td>安装时间</td>
+            <td>保修期限</td>
+            <td>供货厂家</td>
+            <td>供货厂家电话</td>
+            <td>维修厂家</td>
+            <td>维修厂家电话</td>
+            <td>操作手册</td>
+            <td>编辑</td>
+            <td>删除</td>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="archive_page">
+    </div>
+    <div id='add-doc-modal' class='hide'>
+        <div id='add-doc-modal-left' style='display: inline-block;max-width: 350px;max-height: 100px;'>
+            <ul>
+                <div class="whitespace-small"></div>
+                <li><label>设备名称:</label><select id='arc_eqname'></select></li>
+                <div class="whitespace-small"></div>
+                <li><label>安装时间:</label><input type="date" id='arc_eqinstalltime'></input></li>
+                <div class="whitespace-small"></div>
+                <li><label>保修期限:</label><input type="text" id='arc_eqdeadline'></input></li>
+                <div class="whitespace-small"></div>
+                <li><label>设备文档:</label><form enctype='multipart/form-data' style="display: inline-block"><input type='file' id='arc_eqdoc'/></form></li>
+                <div class="whitespace-small"></div>
+            </ul>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div id='add-doc-modal-right' style="display: inline-block;max-width: 350px;max-height: 100px;">
+            <ul>
+                <div class="whitespace-small"></div>
+                <li><label>供货厂家:</label><select id='arc_supfac'></select></li>
+                <div class="whitespace-small"></div>
+                <li><label>供货厂家电话:</label><input type='text' id='arc_supcon'/></li>
+                <div class="whitespace-small"></div>
+                <li><label>维修厂家:</label><select id='arc_ref'></select></li>
+                <div class="whitespace-small"></div>
+                <li><label>维修厂家电话:</label><input type='text' id='arc_refac'/></li>
+                <div class="whitespace-small"></div>
+            </ul>
+        </div>
+    </div>
+    <script src="../components/js/archive_manage.js"></script>
+    <script type="application/javascript">
+        //get all necessary info
+
+        $(function () {
+            $.get(home.urls.equipment.getAll(), {}, function (result) {
+                archive_manage.equipments = result.data
+                $.get(servers.backup() + 'supplier/getAll', {}, function (res) {
+                    archive_manage.suppliers = res.data
+                    archive_manage.init()           //init
+                })
+            })
+        })
+    </script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

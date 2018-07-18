@@ -1,0 +1,215 @@
+<div id='model-li-hide-74' class="display-component-container layui-row" style="min-width: 930px;">
+    <meta charset='UTF-8'>
+    <title>test</title>
+    <style type='text/css'>
+        #model-li-hide-74 {
+            margin-top: 10px;
+            padding: 20px;
+        }
+
+        #model-li-hide-74 ul {
+            padding-left: 0;
+            height: 100%;
+            margin: 0;
+        }
+
+        #model-li-hide-74 ul .item {
+            list-style: none;
+            text-align: center;
+            padding: 10px 45px 10px 45px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #949494;
+            border-bottom: 1px #949494 solid;
+            overflow: hidden;
+        }
+        #model-li-hide-74 ul li a {
+            color : #2c2e35;
+        }
+        .menu-head {
+            background: #5179cc;
+            padding: 10px;
+            text-align: center;
+            list-style: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .md4 {
+            float: left;
+            width: 24.8%;
+            height: 390px;
+            border: #949494 solid 1px;
+            overflow-y: scroll
+        }
+
+        .middle {
+            border-left: 0;
+            border-right: 0;
+        }
+
+        header {
+            text-align: center;
+            float: left;
+            width: 24.8%;
+            border: #949494 solid 1px;
+            position: relative;
+            top: 1px;
+        }
+
+        footer {
+            color: #5179cc;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            float: left;
+            width: 24.8%;
+            border: #949494 solid 1px;
+            position: relative;
+            bottom: 1px;
+            padding: 10px 0px 10px 0px;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #569196;
+        }
+
+        footer a:hover {
+            color: #01AAED;
+        }
+
+        footer a:active {
+            color: #2D93CA;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .md4 .selected {
+            background: #f2f2f2;
+        }
+
+        .md4 .selected-menu2 {
+            background: #f2f2f2;
+        }
+        .md4 .selected-model {
+            background: #f2f2f2;
+        }
+        .left-border-none {
+            border-left: none;
+        }
+        .op td{
+            text-align: center;
+            border: 1px darkgrey solid;
+        }
+        #operationList .item {
+
+        }
+    </style>
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span class="blue_font">菜单管理</span>
+            </p>
+        </div>
+        <!--<i class="layui-icon">&#xe608;</i>-->
+    </div>
+    <div class="whitespace"></div>
+    <div class="headers">
+        <header>
+            <li class="menu-head">一级菜单</li>
+        </header>
+        <header class="left-border-none">
+            <li class="menu-head">二级菜单</li>
+        </header>
+        <header class="left-border-none">
+            <li class="menu-head">三级菜单</li>
+        </header>
+        <header class="left-border-none">
+            <li class="menu-head">操作</li>
+        </header>
+    </div>
+
+    <div class="clear"></div>
+    <div class="md4">
+        <ul id="menu1List">
+        </ul>
+    </div>
+    <div class="md4 left-border-none">
+        <ul id="menu2List">
+        </ul>
+    </div>
+    <div class="md4 left-border-none">
+        <ul id="menu3List">
+        </ul>
+    </div>
+
+    <div class="md4 left-border-none">
+        <ul id="operationList">
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="footers">
+        <footer>
+            <a href="#" class="addBtn" id="add-1">+添加一级菜单</a>
+        </footer>
+        <footer class="left-border-none">
+            <a href="#" class="addBtn" id="add-2">+添加二级菜单</a>
+        </footer>
+        <footer class="left-border-none">
+            <a href="#" class="addBtn" id="add-3">+添加三级菜单</a>
+        </footer>
+        <footer class="left-border-none">
+            <a href="#" class="addBtn" id="operation_manage">+添加操作</a>
+        </footer>
+    </div>
+    <script src="../components/js/menu_manage.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            menu_manage.init()
+        })
+    </script>
+</div>
+
+<div id="operations_table_wrapper" style="padding: 0px 20px 0px 20px;" class="hide op">
+    <div style="padding: 3px;"></div>
+    <div style="text-align: right;">
+        <button id="op_manageBtn" style="background: #569196;color: #fff;">&nbsp;操作管理&nbsp;</button>
+    </div>
+    <div style="padding: 3px;"></div>
+    <table id="operations_table" style="width: 100%;">
+        <thead style="background: #f2f2f2;">
+        <tr>
+            <td><input id="operations_checkAll" type="checkbox"></td>
+            <td>序号</td>
+            <td>操作名称</td>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div id="operations_table_wrapper2" style="padding: 0px 20px 0px 20px;" class="hide op">
+    <div style="padding: 3px;"></div>
+    <div style="text-align: left;">
+        <button id="op_addBtn" style="background: #569196;color: #fff;">&nbsp;新增&nbsp;</button>
+    </div>
+    <div style="padding: 3px;"></div>
+    <table id="operations_table2" style="width: 100%;">
+        <thead style="background: #f2f2f2;">
+        <tr>
+            <td>序号</td>
+            <td>操作名称</td>
+            <td>code</td>
+            <td>编辑</td>
+            <td>删除</td>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,400 @@
+<div id='model-li-hide-43' class="display-component-container" style="padding: 20px 20px 0px 20px;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+       /* #guidebook_top {
+            font-weight: bold;
+            width: 100%;
+            height: 25px;
+            background-color: #00A99D;
+        }
+
+        #guidebook_body {
+            background-color: white;
+            text-align: center;
+            margin-top: 30px;
+            width: 100%;
+
+        }
+
+        #guidebook_bodyfoot {
+            margin-bottom: 20px;
+            background-color: white;
+            text-align: center;
+            width: 100%;
+            min-height: 100px;
+            max-height: 300px;
+        }
+
+        #guidebook_body_uptable {
+            margin: 0 auto;
+            margin-bottom: 10px;
+            border: 1px solid grey;
+            width: 100%;
+            height: 80px;
+            border-collapse: collapse;
+
+        }
+
+        #guidebook_body_middletable {
+            padding-top: 10px;
+            margin: 0 auto;
+            background-color: white;
+            text-align: center;
+            width: 90%;
+            border-collapse: collapse;
+
+            table-layout: fixed;
+        }
+
+        /*#guidebook_body_downtable {*/
+        /*margin: 0 auto;*/
+        /*background-color: white;*/
+        /*text-align: center;*/
+        /*width: 90%;*/
+        /*border-collapse: collapse;*/
+
+        /*table-layout: fixed;*/
+        /*}
+
+        #guidebook_body_text {
+            font-weight: bold;
+            font-size: 14px;
+            width: 12%;
+        }
+
+        tr,td {
+
+            border: 1px solid grey;
+            font-size: 12px;
+            text-align: center;
+
+        }*/
+
+        /* 新增和编辑内容
+
+        #edguidebook_top {
+            font-weight: bold;
+            width: 100%;
+            height: 25px;
+            background-color: #00A99D;
+        }
+
+        #edguidebook_body {
+            background-color: white;
+            text-align: center;
+            margin-top: 30px;
+            width: 100%;
+            margin-bottom: 20px;
+
+        }
+
+        #edguidebook_body1 {
+            background-color: white;
+            text-align: center;
+            margin-top: 30px;
+            width: 100%;
+            margin-bottom: 20px;
+
+        }
+
+        #edguidebook_body_uptable {
+            margin: 0 auto;
+            margin-bottom: 10px;
+            border: 1px solid grey;
+            width: 100%;
+            height: 80px;
+            border-collapse: collapse;
+
+        }
+
+        #edguidebook_body_downtable {
+            margin: 0 auto;
+            border: 1px solid grey;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #edguidebook_body_downtable1 {
+            margin: 0 auto;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+ 
+
+         input {
+            width: 100%;
+            height: 100%;
+            border: 0px;
+        } 
+
+        .edguidebook_bottom {
+            margin-top: 10px;
+            bottom: 0;
+            text-align: center;
+            font-weight: bold;
+            width: 100%;
+            height: 50px;
+            background-color: white;
+        }*/
+
+        input {
+            border: none;
+            text-align:center;
+        }
+
+        tr,td {
+
+            border: 1px solid grey;
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id='model-li-hide-add-43'>
+                    <a href="#">
+                        <i class="layui-icon">&#xe608;</i>新增</a>
+                </span>&nbsp;&nbsp;
+                <span id="model-li-hide-delete-43">
+                    <a href="#">
+                        <i class="layui-icon">&#xe640;</i>删除</a>
+                </span>&nbsp;&nbsp;
+
+            </p>
+        </div>
+        <div class="fr">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id="model-li-hide-refresh-43">
+                    <a href="#">
+                        <i class="layui-icon">&#x1002;</i>刷新</a>
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="guide_name_input" placeholder="请输入指导书名称"/>
+                <span id="model-li-hide-search-43">
+                    <a href="#">
+                        <i class="layui-icon">&#xe615;</i>搜索</a>
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="whitespace"></div>
+    <table id="guide_table" style="width: 100%;">
+        <thead style="background: #666666;">
+        <tr>
+            <td>
+                <input type="checkbox" id="gui_checkAll">
+            </td>
+            <td>编号</td>
+            <td>指导书名称</td>
+            <td>生效时间</td>
+            <td>编制</td>
+            <td>审核</td>
+            <td>批准</td>
+            <td>详情</td>
+            <td>编辑</td>
+            <td>删除</td>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <!--3-->
+    <div id="guide_page">
+    </div>
+    <div id="hello"></div>
+    <!-- 详情gudie 有很多图片的那个 -->
+    <div id='gudiebook_info' style='display:none; margin:0 auto;overflow-x: hide;overflow-y: scroll;padding:30px;'>
+            <table id='guidebook_body_uptable' width="100%" style="border-left: 0px;border-right: 0px;">
+                <tr>
+                    <td id='eq_name' rowspan='3' colspan='6' style="font-size:17px;">气氛辊道炉日常巡检指导书</td>
+                    <td style='width:15%;' class="grey">编号</td>
+                    <td id='bianhao' style='width:20%;'></td>
+                </tr>
+                <tr>
+                    <td class="grey">版次</td>
+                    <td id='banci'></td>
+                </tr>
+                <tr>
+                    <td class="grey">页次</td>
+                    <td id='yeci'></td>
+                </tr>
+                <tr>
+                    <td style='width:10%;' class="grey">编制</td>
+                    <td id='bianzhi'></td>
+                    <td style='width:10%;' class="grey">审核</td>
+                    <td id='shenpi'></td>
+                    <td style='width:10%;' class="grey">批准</td>
+                    <td id='pizhun'></td>
+                    <td style='width:15%;' class="grey">生效日期</td>
+                    <td id='shengxiaoriqi'></td>
+                </tr>
+            </table>
+            <div class="whitespace"></div>
+            <table id='guidebook_body_middletable' width="100%" style="border-left: 0px;border-right: 0px;">
+                <tr>
+                    <td id='xuhao' style='width:7%;'>序号</td>
+                    <td id='meirijiandianneirong' style='width:31%;'>每日点检内容</td>
+                    <td id='jianchabiaozhun' style='width:31%;'>检查标准</td>
+                    <td id='tupian' style='width:31%;'>图片</td>
+                </tr>
+                <tbody id="detail_tbody">
+                <tr style='height:80px;'>
+                    <td style='width:10%;'>1</td>
+                    <td style='width:30%;'>1</td>
+                    <td style='width:30%;'>1</td>
+                    <td style='width:30%;'>
+                        <img src='../dist/images/guidebook/11.png' alt='' style='width:150px;height:70px;'/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+    <script src="../components/js/guide_manage.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            guide_manage.init()
+        })
+    </script>
+</div>
+
+<!-- 新增和编辑  没有图片的那个-->
+<div id="edgudiebook_info2" style="display:none; margin:0 auto;padding:30px;">
+        <table id="edguidebook_body_uptable" width="100%" style="border-left: 0px;border-right: 0px;">
+            <tr> 
+                <td rowspan="3" colspan="6" style="font-size:17px;">
+                    <select id="equipment_select_2" style="width:100%;height:100%;border:0px;text-align: center;"></select>
+                </td>
+                <td style="width:15%;" class="grey">编号</td>
+                <td style="width:20%;"><input type="text" id="_2_bianhao" style="width:100%;height:100%;border:0px;">
+                </td>
+            </tr>
+            <tr>
+                <td class="grey">版次</td>
+                <td><input id="_2_banci" type="text" style="width:100%;height:100%;border:0px;"></td>
+            </tr>
+            <tr>
+                <td class="grey">页次</td>
+                <td><input type="text" id="_2_yeci" style="width:100%;height:100%;border:0px;"></td>
+            </tr>
+            <tr>
+                <td class="grey" style="width:10%;">编制</td>
+                <!--编制人编码	compactorCode-->
+                <td><select id="_2_bianzhi" style="width: 100%;height: 100%;border: none;"></select></td>
+                <td class="grey" style="width:10%;">审核</td>
+                <!--审核人编码	auditorCode-->
+                <td><select id="_2_shenhe" style="width: 100%;height: 100%;border: none;"></select></td>
+                <!--批准人编码	approverCode-->
+                <td class="grey" style="width:10%;">批准</td>
+                <td><select id="_2_pizhun" style="width: 100%;height: 100%;border: none;"></select></td>
+                <!--生效日期	   effectiveDate-->
+                <td class="grey" style="width:15%;">生效日期</td>
+                <td><input type="date" id="_2_shengxiaoriqi" style="width:100%;height:100%;border:0px;"></td>
+            </tr>
+        </table>
+
+        <div class="whitespace"></div>
+        <table id="edguidebook_body_downtable" style=" overflow-x: hide;overflow-y: scroll;width:840px;max-width:840px;">
+            <thead>
+            <td style="width:5%;"  class="grey">序号</td>
+            <td style="width:30%;" class="grey">每日点检内容</td>
+            <td style="width:30%;" class="grey">检查标准</td>
+            <td style="width:30%;"  class="grey">图片</td>
+            <td style="width:5%;"  class="grey">删除</td>
+            </thead>
+            <tbody id="tab">
+
+            </tbody>
+        </table>    
+        <div class="whitespace"></div>
+        <div id="edguidebook_body1" style="width: 100%;margin: 0 auto;background: white;text-align: center;">
+                <button onClick="addTab(),addPlus()"
+                style="width: 50px;height: 50px;border-radius: 50%;border: none;background:#00A99D;color:white;font-weight:bold;font-size: 30px;">
+            +
+        </button>
+        </div>
+           <!-- <table id="edguidebook_body_downtable1">
+                <tbody id="tab1" style="border:0px;">
+                <tr id="s0" style="text-align:center;border:0px;">
+                    <td colspan="5" style="border:0px;">
+                        <button onClick=" delTab(0),addTab(),addPlus()"
+                                style="width: 50px;height: 50px;border-radius: 50%;border: none;background:#00A99D;color:white;font-weight:bold;font-size: 30px;">
+                            +
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>-->
+</div>
+
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+
+<script>
+    function addTab() {
+        var count = $("#tab tr").length+1
+        console.log(count)
+        //var tabpl = "<tr class='newLine' id='s" + count + "'><td><input style='text-align: center;' type='text' value='"+count+"'></td><td><input type='text'></td><td><input type='text'></td><td><form enctype='multipart/form-data'><input class='upload' type='file' placeholder='上传图片' id='shangchuan_"+count+"'/></form></td><td><button onclick='delTab(" + count + ")' type='button'style='border:none;outline:none;font-size: 20px;color:#00A99D;background:white;' > &times;</button></td></tr>";
+        //$("#tab").append(tabpl);
+        $("#tab").append(
+            "<tr class='newLine' id='s" + count + "'>" +
+            "<td><input style='text-align: center;' type='text' value='"+(count)+"'></td>" +
+            "<td><input type='text'></td>" +
+            "<td><input type='text'></td>" +
+            "<td><form enctype='multipart/form-data'><input class='upload' type='file' placeholder='上传图片' /></form></td>" +
+            "<td><button class='delete_button' onclick='delTab("+(count++)+")' type='button'style='border:none;outline:none;font-size: 20px;color:#00A99D;background:white;' > &times;</button></td>" +
+            "</tr>"        
+        )
+         
+    }
+    //"<td><button class='delete_button' onclick='delTab(" + count + ")' type='button'style='border:none;outline:none;font-size: 20px;color:#00A99D;background:white;' > &times;</button></td>" +
+    function delTab(x) {
+            console.log("#s" + x + "")
+            //$("#s" + x).remove();
+            $("#s" +(x) + "").remove();
+            var count = $("#tab tr").length  
+            var i = 1
+            $(".newLine").each(function(){
+                $(this).children('td').eq(0).text(i++)
+            })
+           // $(this).parent('td').parent('tr').remove()              
+        
+    }       
+        /*  var imgCode =  $($("#s" + x).children('td')[3]).children("input").val()
+        console.log(imgCode)
+        $.post(servers.backup()+"image/deleteByCode",{code:imgCode}, function() {
+        })}
+        $("#s" + x).remove();*/    
+
+    function addPlus() {
+        var tabplus = '<tr id="s0" style="text-align:center;border:0px;"><td colspan="5" style="border:0px;"> <button onclick=" delTab(0),addTab(),addPlus()"style="width: 50px;height: 50px;border-radius: 50%;border: none;background:#00A99D;color:white;font-weight:bold;font-size: 30px;" >+</button></td></tr>'
+        $("#tab1").append(tabplus)
+        $(".upload").off('change').on('change',function(){
+            var _self = $(this)
+            if($(this).val() != null) {
+                var form = $(this).parent("form")
+                var formData = new FormData(form[0]);
+                var file = $(this)[0].files[0]
+                formData.append('file',file)
+                $.ajax({
+                    url:servers.backup()+"image/upload",
+                    type:'POST',
+                    data:formData,
+                    async:false,
+                    cache:false,
+                    contentType:false,
+                    processData:false,
+                    success:function(result) {
+                        guide_manage.images.push(result.data.code)
+                        var parent = _self.parent('form').parent('td');
+                        parent[0].innerHTML = ''
+                        parent.append("<input value='"+result.data.code+"' type='hidden'/><img style='width: 100%;height: 100px;' src='"+servers.backup()+'/image/'+result.data.code+"'/>")
+                    }
+                })
+            }
+        })
+    }
+
+</script>

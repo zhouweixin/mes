@@ -1,0 +1,149 @@
+<div id='model-li-hide-48' class="display-component-container" style="padding: 20px 20px 20px 20px;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+     .table_inner tbody tr td {
+            margin: 0;
+            padding: 2px;
+            border: 1px black solid;
+            font-size: 20px;
+            color: black;
+            text-align: center;
+            font-weight: 400;
+            width: 100%;
+        }
+    
+    </style>
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #1E9FFF; font-size: 14px;">
+                <span id='model-li-hide-add-48'><i class="layui-icon"></i>原料入库</span>&nbsp;&nbsp;
+            </p>
+        </div>
+        <div class="fr">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id="model-li-hide-refresh-48"><a href="#"><i class="layui-icon">&#x1002;</i>刷新</a></span>
+                &nbsp;&nbsp;
+                <select id="model-li-select-48" name="mat_name" style="border-radius: 0;">
+                  <!--  <option>选择生产厂家</option>
+                    <option value="1">厂家1</option>
+                    <option value="2">厂家2</option>
+                    <option value="3">厂家3</option>-->
+                </select>&nbsp;&nbsp;
+                <span id="model-li-hide-search-48"><a href="#"><i class="layui-icon">&#xe615;</i>搜索</a></span>
+            </p>
+        </div>
+    </div>
+    <div class="whitespace"></div>
+    <table id="material_in_table" style="width: 100%;">
+        <thead style="background: #666666;">
+        <tr>
+            <!--<td><input id="mat_in_checkAll" type="checkbox"></td>-->
+            <td>序号</td>
+            <td>收货单编号</td>
+            <td>生产厂家</td>
+            <td>到库日期</td>
+            <td>制单时间</td>
+            <td>制单人</td>
+            <td>详情</td>
+        </tr>
+        </thead>
+            <!--<td><input type="checkbox" class="mat_in_checkbox"></td>-->
+        <tbody>
+        <tr>
+           <!-- <td>1</td>
+            <td>JCCL/QEO-1706-CYLK-2102</td>
+            <td>金驰能源材料有限公司</td>
+            <td>2017-8-25</td>
+            <td>2017-8-25 10:08:11</td>
+            <td>刘庆代</td>
+            <td><a href="#" class='detail' id='detail-7'><i class="layui-icon">&#xe60a;</i></a></td>
+        </tr>
+        <tr>
+            <!--<td><input type="checkbox" class="mat_in_checkbox"></td>-->
+           <!-- <td>2</td>
+            <td>JCCL/QEO-1706-CYLK-2102</td>
+            <td>金驰能源材料有限公司</td>
+            <td>2017-8-25</td>
+            <td>2017-8-25 10:08:11</td>
+            <td>刘庆代</td>
+            <td><a href="#" class='detail' id='detail-8'><i class="layui-icon">&#xe60a;</i></a></td>
+        </tr>-->
+        </tbody>
+    </table>
+
+    <div id="material_in_page">
+    </div>
+    <script src="../components/js/mat_in_manage.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            mat_in_manage.init()
+        })
+    </script>
+<div id='detail_modal' class="hide" style="padding: 30px 30px 30px 30px;">
+        <table width="100%" style="border-left: 0px;border-right: 0px;">
+            <tr>
+                <td class="grey" width="20%" >收货编号</td>
+                <td width="40%" id="batchNumber"></td>
+                <td class="grey" width="20%" >品名</td>
+                <td width="20%" id="name"></td>
+            </tr>
+            <tr>
+                <td class="grey" >生产厂家</td>
+                <td id="productor"></td>
+                <td class="grey">数量</td>
+                <td id="number"></td>
+            </tr>
+            <tr>
+                <td class="grey">到库日期</td>
+                <td id="date"></td>
+                <td class="grey"></td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="whitespace"></div>
+        <div class="whitespace"></div>
+        <table width="100%" id='down_table' style="border:none">
+           
+                <thead>
+                      <tr class="grey" style="color:#000000">
+                              <td id="code" class="normal_td">序号</td>
+                              <td id="batchCode" class="normal_td">批号</td>
+                              <td id="unit" class="normal_td">单位</td>
+                              <td id="weight" class="normal_td">重量</td>
+                          </tr>
+                </thead>
+               <!--   <tr>
+                      <td>1</td>
+                      <td>170108046906</td>
+                      <td>kg</td>
+                      <td>200.00</td>
+                  </tr>
+                  <tr>
+                      <td>2</td>
+                      <td>170108046906</td>
+                      <td>kg</td>
+                      <td>200.00</td>
+                  </tr>
+                  <tr>
+                      <td>3</td>
+                      <td>170108046906</td>
+                      <td>kg</td>
+                      <td>200.00</td>
+                  </tr>-->
+                  <tbody>
+        
+                  </tbody>
+        
+              </table>
+        <div class="whitespace"></div>
+        <div style="float: right;">
+            <table style="border:none" >
+                <tr>
+                    <td style="border:none" class="normal1_td">制单人: <span id="creatUser" width="10px" style="border:none" class="normal11_td"></span></td>
+                    <td style="border:none" class="normal1_td"> 制单时间: <span id="creatTime" style="border:none" width="30px" class="normal11_td"></span></td>
+            </table>
+           <!-- <span><strong id="creatUser">制单人:</strong>&nbsp; &nbsp;&nbsp;&nbsp;<strong id="creatTime">制单时间:</strong>&nbsp;</span>-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<div id='model-li-hide-52' class="display-component-container" style="padding: 20px 20px 20px 20px;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+    #LossEntry input{
+        width:100%;
+        height:100%;
+        border:none;
+        text-align: center;
+    }
+    </style>
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #1E9FFF; font-size: 14px;">
+                <!--&#xe608;-->
+                <span id='model-li-hide-add-52'><i class="layui-icon"></i>盘库管理</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="start"><a href="#"><i class="layui-icon"></i>开始盘库</a></span>&nbsp;&nbsp;
+                <span id="stop"><a href="#"><i class="layui-icon"></i>结束盘库</a></span>
+            </p>
+        </div>
+        <div class="fr">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id="model-li-hide-refresh-52"><a href="#"><i class="layui-icon">&#x1002;</i>刷新</a></span>
+                &nbsp;&nbsp;
+                <span style="color: #6b6b6b;">审核状态</span>
+                <select id="lib_manage_name" style="border-radius: 0;">
+                    <option>选择审核状态</option>
+                    <option value="0">正常</option>
+                    <option value="1">开始盘库</option>
+                    <option value="2">待审核</option>
+                    <option value="3">已审核</option>
+                </select>&nbsp;&nbsp;
+                <span id="model-li-hide-search-52"><a href="#"><i class="layui-icon">&#xe615;</i>搜索</a></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="whitespace"></div>
+    <table id="lib_manage_table" style="width: 100%;">
+        <thead style="background: #666666;">
+        <tr>
+            <!--<td><input id="mat_in_checkAll" type="checkbox"></td>-->
+            <td>序号</td>
+            <td>物料类型</td>
+            <td>物料名称</td>
+            <td>库存数量</td>
+            <td>审核状态</td>
+            <td class="edit_td">盘库</td>
+        </tr>
+        </thead>
+        <!--<td><input type="checkbox" class="mat_in_checkbox"></td>-->
+        <tbody>
+        </tbody>
+    </table>
+    <div id="plate_manage_page">
+    </div>
+    <script src="../components/js/plate_manage.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            plate_manage.init()
+        })
+    </script>
+    <div id="detail_modal" class="hide" style="padding: 30px 30px 30px 30px;">
+        <table width="100%">
+            <tr>
+                <td class="grey" width="20%">报损单编号</td>
+                <td width="30%" id="code"></td>
+                <td class="grey" width="20%">物料类型</td>
+                <td width="30%" id="material">继承</td>
+            </tr>
+            <tr>
+                <td class="grey">物料名称</td>
+                <td id="rawType">继承</td>
+                <td class="grey">盘库数量</td>
+                <td id="weight">继承</td>
+            </tr>
+            <tr>
+                <td class="grey">总量</td>
+                <td id="total"></td>
+                <td class="grey">流程类型</td>
+                <td>
+                    <select id="process" style="width:100%;height:100%;border:none;text-align: center;">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="grey">报损人</td>
+                <td id="user"></td>
+                <td class="grey">审核状态</td>
+                <td id="status"></td>
+            </tr>
+            <tr>
+                <td class="grey">报损时间</td>
+                <td id="time"></td>
+            </tr>
+        </table>
+        <div class="whitespace"></div>
+        <input type="button" value="新增" id="button">
+        <div class="whitespace"></div>
+        <table width="100%" id="LossEntry">
+            <thead>
+            <tr>
+                <td class="normal_td">序号</td>
+                <td class="normal_td">入库编号</td>
+                <td class="normal_td">报损数量</td>
+                <td class="normal_td">删除</td>
+            </tr>
+           </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>

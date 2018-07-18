@@ -1,0 +1,84 @@
+<div id='model-li-hide-50' class="display-component-container" style="padding: 20px 20px 20px 20px;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #1E9FFF; font-size: 14px;">
+                <!--&#xe608;-->
+                <span id='model-li-hide-add-50'><i class="layui-icon"></i>原料出库</span>&nbsp;&nbsp;
+                <!--<span id="model-li-hide-delete-48"><a href="#"><i class="layui-icon">&#xe640;</i>删除</a></span>-->
+            </p>
+        </div>
+        <div class="fr">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id="model-li-hide-refresh-50"><a href="#"><i class="layui-icon">&#x1002;</i>刷新</a></span>
+                &nbsp;&nbsp;
+                <span style="color: #6b6b6b;">领料部门</span>&nbsp;
+                <select id="depmartment-1" name="mat_name" style="border-radius: 0;">
+                   
+                </select>&nbsp;&nbsp;
+                <span style="color: #6b6b6b;">领料状态</span>&nbsp;
+                <select id="depmartment-2" name="mat_name" style="border-radius: 0;">
+                    <option>请选择领料状态</option>
+                    <option value="0" >待出库</option>
+                    <option value="1">已出库</option>
+                </select>&nbsp;&nbsp;
+                <span style="color: #6b6b6b;">流程类型</span>&nbsp;
+                <select id="depmartment-3" name="mat_name" style="border-radius: 0;">
+                       
+                </select>&nbsp;&nbsp;
+                <span id="model-li-hide-search-50"><a href="#"><i class="layui-icon">&#xe615;</i>搜索</a></span>
+            </p>
+        </div>
+    </div>
+    <div class="whitespace"></div>
+
+    <table id="material_out_table" style="width: 100%;">
+        <thead style="background: #666666;">
+        <tr>
+            <td>序号</td>
+            <td>材料部门</td>
+            <td>申请日期</td>
+            <td>流程类型</td>
+            <td>审核状态</td>
+            <td>领料状态</td>
+            <td class="edit_td">详情</td>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="material_out_page">
+    </div>
+    <script src="../components/js/mat_out_manage.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            mat_out_manage.init()
+        })
+    </script>
+    <div id='detail_modal' class="hide" style="padding: 30px 30px 30px 30px;">
+        <div style="text-align: left;">
+            <span><strong>审批流程:</strong>&nbsp;
+                <select id="process_type">
+                    
+                </select>
+            </span>
+        </div>
+        <div class="whitespace"></div>
+        <table width="100%" id="detail_table"> 
+            <thead>
+            <tr class="grey">
+                <td class="normal_td">原料类型</td>
+                <td class="normal_td">批号</td>
+                <td class="normal_td">申请单位</td>
+                <td class="normal_td">申请数量</td> 
+            </tr>
+        </thead>
+        <tbody></tbody>
+        </table>
+        <div class="whitespace"></div>
+        <div style="position: relative;text-align: right;bottom: 0px;">
+            <span><strong>日期:</strong>&nbsp;<span id="appl_date"></span> &nbsp;&nbsp;&nbsp;<strong>领料部门:</strong>&nbsp;<span id="app_dep"></span>&nbsp;&nbsp;&nbsp;<strong>申请人:</strong>&nbsp;<span id="cur_user"></span></span>
+        </div>
+    </div>
+</div>

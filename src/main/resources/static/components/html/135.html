@@ -1,0 +1,205 @@
+<div id='model-li-hide-135' class="display-component-container" style="padding: 20px 20px 20px 20px;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+         #bowl_abnormal_detail_table td {
+            padding: 0px;
+            border: 1px darkgrey solid;
+            font-size: 12px;
+            color: black;
+            text-align: center;
+            font-weight: 400;
+            height:40px;
+        }   
+        #bowl_abnormal_editor_table td {
+            padding: 0px;
+            border: 1px darkgrey solid;
+            font-size: 12px;
+            color: black;
+            text-align: center;
+            font-weight: 400;
+            height:40px;
+        }   
+        select{
+            width:100%;
+            height:100%;
+            border:none;
+        } 
+        #bowl_abnormal_editor_table input{
+            width:100%;
+            height:100%;
+            border:none;
+            text-align: center;
+        }
+    </style>
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #62a49a; font-size: 14px;">
+                <!--&#xe608;-->
+                <span id="model_li_hide_add_135"><a href="#"><i class="layui-icon">&#xe640;</i>新增</a></span>&nbsp;
+                <span id="model_li_hide_delete_135"><a href="#"><i class="layui-icon">&#xe640;</i>删除</a></span>
+            </p>
+        </div>
+        <div class="fr">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id="model_li_hide_refresh_135"><a href="#"><i class="layui-icon">&#x1002;</i>刷新</a></span>
+                &nbsp;&nbsp;
+                <input type="text" id="input_batch_num" placeholder="请输入装钵机号"/> &nbsp;&nbsp;
+                <span id="model_li_hide_search_135"><a href="#"><i class="layui-icon">&#xe615;</i>搜索</a></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="whitespace" ></div>
+
+    <table id="bowl_abnormal_table" style="width: 100%;">
+        <thead style="background: #666666;">
+        <tr>
+            <!--<td><input id="mat_in_checkAll" type="checkbox"></td>-->
+            <td class="checkBox_td"><input id="bowl_abnormal_checkAll" type="checkbox"></td>
+            <td>序号</td>
+            <td>日期</td>
+            <td>班次</td>
+            <td>时间</td>
+            <td>装钵机号</td>
+            <td>详情</td>
+            <td>编辑</td>
+            <td>删除</td>
+        </tr>
+        </thead>
+        <!--<td><input type="checkbox" class="mat_in_checkbox"></td>-->
+        
+        <tbody>
+        </tbody>
+    </table>
+
+    <div id="bowl_abnormal_page"></div>
+    <script src="../components/js/bowl_abnormal.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            bowl_abnormal.init()
+        })
+    </script>
+    <div id="bowl_abnormal_detail_modal" class="hide" style="padding:20px;">    
+        <table id="bowl_abnormal_detail_table" width="100%">
+            <thead>
+             <tr class="grey">
+                <td  width="5%">班次</td>
+                <td width="5%">装钵机号</td>
+                <td width="5%">上层</td>
+                <td width="5%">下层</td>
+                <td width="5%">总重</td>
+                <td width="5%">皮重</td>
+                <td width="5%">净重</td>
+                <td width="5%">差异</td>
+                <td width="5%">添加/kg</td>
+                <td width="5%">减少/kg</td>
+                <td width="15%">时间</td>
+                <td width="15%">操作人</td>
+                <td width="15%">核查人</td>
+            </tr>
+           </thead>
+           <tbody>
+             <tr>
+                <td id="dutyCode"></td>
+                <td id="bowlCode"></td>
+                <td id="top"></td>
+                <td id="bot"></td>
+                <td id="total"></td>
+                <td id="tare"></td>
+                <td id="net"></td>
+                <td id="difference"></td>
+                <td id="addWeight"></td>
+                <td id="reduceWeight"></td>
+                <td id="Time"></td>
+                <td id="operator"></td>
+                <td id="checker"></td>
+            </tr>
+
+        </tbody>
+        </table>
+        <div class="whitespace"></div>
+        <span style="float:right;">日期：<span id="detail_time" style="width:10%;"></span></span>
+    </div> 
+    <!--editor&&add-->
+    <div id="bowl_abnormal_editor_modal" class="hide" style="padding:20px;">    
+            <table id="bowl_abnormal_editor_table" width="100%">
+                <thead>
+                 <tr class="grey">
+                    <td width="5%">班次</td>
+                    <td width="5%">装钵机号</td>
+                    <td width="5%">上层</td>
+                    <td width="5%">下层</td>
+                    <td width="5%">总重</td>
+                    <td width="5%">皮重</td>
+                    <td width="5%">净重</td>
+                    <td width="5%">差异</td>
+                    <td width="5%">添加/kg</td>
+                    <td width="5%">减少/kg</td>
+                    <td width="15%">时间</td>
+                    <td width="15%">操作人</td>
+                    <td width="15%">核查人</td>
+                </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                    <td>
+                        <select id="dutyCode1"></select>
+                    </td>
+                   <td>
+                        <select id="bowlCode1">
+                            <option value='1#'>1#</option>
+                            <option value='2#'>2#</option>
+                        </select>
+                  </td>
+                    <td>
+                        <input type="text" id="top1" onkeyup="num(this)" size="14"/>
+                    </td>
+                    <td>
+                        <input type="text" id="bot1" onkeyup="num(this)" size="14"/>
+                    </td>
+                    <td>
+                       <input type="text" id="total1" onkeyup="num(this)" size="14"/>
+                    </td>
+                    <td>
+                        <input type="text" id="tare1" onkeyup="num(this)" size="14"/>
+                    </td>
+                    <td>
+                        <input type="text" id="net1" onkeyup="num(this)" size="14"/>
+                    </td>
+                    <td>
+                        <input type="text" id="difference1" onkeyup="num(this)" size="14"/>
+                    </td>
+                    <td>
+                        <input type="text" id="addWeight1" onkeyup="num(this)" size="14"/>
+                    </td>
+                    <td>
+                        <input type="text" id="reduceWeight1" onkeyup="num(this)" size="14"/>
+                    </td>
+                    <td>
+                        <input type="text" id="Time1" placeholder="格式为2018-01-01 00:00:00"/>
+                    </td>
+                    <td>
+                        <select id="operator1"></select>
+                    </td>
+                    <td>
+                        <select  id="checker1"></select>
+                    </td>
+                </tr>
+    
+            </tbody>
+            </table>
+            <div class="whitespace"></div>
+            <span style="float:right;">日期：<span id="editor_time" style="width:10%;"></span></span>
+        </div> 
+    <!--限制只能保留两位小数点-->
+    <script>
+        function num(obj){
+            obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+            obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
+            obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个, 清除多余的
+            obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数  
+}  
+    </script>
+</div>

@@ -1,0 +1,162 @@
+<div id='model-li-hide-136' class="display-component-container" style="padding: 20px 20px 20px 20px;">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+         #batch_abnormal_detail_table  td {
+            padding: 5px;
+            border: 1px darkgrey solid;
+            font-size: 13px;
+            color: black;
+            text-align: center;
+            font-weight: 400;
+            height:40px;
+        } 
+        #batch_abnormal_editor_modal td{
+            padding: 5px;
+            border: 1px darkgrey solid;
+            font-size: 13px;
+            color: black;
+            text-align: center;
+            font-weight: 400;
+            height:40px;
+        }
+        #batch_abnormal_editor_modal input{
+            width:100%;
+            height:100%;
+            border:none;
+            text-align: center;
+        }
+        select{
+            width:100%;
+            height:100%;
+            border:none;
+        }
+    </style>
+    <div class="block-quote">
+        <div class="fl">
+            <p style="color: #62a49a; font-size: 14px;">
+                <!--&#xe608;-->
+                <span id="model_li_hide_add_136"><a href="#"><i class="layui-icon">&#xe640;</i>新增</a></span>&nbsp;
+                <span id="model_li_hide_delete_136"><a href="#"><i class="layui-icon">&#xe640;</i>删除</a></span>
+            </p>
+        </div>
+        <div class="fr">
+            <p style="color: #62a49a; font-size: 14px;">
+                <span id="model_li_hide_refresh_136"><a href="#"><i class="layui-icon">&#x1002;</i>刷新</a></span>
+                &nbsp;&nbsp;
+                <input type="text" id="input_batch_num" placeholder="请输入生产批次"/> &nbsp;&nbsp;
+                <span id="model_li_hide_search_136"><a href="#"><i class="layui-icon">&#xe615;</i>搜索</a></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="whitespace" ></div>
+
+    <table id="batch_abnormal_table" style="width: 100%;">
+        <thead style="background: #666666;">
+        <tr>
+            <!--<td><input id="mat_in_checkAll" type="checkbox"></td>-->
+            <td class="checkBox_td"><input id="batch_abnormal_checkAll" type="checkbox"></td>
+            <td>序号</td>
+            <td>日期</td>
+            <td>班次</td>
+            <td>生产批次</td>
+            <td>详情</td>
+            <td>编辑</td>
+            <td>删除</td>
+        </tr>
+        </thead>
+        <!--<td><input type="checkbox" class="mat_in_checkbox"></td>
+        <tr>
+        <td><input type="checkbox" class="batch_abnormal_checkbox"></td>
+        <td>1</td>
+        <td>2017-12-31</td>
+        <td>恩恩</td>
+        <td>1231</td>
+        <td><a href="#" class='detail' id='detail-1'><i class="layui-icon">&#xe60a;</i></a></td>
+        <td><a href="#" class='editor' id='editor-1'><i class="layui-icon">&#xe642;</i></a></td>
+        <td><a href="#" class='delete' id='delete-1'><i class='fa fa-times-circle-o'></a></td>
+        </tr>-->
+        <tbody>
+        </tbody>
+    </table>
+
+    <div id="batch_abnormal_page"></div>
+    <script src="../components/js/batch_abnormal.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            batch_abnormal.init()
+        })
+    </script>
+    <div id="batch_abnormal_detail_modal" class="hide" style="padding:30px;"> 
+        <table id="batch_abnormal_detail_table" width="100%">
+            <thead>
+             <tr class="grey">
+                <td width="9%">班次</td>
+                <td width="21%">时间</td>
+                <td width="10%">生产批次</td>
+                <td width="15%">异常物料钵数</td>
+                <td width="15%">异常物料重</td>
+                <td width="15%">操作人</td>
+                <td width="15%">核查人</td>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+                <td id="dutyCode"></td>
+                <td id="Time"></td>
+                <td id="batchNumber"></td>
+                <td id="abNumber" ></td>
+                <td id="abWeight"></td>
+                <td id="operatorCode"></td>
+                <td id="checkerCode"></td>
+            </tr>
+        </tbody>
+        </table>
+        <div class="whitespace"></div>
+        <span style="float:right;">日期：<span id="detail_time" style="width:10%;"></span></span>
+    </div>
+
+    <div id="batch_abnormal_editor_modal" class="hide" style="padding:30px;"> 
+        <table id="batch_abnormal_editor_modal" width="100%">
+            <thead>
+             <tr class="grey">
+                <td width="9%">班次</td>
+                <td width="23%">时间</td>
+                <td width="10%">生产批次</td>
+                <td width="14%">异常物料钵数</td>
+                <td width="14%">异常物料重</td>
+                <td width="15%">操作人</td>
+                <td width="15%">核查人</td>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+                <td><select id="duty_code"></select></td>
+                <td><input type="datetime" id="E_time" placeholder="格式为2018-01-01 00:00:00"/></td>
+                <td><input type="text" id="batch_Number"/></td>
+                <td><input type="text" id="ab_number"  onkeyup='this.value=this.value.replace(/\D/gi,"")' size="11"/></td>
+                <td><input type="text" id="ab_weight" onkeyup="num(this)" size="14"/></td>
+                <td>
+                    <select id="operator_code"></select>
+                </td>
+                <td>
+                    <select id="checker_code"></select>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        <div class="whitespace"></div>
+        <span style="float:right;">日期：<span id="editor_time" style="width:10%;"></span></span>
+    </div>
+    <!--限制只能保留两位小数点-->
+    <script>
+        function num(obj){
+            obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+            obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字
+            obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个, 清除多余的
+            obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数  
+}  
+    </script>
+</div>

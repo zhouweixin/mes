@@ -27,6 +27,16 @@ public class HandoverStateTypeService {
      * @return
      */
     public HandoverStateType save(HandoverStateType handoverStateType){
+        if(handoverStateType.getHandoverState1() == null || handoverStateType.getHandoverState1().getCode() == -1)
+            handoverStateType.setHandoverState1(null);
+        if(handoverStateType.getHandoverState2() == null || handoverStateType.getHandoverState2().getCode() == -1)
+            handoverStateType.setHandoverState2(null);
+        if(handoverStateType.getHandoverState3() == null || handoverStateType.getHandoverState3().getCode() == -1)
+            handoverStateType.setHandoverState3(null);
+        if(handoverStateType.getHandoverState4() == null || handoverStateType.getHandoverState4().getCode() == -1)
+            handoverStateType.setHandoverState4(null);
+        if(handoverStateType.getHandoverState5() == null || handoverStateType.getHandoverState5().getCode() == -1)
+            handoverStateType.setHandoverState5(null);
         return handoverStateTypeRepository.save(handoverStateType);
     }
 

@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class GodownEntryService {
      * @param status
      * @param code
      */
+    @Transactional
     public void updateStatusByCode(Integer status, Long code){
         godownEntryRepository.updateStatusByCode(status, code);
     }

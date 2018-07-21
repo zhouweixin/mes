@@ -109,7 +109,7 @@ public class ProductSendHeader {
     /**
      * 产品发货单
      */
-    @OneToMany(targetEntity = ProductSend.class)
+    @OneToMany(targetEntity = ProductSend.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_send_header_code")
     private Set<ProductSend> productSends = new HashSet<>();
 

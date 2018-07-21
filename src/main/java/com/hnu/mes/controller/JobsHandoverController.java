@@ -77,7 +77,7 @@ public class JobsHandoverController {
     @RequestMapping(value = "/getAllByPage")
     public Result<Page<JobsHandover>> getAllByPage(@RequestParam(value = "page" , defaultValue = "0" ) Integer page,
                                                 @RequestParam(value = "size" , defaultValue = "10") Integer size,
-                                                @RequestParam(value = "sortFieldName" , defaultValue = "code") String sortFieldName,
+                                                @RequestParam(value = "sortFieldName" , defaultValue = "handoverType") String sortFieldName,
                                                 @RequestParam(value = "asc" , defaultValue = "1") Integer asc) {
         return ResultUtil.success(jobsHandoverService.findAllByPage(page , size , sortFieldName ,asc));
     }

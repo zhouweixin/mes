@@ -65,7 +65,7 @@ public enum EnumException {
 	UPDATE_FAILED_SUBMIT_NOT_ALLOW(54, "更新失败, 已提交不允许更新"),
 	UPDATE_FAILED_PICKING_NOT_ALLOW(55, "更新失败, 已领料不允许更新"),
     ADD_FAILED_PROD_DEPARTMENT_NOT_EXIST(56, "新增失败, 制造部门不存在"),
-    ADD_FAILED_PAYER_NOT_EXIST(57, "新增失败, 制造部门不存在"),
+    ADD_FAILED_PAYER_NOT_EXIST(57, "新增失败, 缴库人不存在"),
     NOT_UNIQUE_NUMBER(58, "7位唯一的编号生成失败"),
     WAREHOUSE_KEEPER_NOT_EXIST(59, "错误, 仓库管理员不存在"),
     FAILED_APPLICANT_NOT_EXIST(60, "失败, 申请人不存在"),

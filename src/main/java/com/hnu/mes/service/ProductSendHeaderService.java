@@ -484,6 +484,7 @@ public class ProductSendHeaderService {
      * @param sender
      * @param code
      */
+    @Transactional
     public void updateOutStatusAndApplicantAndApplyTimeByCode(Integer outStatus, User sender, Long code){
         productSendHeaderRepository.updateOutStatusAndApplicantAndApplyTimeByCode(outStatus, sender, new Date(), code);
     }

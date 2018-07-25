@@ -27,7 +27,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param number
      * @return
      */
-    public ProductSendHeader findFirstByNumber(String number);
+    ProductSendHeader findFirstByNumber(String number);
 
     /**
      * 通过审批状态查询-分页
@@ -36,7 +36,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param pageable
      * @return
      */
-    public Page<ProductSendHeader> findByAuditStatus(Integer auditStatus, Pageable pageable);
+    Page<ProductSendHeader> findByAuditStatus(Integer auditStatus, Pageable pageable);
 
     /**
      * 通过开单日期查询-分页
@@ -45,7 +45,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param pageable
      * @return
      */
-    public Page<ProductSendHeader> findByCreateDate(Date createDate, Pageable pageable);
+    Page<ProductSendHeader> findByCreateDate(Date createDate, Pageable pageable);
 
     /**
      * 通过产品型号查询-分页
@@ -54,7 +54,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param pageable
      * @return
      */
-    public Page<ProductSendHeader> findByRawType(RawType rawType, Pageable pageable);
+    Page<ProductSendHeader> findByRawType(RawType rawType, Pageable pageable);
 
     /**
      * 通过审核状态和创建日期查询-分页
@@ -64,7 +64,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param pageable
      * @return
      */
-    public Page<ProductSendHeader> findByAuditStatusAndCreateDate(Integer auditStatus, Date createDate, Pageable pageable);
+    Page<ProductSendHeader> findByAuditStatusAndCreateDate(Integer auditStatus, Date createDate, Pageable pageable);
 
     /**
      * 通过审核状态和产品类型查询-分页
@@ -74,7 +74,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param pageable
      * @return
      */
-    public Page<ProductSendHeader> findByAuditStatusAndRawType(Integer auditStatus, RawType rawType, Pageable pageable);
+    Page<ProductSendHeader> findByAuditStatusAndRawType(Integer auditStatus, RawType rawType, Pageable pageable);
 
     /**
      * 通过创建日期和原料类型查询-分页
@@ -83,7 +83,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param rawType
      * @return
      */
-    public Page<ProductSendHeader> findByCreateDateAndRawType(Date createDate, RawType rawType, Pageable pageable);
+    Page<ProductSendHeader> findByCreateDateAndRawType(Date createDate, RawType rawType, Pageable pageable);
 
     /**
      * 通过审核状态， 原料类型和创建日期分布查询
@@ -93,7 +93,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param createDate
      * @return
      */
-    public Page<ProductSendHeader> findByAuditStatusAndRawTypeAndCreateDate(Integer auditStatus, RawType rawType, Date createDate, Pageable pageable);
+    Page<ProductSendHeader> findByAuditStatusAndRawTypeAndCreateDate(Integer auditStatus, RawType rawType, Date createDate, Pageable pageable);
 
     /**
      * 通过审核状态和编号查询
@@ -102,7 +102,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param number
      * @return
      */
-    public List<ProductSendHeader> findByAuditStatusAndNumberLike(Integer auditStatus, String number);
+    List<ProductSendHeader> findByAuditStatusAndNumberLike(Integer auditStatus, String number);
 
     /**
      * 通过审核状态和编号查询
@@ -111,7 +111,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param number
      * @return
      */
-    public List<ProductSendHeader> findByAuditStatusGreaterThanAndNumberLike(Integer auditStatus, String number);
+    List<ProductSendHeader> findByAuditStatusGreaterThanAndNumberLike(Integer auditStatus, String number);
 
     /**
      * 通过编码更新审核状态
@@ -121,7 +121,7 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      */
     @Modifying
     @Query(value = "update ProductSendHeader p set p.auditStatus=?1 where p.code=?2")
-    public void updateAuditStatusByCode(Integer auditStatus, Long code);
+    void updateAuditStatusByCode(Integer auditStatus, Long code);
 
     /**
      * 通过出库状态和编号模糊查询
@@ -129,9 +129,9 @@ public interface ProductSendHeaderRepository extends JpaRepository<ProductSendHe
      * @param outStatus
      * @return
      */
-    public List<ProductSendHeader> findByOutStatusAndNumberLike(Integer outStatus, String number);
+    List<ProductSendHeader> findByOutStatusAndNumberLike(Integer outStatus, String number);
 
     @Modifying
-    @Query(value = "update ProductSendHeader p set p.outStatus=?1, p.sender=?2, p.sendTime=3 where p.code=?4")
-    public void updateOutStatusAndApplicantAndApplyTimeByCode(Integer outStatus, User sender, Date sendTime, Long code);
+    @Query(value = "update ProductSendHeader p set p.outStatus=?1, p.sender=?2, p.sendTime=?3 where p.code=?4")
+    void updateOutStatusAndApplicantAndApplyTimeByCode(Integer outStatus, User sender, Date sendTime, Long code);
 }

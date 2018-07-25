@@ -56,6 +56,10 @@ public class SendEntryHeaderController {
             return ResultUtil.error(new MesException(EnumException.ADD_FAILED_SENDER_NOT_EXISTS));
         }
 
+        if(sendEntryHeader.getRawType() == null || rawTypeService.findOne(sendEntryHeader.getRawType().getCode()) == null){
+            return ResultUtil.error(new MesException(EnumException.ADD_FAILED_RAW_TYPE_NOT_EXISTS));
+        }
+
         return ResultUtil.success(sendEntryHeaderService.save(sendEntryHeader));
     }
 

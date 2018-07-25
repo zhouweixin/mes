@@ -59,11 +59,11 @@ public class GodownEntryHeader {
     private User createUser;
 
     // 状态：0样品未入库；1样品已入库
-    private Integer status;
+    private Integer status = 0;
 
     // 入库单
     @OneToMany(targetEntity = GodownEntry.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "godown_entry_header_code")
+    @JoinColumn(name = "godown_entry_header_code", referencedColumnName = "code")
     private List<GodownEntry> godownEntries = new ArrayList<GodownEntry>();
 
     public Long getCode() {

@@ -55,7 +55,7 @@ public class SendEntryHeader {
     private Double weight;
 
     // 状态:0待收货;1已发货;2已收货
-    private Integer status;
+    private Integer status = 0;
 
     // 原料类型
     @ManyToOne(targetEntity = RawType.class)

@@ -38,7 +38,7 @@ public class SendEntry {
     private Double weight;
 
     // 状态:0未收;1已收
-    private Integer status;
+    private Integer status = 0;
 
     public Long getCode() {
         return code;

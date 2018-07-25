@@ -36,7 +36,7 @@ public class GodownEntry {
     private Double weight;
 
     // 化验结果:0未化验; 1合格; 2不合格
-    private Integer testResult;
+    private Integer testResult = 0;
 
     public GodownEntry(){}
 

@@ -48,6 +48,7 @@ public class GodownEntryHeaderService {
      * @param godownEntryHeader
      * @return
      */
+    @Transactional
     public GodownEntryHeader save(GodownEntryHeader godownEntryHeader) {
         int times = 0;
         String number = UUID.randomUUID().toString().replace("-", "").substring(0, 7);
@@ -72,14 +73,6 @@ public class GodownEntryHeaderService {
         godownEntryHeader.setStatus(GlobalUtil.GODOWN_ENTRY_NOT_GODOWN);
 
         GodownEntryHeader save = godownEntryHeaderRepository.save(godownEntryHeader);
-
-        // 存入总库存
-        if (save != null) {
-            MaterialsTotal materialsTotal = new MaterialsTotal();
-            materialsTotal.setWeight(save.getWeight());
-            materialsTotal.setRawType(save.getRawType());
-            materialsTotalService.save(materialsTotal);
-        }
 
         // 存入库存明细
         List<MaterialsEntry> materialsEntries = new ArrayList<>();

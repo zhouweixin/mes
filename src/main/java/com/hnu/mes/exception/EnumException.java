@@ -49,13 +49,13 @@ public enum EnumException {
 	ADD_FAILED_SUPPLIER_TYPE_NOT_EXISTS(38, "新增失败, 发货人不存在"),
 	UPDATE_FAILED_STATUS_NOT_LEGAL(39, "更新失败, 不合法"),
     UPDATE_FAILED_USER_NOT_EXISTS(40, "更新失败, 用户不存在"),
-    UPDATE_FAILED_RAW_TYPE_NOT_EXISTS(41, "更新失败, 原料类型不存在"),
+    UPDATE_FAILED_RAW_TYPE_NOT_EXISTS(41, "更新失败, 物料名称不存在"),
     UPDATE_FAILED_DEPARTMENT_NOT_EXISTS(42, "更新失败, 发文部门不存在"),
 	DELETE_FAILED_REF_KEY_EXISTS(43, "删除失败, 有外键存在"),
     SUBMIT_FAILED_DEPARTMENT_NULL_OR_NOT_EXIST(44, "领料申请提交失败, 领料部门为空或不存在"),
     SUBMIT_FAILED_USER_NULL_OR_NOT_EXIST(45, "领料申请提交失败, 申请人为空或不存在"),
     SUBMIT_FAILED_PROCESS_MANAGE_NULL_OR_NOT_EXIST(46, "领料申请提交失败, 流程为空或不存在"),
-	FIND_FAILED_RAW_TYPE_NOT_EXIST(47, "查询失败, 原料类型不存在"),
+	FIND_FAILED_RAW_TYPE_NOT_EXIST(47, "查询失败, 物料名称不存在"),
 	FIND_FAILED_TABLE_NAME_NOT_EXIST(48, "查询失败, 原料表名不存在"),
 	AUDIT_FAILED_PROCESS_MANAGE_NOT_EXIST(49, "审核失败, 审核流程不存在"),
 	AUDIT_FAILED_PICKING_APPLY_NOT_EXIST(50, "审核失败, 领料申请表不存在"),
@@ -101,6 +101,7 @@ public enum EnumException {
     TALLY_FAILED_TASK_DEADLINE(89, "点检失败, 任务已过期"),
     UPDATE_FAILED_IC_EXIST(90, "卡号已经被用"),
     ADD_FAILED_AUDIT1_NOT_EXISTS(91, "添加失败, 审核人1不存在"),
+    ADD_FAILED_RAW_TYPE_NOT_EXISTS(92, "添加失败, 物料名称不存在"),
 
 
     ;
@@ -116,7 +117,7 @@ public enum EnumException {
 	 * @param code
 	 * @param message
 	 */
-	private EnumException(Integer code, String message) {
+    EnumException(Integer code, String message) {
 		this.code = code;
 		this.message = message;
 	}

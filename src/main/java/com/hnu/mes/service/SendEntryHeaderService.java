@@ -144,6 +144,8 @@ public class SendEntryHeaderService {
             // 制单时间
             godownEntryHeader.setCreateTime(new Date());
 
+            godownEntryHeader.setStatus(0);
+
             // 入库单内容
             List<GodownEntry> godownEntries = new ArrayList<>();
             List<SendEntry> sendEntries = sendEntryHeader.getSendEntries();
@@ -156,6 +158,9 @@ public class SendEntryHeaderService {
             }
             godownEntryHeader.setGodownEntries(godownEntries);
 
+            System.out.println("=============================");
+            System.out.println(godownEntryHeader);
+            System.out.println("=============================");
             godownEntryHeaderService.save(godownEntryHeader);
         }
     }

@@ -27,8 +27,8 @@ public interface SendEntryHeaderRepository extends JpaRepository<SendEntryHeader
      * @param code
      */
     @Modifying
-    @Query(value = "update SendEntryHeader set status=?1 where code=?2")
-    public void updateStatusByCode(Integer status, Long code);
+    @Query(value = "update SendEntryHeader s set s.status=?1 where s.code=?2")
+    void updateStatusByCode(Integer status, Long code);
 
     /**
      * 通过公司-分页查询
@@ -37,7 +37,7 @@ public interface SendEntryHeaderRepository extends JpaRepository<SendEntryHeader
      * @param pageable
      * @return
      */
-    public Page<SendEntryHeader> findSendEntryHeadersBySupplier(Supplier supplier, Pageable pageable);
+    Page<SendEntryHeader> findSendEntryHeadersBySupplier(Supplier supplier, Pageable pageable);
 
     /**
      * 通过状态-分页查询
@@ -46,7 +46,7 @@ public interface SendEntryHeaderRepository extends JpaRepository<SendEntryHeader
      * @param pageable
      * @return
      */
-    public Page<SendEntryHeader> findSendEntryHeadersByStatusAndSender(Integer status, Customer sender, Pageable pageable);
+    Page<SendEntryHeader> findSendEntryHeadersByStatusAndSender(Integer status, Customer sender, Pageable pageable);
 
     /**
      * 通过公司和状态-分布查询
@@ -55,7 +55,7 @@ public interface SendEntryHeaderRepository extends JpaRepository<SendEntryHeader
      * @param pageable
      * @return
      */
-    public Page<SendEntryHeader> findSendEntryHeaderBySupplierAndStatus(Supplier supplier, Integer status, Pageable pageable);
+    Page<SendEntryHeader> findSendEntryHeaderBySupplierAndStatus(Supplier supplier, Integer status, Pageable pageable);
 
     /**
      * 通过公司名模糊查询
@@ -64,5 +64,5 @@ public interface SendEntryHeaderRepository extends JpaRepository<SendEntryHeader
      * @param pageable
      * @return
      */
-    public Page<SendEntryHeader> findBySupplierIn(Collection<Supplier> suppliers, Pageable pageable);
+    Page<SendEntryHeader> findBySupplierIn(Collection<Supplier> suppliers, Pageable pageable);
 }

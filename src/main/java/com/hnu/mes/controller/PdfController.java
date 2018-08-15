@@ -56,7 +56,7 @@ public class PdfController {
     }
 
     /**
-     * 查询图片
+     * 下载pdf
      *
      * @param code
      * @param response
@@ -67,7 +67,7 @@ public class PdfController {
         Pdf pdf = pdfService.findOne(code);
 
         if (pdf == null) {
-            return ResultUtil.error(new MesException(EnumException.IMAGE_NOT_EXIST));
+            return ResultUtil.error(new MesException(EnumException.PDF_NOT_EXIST));
         }
 
         byte[] bytes = pdf.getData();

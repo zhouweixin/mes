@@ -102,6 +102,7 @@ public enum EnumException {
     UPDATE_FAILED_IC_EXIST(90, "卡号已经被用"),
     ADD_FAILED_AUDIT1_NOT_EXISTS(91, "添加失败, 审核人1不存在"),
     ADD_FAILED_RAW_TYPE_NOT_EXISTS(92, "添加失败, 物料名称不存在"),
+    PDF_NOT_EXIST(93, "PDF文件不存在"),
 
 
     ;

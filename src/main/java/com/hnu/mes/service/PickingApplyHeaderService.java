@@ -120,8 +120,9 @@ public class PickingApplyHeaderService {
 			// 【添加消息】给审核人1
 			MessageQueue messageQueue = new MessageQueue();
 			messageQueue.setContent(picking.getDepartment().getName());
-			messageQueue.setUrl(GlobalUtil.AppPageType.PICKING_AUDIT.getCode() + "-" + picking.getProcess().getCode()
-					+ "-" + picking.getCode());
+            messageQueue.setUrl(GlobalUtil.AppPageType.get(GlobalUtil.AppPageType.PICKING_AUDIT.getCode(),
+                    picking.getProcessManage().getCode(),
+                    picking.getCode()));
 			messageQueue.setAddressee(processManage.getLeader1());
 			messageQueueService.auditSave(messageQueue);
 		}
@@ -895,17 +896,13 @@ public class PickingApplyHeaderService {
 		}
 
 		// 去重当前审核人
-		if (userCodes.contains(curAuditorCode)) {
-			userCodes.remove(curAuditorCode);
-		}
+        userCodes.remove(curAuditorCode);
 
 		List<PickingAudit> pickingAudits = pickingAuditRepository.findByPickingApplyHeader(pickingApplyHeader);
 		if (pickingAudits != null) {
 			for (PickingAudit pickingAudit : pickingAudits) {
 				if (pickingAudit.getAuditor() != null) {
-					if (userCodes.contains(pickingAudit.getAuditor().getCode())) {
-						userCodes.remove(pickingAudit.getAuditor().getCode());
-					}
+                    userCodes.remove(pickingAudit.getAuditor().getCode());
 				}
 			}
 		}

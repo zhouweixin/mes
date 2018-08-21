@@ -149,13 +149,20 @@ public class GlobalUtil {
 
     public enum AppPageType{
 
-        PICKING_AUDIT(1, "领料申请审核"),
+        PICKING_AUDIT(1, "原料出库审核"),
+        PRODUCT_GOOUT_AUDIT(2, "产品出库审核"),
+        TALLY_AUDIT(3, "巡检审核"),
+        CHECK_SCALE_AUDIT(4, "核称审核"),
 
         ;
+
+        public static String get(int i1, int i2, long i3){
+            return String.format("%d-%d-%ld", i1, i2, i3);
+        }
         private int code;
         private String name;
 
-        private AppPageType(int code, String name){
+        AppPageType(int code, String name){
             this.code = code;
             this.name = name;
         }

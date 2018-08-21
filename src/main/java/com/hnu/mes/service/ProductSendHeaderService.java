@@ -75,7 +75,9 @@ public class ProductSendHeaderService {
             messageQueue.setAddressee(save.getProcessManage().getLeader1());
             messageQueue.setContent(save.getNumber() + "-待出库");
             messageQueue.setTitle(MessageQueueTypeUtil.PRODUCT_SEND_AUDIT.toString());
-            messageQueue.setUrl(save.getCode() + "");
+            messageQueue.setUrl(GlobalUtil.AppPageType.get(GlobalUtil.AppPageType.PRODUCT_GOOUT_AUDIT.getCode(),
+                    save.getProcessManage().getCode(),
+                    save.getCode()));
             messageQueue.setCreateTime(new Date());
             messageQueue.setStatus(GlobalUtil.MESSAGE_NOT_READ);
             messageQueueService.save(messageQueue);

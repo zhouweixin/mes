@@ -1,12 +1,11 @@
 package com.hnu.mes.service;
 
-import com.hnu.mes.domain.Audit;
-import com.hnu.mes.domain.ElectronicBalance;
-import com.hnu.mes.domain.Equipment;
-import com.hnu.mes.domain.RealData;
+import com.hnu.mes.domain.*;
 import com.hnu.mes.repository.AuditRepository;
 import com.hnu.mes.repository.ElectronicBalanceRepository;
 import com.hnu.mes.repository.EquipmentRepository;
+import com.hnu.mes.utils.GlobalUtil;
+import com.hnu.mes.utils.MessageQueueTypeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +37,7 @@ public class AuditService {
     public Audit add(Audit audit){
         Date currentTime = new Date();
         audit.setAuditTime(currentTime);
+
         return auditRepository.save(audit);
     }
 

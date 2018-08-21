@@ -1,6 +1,6 @@
 var product_publish = {
     pageSize: 0,
-    status: 1,
+    status: 2,
     currId: null,
     init: function () {
         product_publish.funcs.renderTable(product_publish.status)
@@ -54,27 +54,27 @@ var product_publish = {
                 $tbody.append(
                     "<tr id='product-publish-" + (e.code) + "'>" +
                     "<td>" + product_publish.funcs.getIcon(product_publish.status, e.code) + "</i></td>" +
-                    "<td>" + (e.publisher ? e.publisher.name : '无') + "</td>" +
+                    "<td>" + (e.publisher ? e.publisher.name : '') + "</td>" +
                     "<td>" + (new Date(e.testDate).Format('yyyy-MM-dd')) + "</td>" +
                     "<td>" + (e.batchNumber) + "</td>" +
-                    "<td>" + (e.judge ? e.judge.name : '无') + "</td>" +
+                    "<td>" + (e.judge ? e.judge.name : '') + "</td>" +
                     "<td>" + (e.number) + "</td>" +
-                    "<td>" + (e.p1) + "</td>" +
-                    "<td>" + (e.p2) + "</td>" +
-                    "<td>" + (e.p3) + "</td>" +
-                    "<td>" + (e.p4) + "</td>" +
-                    "<td>" + (e.p7) + "</td>" +
-                    "<td>" + (e.p10) + "</td>" +
-                    "<td>" + (e.p13) + "</td>" +
-                    "<td>" + (e.p19) + "</td>" +
-                    "<td>" + (e.p20) + "</td>" +
-                    "<td>" + (e.p21) + "</td>" +
-                    "<td>" + (e.p22) + "</td>" +
-                    "<td>" + (e.p23) + "</td>" +
-                    "<td>" + (e.p24) + "</td>" +
-                    "<td>" + (e.p34) + "</td>" +
-                    "<td>" + (e.p35) + "</td>" +
-                    "<td>" + (e.p36) + "</td>" +
+                    "<td>" + (e.p1?e.p1:'0') + "</td>" +
+                    "<td>" + (e.p2?e.p2:'0') + "</td>" +
+                    "<td>" + (e.p3?e.p3:'0') + "</td>" +
+                    "<td>" + (e.p4?e.p4:'0') + "</td>" +
+                    "<td>" + (e.p7?e.p7:'0') + "</td>" +
+                    "<td>" + (e.p10?e.p10:'0') + "</td>" +
+                    "<td>" + (e.p13?e.p13:'0') + "</td>" +
+                    "<td>" + (e.p19?e.p19:'0') + "</td>" +
+                    "<td>" + (e.p20?e.p20:'0') + "</td>" +
+                    "<td>" + (e.p21?e.p21:'0') + "</td>" +
+                    "<td>" + (e.p22?e.p22:'0') + "</td>" +
+                    "<td>" + (e.p23?e.p23:'0') + "</td>" +
+                    "<td>" + (e.p24?e.p24:'0') + "</td>" +
+                    "<td>" + (e.p34?e.p34:'0') + "</td>" +
+                    "<td>" + (e.p35?e.p35:'0') + "</td>" +
+                    "<td>" + (e.p36?e.p36:'0') + "</td>" +
                     "</tr>")
             })//$数据渲染完毕
 
@@ -94,20 +94,45 @@ var product_publish = {
                 layer.open({
                     type: 1,
                     content: product_publish.funcs.getData(product),
-                    area: ['720px', '700px'],
+                    area: ['700px', '650px'],
                     btn: ['确认发布', '返回'],
                     offset: 'auto', // ['10%', '40%'],
                     btnAlign: 'c',
                     yes: function () {
                         $.post(home.urls.productPublish.productPublish(), {
                             code: product_publish.currId.substr(16),
-                            publisherCode: home.user.code
-                        }, function (res) {
-                            layer.msg(res.message, {
-                                offset: ['40%', '40%'],
-                                time: 700
-                            })
+                            publisherCode: home.user.code,
+                            statusCode: 3
+                        }, function (result) {
+                            if (result.code == 0) {
+                                layer.open({
+                                    type: 1,
+                                    content: "<div class='align_middle'>" + "发布成功" + "</div>",
+                                    area: ['280px', '180px'],
+                                    btn: ['关闭'],
+                                    offset: 'auto', 
+                                    btnAlign: 'c',
+                                    yes: function () {
+                                        layer.closeAll();
+                                        product_publish.funcs.renderTable(product_publish.status)
+                                    }
+                                });
+                            } else {
+                                layer.open({
+                                    type: 1,
+                                    content: "<div class='align_middle'>" + "失败<br>" + result.message + "</div>",
+                                    area: ['280px', '180px'],
+                                    btn: ['关闭'],
+                                    offset: 'auto', // ['43%', '49%'],
+                                    btnAlign: 'c',
+                                    yes: function () {
+                                        layer.closeAll();
+                                        product_publish.funcs.renderTable(product_publish.status)
+                                    }
+                                });
+                            }
                         })
+                        
                     },
                     btn2: function (index) {
                         layer.close(index)
@@ -168,7 +193,7 @@ var product_publish = {
                     layer.open({
                         type: 1,
                         content: product_publish.funcs.getData(product),
-                        area: ['720px', '700px'],
+                        area: ['700px', '650px'],
                         btn: ['关闭'],
                         offset: 'auto',   // ['10%', '40%'],
                         btnAlign: 'c',
@@ -245,7 +270,7 @@ var product_publish = {
             })
         }
         , getIcon: function (status, code) {
-            if (status == 1) {
+            if (status == 2) {
                 return "<a href=\"#\" class='publish' id='publish-" + code + "'><i class=\"layui-icon\">&#xe6b2;";
             }
             else {
@@ -268,13 +293,13 @@ var product_publish = {
                 " <tr> <td colspan='2'>批号</td><td>检测日期</td> <td>数量(t)</td> <td>判定</td> <td></td> </tr>" +
                 "</thead>" +
                 "<tbody>" +
-                "<tr> <td colspan='2'>" + (product.batchNumber) + "</td><td>" + (new Date(product.testDate).Format('yyyy-MM-dd')) + "</td> <td>" + (product.number) + "</td> <td>" + (product.judge ? product.judge.name : null) + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>" + (product.batchNumber) + "</td><td>" + (new Date(product.testDate).Format('yyyy-MM-dd')) + "</td> <td>" + (product.number) + "</td> <td>" + (product.judge ? product.judge.name : '') + "</td> <td></td> </tr>" +
                 " </tbody>" +
                 "<thead>" +
                 " <tr> <td colspan='2'>审核状态</td> <td>审核人</td> <td></td> <td></td> <td></td> </tr>" +
                 "</thead>" +
                 "<tbody>" +
-                " <tr> <td colspan='2'>" + (product.status ? product.status.name : null) + "</td> <td>" + (product.publisher ? product.publisher.name : null) + "</td> <td></td> <td></td> <td></td> </tr>" +
+                " <tr> <td colspan='2'>" + (product.status ? product.status.name : '') + "</td> <td>" + (product.publisher ? product.publisher.name : '') + "</td> <td></td> <td></td> <td></td> </tr>" +
                 "</tbody>" +
                 "<thead>" +
                 "<tr> <td colspan='2'>检测项目</td> <td>三级控制标准</td> <td>2016-3-2三级控制标准</td> <td>" + (product.batchNumber) + "</td> <td>编辑</td> </tr>" +
@@ -292,7 +317,7 @@ var product_publish = {
                 "<tr> <td>D90</td> <td>&le;30.00</td> <td>&le;30.00</td> <td>" + product.p11 + "</td> <td></td> </tr>" +
                 " <tr> <td>D99</td> <td></td> <td>&le;40.00</td> <td>" + product.p12 + "</td> <td></td> </tr>" +
                 "<tr> <td rowspan='5'>磁性物质检测（ppb）</td> <td>粒度宽度系数</td> <td></td> <td></td> <td>" + product.p13 + "</td> <td></td> </tr>" +
-                "<tr> <td>Fe</td> <td></td> <td></td> <td></td> <td></td> </tr>" +
+                "<tr> <td>Fe</td> <td></td> <td></td> <td>" + product.p14 + "</td> <td></td> </tr>" +
                 " <tr> <td>Ni</td> <td></td> <td></td> <td>" + product.p15 + "</td> <td></td> </tr>" +
                 "<tr> <td>Cr</td> <td></td> <td></td> <td>" + product.p15 + "</td> <td></td> </tr>" +
                 "<tr> <td>Zn</td> <td></td> <td></td> <td>" + product.p17 + "</td> <td></td> </tr>" +

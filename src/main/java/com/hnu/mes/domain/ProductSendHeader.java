@@ -56,9 +56,9 @@ public class ProductSendHeader {
     /**
      * 接收公司
      */
-    @ManyToOne(targetEntity = Company.class)
-    @JoinColumn(name = "company_code", referencedColumnName = "code")
-    private Company company;
+    @ManyToOne(targetEntity = Supplier.class)
+    @JoinColumn(name = "supplier_code", referencedColumnName = "code")
+    private Supplier supplier;
 
     /**
      * 流程
@@ -161,14 +161,6 @@ public class ProductSendHeader {
         this.createDate = createDate;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
     public ProcessManage getProcessManage() {
         return processManage;
     }
@@ -233,24 +225,11 @@ public class ProductSendHeader {
         this.productSends = productSends;
     }
 
-    @Override
-    public String toString() {
-        return "ProductSendHeader{" +
-                "code=" + code +
-                ", number='" + number + '\'' +
-                ", rawType=" + rawType +
-                ", transportMode='" + transportMode + '\'' +
-                ", weight=" + weight +
-                ", createDate=" + createDate +
-                ", company=" + company +
-                ", processManage=" + processManage +
-                ", auditStatus=" + auditStatus +
-                ", outStatus=" + outStatus +
-                ", sender=" + sender +
-                ", sendTime=" + sendTime +
-                ", applicant=" + applicant +
-                ", applyTime=" + applyTime +
-                ", productSends=" + productSends +
-                '}';
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }

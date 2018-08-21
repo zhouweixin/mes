@@ -1,6 +1,5 @@
 servers = {
      backup : function () {
-         // return "http://127.0.0.1:8080/mes/"
          return "http://218.77.105.241:30080/mes/"
      },
     // backup : function() {

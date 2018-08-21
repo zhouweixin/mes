@@ -157,7 +157,7 @@ public class GlobalUtil {
         ;
 
         public static String get(int i1, int i2, long i3){
-            return String.format("%d-%d-%ld", i1, i2, i3);
+            return String.format(i1+ "-" + i2 + "-" + i3);
         }
         private int code;
         private String name;

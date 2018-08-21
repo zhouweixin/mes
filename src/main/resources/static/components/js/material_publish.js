@@ -182,22 +182,26 @@ var material_publish = {
                     "<td>" + e.number + "</td>" +
                     "<td>" + (e.judge ? e.judge.name : null) + "</td>" +
 
-                    "<td>" + e.c1 + "</td>" +
-                    "<td>" + e.c2 + "</td>" +
-                    "<td>" + e.c3 + "</td>" +
-                    "<td>" + e.c4 + "</td>" +
-                    "<td>" + e.c7 + "</td>" +
-                    "<td>" + e.c10 + "</td>" +
-                    "<td>" + e.c16 + "</td>" +
-                    "<td>" + e.c17 + "</td>" +
-                    "<td>" + e.c18 + "</td>" +
-                    "<td>" + e.c19 + "</td>" +
-                    "<td>" + e.c20 + "</td>" +
-                    "<td>" + e.c21 + "</td>" +
-                    "<td>" + e.c22 + "</td>" +
-                    "<td>" + e.c23 + "</td>" +
-                    "<td>" + e.c24 + "</td>" +
-                    "<td>" + e.c25 + "</td>" +
+                    "<td>" + (e.c1?e.c1:'0') + "</td>" +
+                    "<td>" + (e.c2?e.c2:'0') + "</td>" +
+                    "<td>" + (e.c3?e.c3:'0') + "</td>" +
+                    "<td>" + (e.c4?e.c4:'0') + "</td>" +
+                    "<td>" + (e.c7?e.c7:'0') + "</td>" +
+                    "<td>" + (e.c10?e.c10:'0') + "</td>" +
+                    "<td>" + (e.c16?e.c16:'0') + "</td>" +
+                    "<td>" + (e.c17?e.c17:'0') + "</td>" +
+                    "<td>" + (e.c18?e.c18:'0') + "</td>" +
+                    "<td>" + (e.c19?e.c19:'0') + "</td>" +
+                    "<td>" + (e.c20?e.c20:'0') + "</td>" +
+                    "<td>" + (e.c21?e.c21:'0') + "</td>" +
+                    "<td>" + (e.c22?e.c22:'0') + "</td>" +
+                    "<td>" + (e.c23?e.c23:'0') + "</td>" +
+                    "<td>" + (e.c24?e.c24:'0') + "</td>" +
+                    "<td>" + (e.c25?e.c25:'0') + "</td>" +
+                    "<td>" + (e.c26?e.c26:'0') + "</td>" +
+                    "<td>" + (e.c27?e.c27:'0') + "</td>" +
+                    "<td>" + (e.c28?e.c28:'0') + "</td>" +
+                    "<td>" + (e.c29?e.c29:'0') + "</td>" +
                     "</tr>"
                 )
             })
@@ -225,23 +229,23 @@ var material_publish = {
                     "<td>" + new Date(e.productDate).Format('yyyy-MM-dd') + "</td>" +
                     "<td>" + (e.judge ? e.judge.name : null) + "</td>" +
                     "<td>" + e.number + "</td>" +
-                    "<td>" + e.c1 + "</td>" +
-                    "<td>" + e.c2 + "</td>" +
-                    "<td>" + e.c3 + "</td>" +
-                    "<td>" + e.c4 + "</td>" +
-                    "<td>" + e.c5 + "</td>" +
-                    "<td>" + e.c6 + "</td>" +
-                    "<td>" + e.c7 + "</td>" +
-                    "<td>" + e.c8 + "</td>" +
-                    "<td>" + e.c9 + "</td>" +
-                    "<td>" + e.c10 + "</td>" +
-                    "<td>" + e.c11 + "</td>" +
-                    "<td>" + e.c12 + "</td>" +
-                    "<td>" + e.c13 + "</td>" +
-                    "<td>" + e.c14 + "</td>" +
-                    "<td>" + e.c15 + "</td>" +
-                    "<td>" + e.c16 + "</td>" +
-                    "<td>" + e.c17 + "</td>" +
+                    "<td>" + (e.c1?e.c1:'0') + "</td>" +
+                    "<td>" + (e.c2?e.c2:'0') + "</td>" +
+                    "<td>" + (e.c3?e.c3:'0') + "</td>" +
+                    "<td>" + (e.c4?e.c4:'0') + "</td>" +
+                    "<td>" + (e.c5?e.c5:'0') + "</td>" +
+                    "<td>" + (e.c6?e.c6:'0') + "</td>" +
+                    "<td>" + (e.c7?e.c7:'0') + "</td>" +
+                    "<td>" + (e.c8?e.c8:'0') + "</td>" +
+                    "<td>" + (e.c9?e.c9:'0') + "</td>" +
+                    "<td>" + (e.c10?e.c10:'0') + "</td>" +
+                    "<td>" + (e.c11?e.c11:'0') + "</td>" +
+                    "<td>" + (e.c12?e.c12:'0') + "</td>" +
+                    "<td>" + (e.c13?e.c13:'0') + "</td>" +
+                    "<td>" + (e.c14?e.c14:'0') + "</td>" +
+                    "<td>" + (e.c15?e.c15:'0') + "</td>" +
+                    "<td>" + (e.c16?e.c16:'0') + "</td>" +
+                    "<td>" + (e.c17?e.c17:'0') + "</td>" +
                     "</tr>"
                 )
             })
@@ -349,28 +353,28 @@ var material_publish = {
                 var code = _selfBtn.attr('id').substr(6)
                 material_publish.currId = "material-publish-" + code
                 $.post( material_publish.material_type === 0 ? home.urls.rawPresoma.getByCode() : home.urls.rawLithium.getByCode(), {code: code}, function (result) {
-                    console.log("发布" + code)
+                   // console.log("发布" + code)
                     var raw = result.data
                     layer.open({
                         type: 1,
                         content:  material_publish.funcs.getData(raw),
-                        area: ['550px', '700px'],
+                        area: ['550px', '650px'],
                         btn: ['确认发布', '取消'],
                         offset: 'auto', // ['10%', '40%'],
                         btnAlign: 'c',
                         yes: function () {
-                            console.log("提交发布" + code);
+                           // console.log("提交发布" + code);
                             $.post( material_publish.material_type === 0 ? home.urls.rawPresoma.updatePublishByCode() : home.urls.rawLithium.updatePublishByCode(), {
                                 code: code,
                                 publisherCode: home.user.code,     // 此处需要读取用户编号
-                                statusCode: 2
+                                statusCode: 3
                             }, function (result) {
                                 if (result.code == 0) {
                                     // 成功
-                                    console.log("发布成功" + code);
+                                   // console.log("发布成功" + code);
                                     layer.open({
                                         type: 1,
-                                        content: "<div class='align_middle'>" + "审核成功" + "</div>",
+                                        content: "<div class='align_middle'>" + "发布成功" + "</div>",
                                         area: ['280px', '180px'],
                                         btn: ['关闭'],
                                         offset: 'auto', // ['43%', '49%'],
@@ -382,7 +386,7 @@ var material_publish = {
                                     });
                                 } else {
                                     // 失败
-                                    console.log("发布失败" + result.message);
+                                    //console.log("发布失败" + result.message);
                                     layer.open({
                                         type: 1,
                                         content: "<div class='align_middle'>" + "失败<br>" + result.message + "</div>",
@@ -419,7 +423,7 @@ var material_publish = {
                 var code = _selfBtn.attr('id').substr(6)
                 material_publish.currId = "material-publish-" + code
                 $.post(material_publish.material_type === 0 ? home.urls.rawPresoma.getByCode() : home.urls.rawLithium.getByCode(), {code: code}, function (result) {
-                    console.log("查看" + code)
+                   // console.log("查看" + code)
                     var raw = result.data
                     layer.open({
                         type: 1,
@@ -462,7 +466,7 @@ var material_publish = {
          * @returns {string}
          */
         getIcon: function (status, code) {
-            if (status == 1) {
+            if (status == 2) {
                 return "<a href=\"#\" class='audit' id='audit-" + code + "'><i class=\"layui-icon\">&#xe6b2;";
             }
             else {
@@ -511,35 +515,35 @@ var material_publish = {
                 "<tr> <td colspan='2'>检测项目</td> <td>控制采购标准-2016-11-21</td> <td>2017.07.01采购标准</td> <td>" + presoma.batchNumber + "</td></tr>" +
                 "</thead>" +
                 "<tbody>" +
-                "<tr> <td colspan='2'>振实密度(g/cm3)</td> <td>&ge;2.0</td> <td></td> <td>" + presoma.c1 + "</td></tr>" +
-                "<tr> <td colspan='2'>水分(ppm)</td> <td>&le;1.0</td> <td></td> <td>" + presoma.c2 + "</td></tr>" +
-                "<tr> <td colspan='2'>SSA(m2/g)</td> <td>4.0~7.0</td> <td></td> <td>" + presoma.c3 + "</td></tr>" +
-                "<tr> <td colspan='2'>pH值</td> <td>7.0~9.0</td> <td></td> <td>" + presoma.c4 + "</td></tr>" +
-                "<tr> <td rowspan='5'>粒度(&mu;m)</td> <td>&ge;2.5</td> <td></td> <td></td> <td>" + presoma.c5 + "</td></tr>" +
-                "<tr> <td>D10</td> <td>&ge;5.0</td> <td></td> <td>" + presoma.c6 + "</td></tr>" +
-                "<tr> <td>D50</td> <td>9.8~10.5</td> <td></td> <td>" + presoma.c7 + "</td></tr>" +
-                "<tr> <td>D90</td> <td>&le;22</td> <td></td> <td>" + presoma.c8 + "</td></tr>" +
-                "<tr> <td>D99</td> <td>&le;35</td> <td></td> <td>" + presoma.c9 + "</td></tr>" +
-                "<tr> <td colspan='2'>筛上物</td> <td>&le;0.3</td> <td></td> <td>" + presoma.c10 + "</td></tr>" +
-                "<tr> <td rowspan='5'>磁性物质检测(ppb)</td> <td>Fe</td> <td></td> <td></td> <td>" + presoma.c11 + "</td></tr>" +
-                "<tr> <td>Ni</td> <td></td> <td></td> <td>" + presoma.c12 + "</td></tr>" +
-                "<tr> <td>Cr</td> <td></td> <td></td> <td>" + presoma.c13 + "</td></tr>" +
-                "<tr> <td>Zn</td> <td></td> <td></td> <td>" + presoma.c14 + "</td></tr>" +
-                "<tr> <td>总量</td> <td>&le;100</td> <td></td> <td>" + presoma.c15 + "</td></tr>" +
-                "<tr> <td colspan='2'>Ni+Co+Mn(%)</td> <td>60~64</td> <td>19.7&plusmn;0.5</td> <td>" + presoma.c16 + "</td></tr>" +
-                "<tr> <td colspan='2'>Co(%)</td> <td>12.2~13.0</td> <td></td> <td>" + presoma.c17 + "</td></tr>" +
-                "<tr> <td colspan='2'>Mn(%)</td> <td>11.6~12.2</td> <td></td> <td>" + presoma.c18 + "</td></tr>" +
-                "<tr> <td colspan='2'>Ni(%)</td> <td>37.6~38.8</td> <td></td> <td>" + presoma.c19 + "</td></tr>" +
-                "<tr> <td colspan='2'>Na(ppm)</td> <td>&le;120</td> <td></td> <td>" + presoma.c20 + "</td></tr>" +
-                "<tr> <td colspan='2'>Mg(ppm)</td> <td>&le;100</td> <td></td> <td>" + presoma.c21 + "</td></tr>" +
-                "<tr> <td colspan='2'>Ca(ppm)</td> <td>&le;100</td> <td></td> <td>" + presoma.c22 + "</td></tr>" +
-                "<tr> <td colspan='2'>Fe(ppm)</td> <td>&le;50</td> <td></td> <td>" + presoma.c23 + "</td></tr>" +
-                "<tr> <td colspan='2'>Cu(ppm)</td> <td>&le;50</td> <td></td> <td>" + presoma.c24 + "</td></tr>" +
-                "<tr> <td colspan='2'>Cd(ppm)</td> <td>&le;20</td> <td></td> <td>" + presoma.c25 + "</td></tr>" +
-                "<tr> <td colspan='2'>Zn(ppm)</td> <td>&le;40</td> <td></td> <td>" + presoma.c26 + "</td></tr>" +
-                "<tr> <td colspan='2'>S(ppm)</td> <td>&le;1000</td> <td>&le;1300</td> <td>" + presoma.c27 + "</td></tr>" +
-                "<tr> <td colspan='2'>Cl-(%)</td> <td>&le;0.03</td> <td></td> <td>" + presoma.c28 + "</td></tr>" +
-                "<tr> <td colspan='2'>Zr(ppm)</td> <td></td> <td></td> <td>" + presoma.c29 + "</td></tr>" +
+                "<tr> <td colspan='2'>振实密度(g/cm3)</td> <td>&ge;2.0</td> <td></td> <td>" + (presoma.c1?presoma.c1:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>水分(ppm)</td> <td>&le;1.0</td> <td></td> <td>" + (presoma.c2?presoma.c2:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>SSA(m2/g)</td> <td>4.0~7.0</td> <td></td> <td>" + (presoma.c3?presoma.c3:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>pH值</td> <td>7.0~9.0</td> <td></td> <td>" + (presoma.c4?presoma.c4:'0') + "</td></tr>" +
+                "<tr> <td rowspan='5'>粒度(&mu;m)</td> <td>&ge;2.5</td> <td></td> <td></td> <td>" + (presoma.c5?presoma.c5:'0') + "</td></tr>" +
+                "<tr> <td>D10</td> <td>&ge;5.0</td> <td></td> <td>" + (presoma.c6?presoma.c6:'0') + "</td></tr>" +
+                "<tr> <td>D50</td> <td>9.8~10.5</td> <td></td> <td>" + (presoma.c7?presoma.c7:'0') + "</td></tr>" +
+                "<tr> <td>D90</td> <td>&le;22</td> <td></td> <td>" + (presoma.c8?presoma.c8:'0') + "</td></tr>" +
+                "<tr> <td>D99</td> <td>&le;35</td> <td></td> <td>" + (presoma.c9?presoma.c9:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>筛上物</td> <td>&le;0.3</td> <td></td> <td>" + (presoma.c10?presoma.c10:'0') + "</td></tr>" +
+                "<tr> <td rowspan='5'>磁性物质检测(ppb)</td> <td>Fe</td> <td></td> <td></td> <td>" + (presoma.c11?presoma.c11:'0') + "</td></tr>" +
+                "<tr> <td>Ni</td> <td></td> <td></td> <td>" + (presoma.c12?presoma.c12:'0') + "</td></tr>" +
+                "<tr> <td>Cr</td> <td></td> <td></td> <td>" + (presoma.c13?presoma.c13:'0') + "</td></tr>" +
+                "<tr> <td>Zn</td> <td></td> <td></td> <td>" + (presoma.c14?presoma.c14:'0') + "</td></tr>" +
+                "<tr> <td>总量</td> <td>&le;100</td> <td></td> <td>" + (presoma.c15?presoma.c15:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Ni+Co+Mn(%)</td> <td>60~64</td> <td>19.7&plusmn;0.5</td> <td>" + (presoma.c16?presoma.c16:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Co(%)</td> <td>12.2~13.0</td> <td></td> <td>" + (presoma.c17?presoma.c17:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Mn(%)</td> <td>11.6~12.2</td> <td></td> <td>" + (presoma.c18?presoma.c18:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Ni(%)</td> <td>37.6~38.8</td> <td></td> <td>" + (presoma.c19?presoma.c19:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Na(ppm)</td> <td>&le;120</td> <td></td> <td>" + (presoma.c20?presoma.c20:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Mg(ppm)</td> <td>&le;100</td> <td></td> <td>" + (presoma.c21?presoma.c21:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Ca(ppm)</td> <td>&le;100</td> <td></td> <td>" + (presoma.c22?presoma.c22:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Fe(ppm)</td> <td>&le;50</td> <td></td> <td>" + (presoma.c23?presoma.c23:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Cu(ppm)</td> <td>&le;50</td> <td></td> <td>" + (presoma.c24?presoma.c24:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Cd(ppm)</td> <td>&le;20</td> <td></td> <td>" + (presoma.c25?presoma.c25:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Zn(ppm)</td> <td>&le;40</td> <td></td> <td>" + (presoma.c26?presoma.c26:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>S(ppm)</td> <td>&le;1000</td> <td>&le;1300</td> <td>" + (presoma.c27?presoma.c27:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Cl-(%)</td> <td>&le;0.03</td> <td></td> <td>" + (presoma.c28?presoma.c28:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Zr(ppm)</td> <td></td> <td></td> <td>" + (presoma.c29?presoma.c29:'0') + "</td></tr>" +
                 "</tbody>" +
                 "</table>" +
                 "</div>" +
@@ -570,23 +574,23 @@ var material_publish = {
                 "<tr> <td colspan='2'>检测项目</td><td colspan='2'>原料技术标准<td>" + lithium.batchNumber + "</td></tr>" +
                 "</thead>" +
                 "<tbody>" +
-                "<tr> <td colspan='2'>水分(%)</td> <td>&le;0.25</td> <td>&le;0.25</td> <td>" + lithium.c1 + "</td></tr>" +
-                "<tr> <td rowspan='5'>粒度(&mu;m)</td> <td>D1</td> <td></td> <td></td> <td>" + lithium.c2 + "</td></tr>" +
-                "<tr> <td>D10</td> <td></td> <td></td> <td>" + lithium.c3 + "</td></tr>" +
-                "<tr> <td>D50</td> <td>3~7</td> <td>3~7</td> <td>" + lithium.c4 + "</td></tr>" +
-                "<tr> <td>D90</td> <td>&le;30</td> <td>&le;30</td> <td>" + lithium.c5 + "</td></tr>" +
-                "<tr> <td>D99</td> <td></td> <td></td> <td>" + lithium.c6 + "</td></tr>" +
-                "<tr> <td colspan='2'>筛上物</td> <td>&le;0.3</td> <td>&le;0.3</td> <td>" + lithium.c7 + "</td></tr>" +
-                "<tr> <td rowspan='5'>磁性物质检测(ppb)</td> <td>Fe</td> <td></td> <td></td> <td>" + lithium.c8 + "</td></tr>" +
-                "<tr> <td>Ni</td> <td></td> <td></td> <td>" + lithium.c9 + "</td></tr>" +
-                "<tr> <td>Cr</td> <td></td> <td></td> <td>" + lithium.c10 + "</td></tr>" +
-                "<tr> <td>Zn</td> <td></td> <td></td> <td>" + lithium.c11 + "</td></tr>" +
-                "<tr> <td>总量</td> <td>&le;800</td> <td>&le;500</td> <td>" + lithium.c12 + "</td></tr>" +
-                "<tr> <td colspan='2'>Li2CO3(%)</td> <td>&ge;18.66</td> <td>&ge;18.66</td> <td>" + lithium.c13 + "</td></tr>" +
-                "<tr> <td colspan='2'>Na(ppm)</td> <td>&le;250</td> <td>&le;250</td> <td>" + lithium.c14 + "</td></tr>" +
-                "<tr> <td colspan='2'>Mg(ppm)</td> <td>&le;80</td> <td>&le;80</td> <td>" + lithium.c15 + "</td></tr>" +
-                "<tr> <td colspan='2'>Ca(ppm)</td> <td>&le;50</td> <td>&le;50</td> <td>" + lithium.c16 + "</td></tr>" +
-                "<tr> <td colspan='2'>Fe(ppm)</td> <td>&le;10</td> <td>&le;10</td> <td>" + lithium.c17 + "</td></tr>" +
+                "<tr> <td colspan='2'>水分(%)</td> <td>&le;0.25</td> <td>&le;0.25</td> <td>" + (lithium.c1?lithium.c1:'0') + "</td></tr>" +
+                "<tr> <td rowspan='5'>粒度(&mu;m)</td> <td>D1</td> <td></td> <td></td> <td>" + (lithium.c2?lithium.c2:'0') + "</td></tr>" +
+                "<tr> <td>D10</td> <td></td> <td></td> <td>" + (lithium.c3?lithium.c3:'0') + "</td></tr>" +
+                "<tr> <td>D50</td> <td>3~7</td> <td>3~7</td> <td>" + (lithium.c4?lithium.c4:'0') + "</td></tr>" +
+                "<tr> <td>D90</td> <td>&le;30</td> <td>&le;30</td> <td>" + (lithium.c5?lithium.c5:'0') + "</td></tr>" +
+                "<tr> <td>D99</td> <td></td> <td></td> <td>" + (lithium.c6?lithium.c6:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>筛上物</td> <td>&le;0.3</td> <td>&le;0.3</td> <td>" + (lithium.c7?lithium.c7:'0') + "</td></tr>" +
+                "<tr> <td rowspan='5'>磁性物质检测(ppb)</td> <td>Fe</td> <td></td> <td></td> <td>" + (lithium.c8?lithium.c8:'0') + "</td></tr>" +
+                "<tr> <td>Ni</td> <td></td> <td></td> <td>" + (lithium.c9?lithium.c9:'0') + "</td></tr>" +
+                "<tr> <td>Cr</td> <td></td> <td></td> <td>" + (lithium.c10?lithium.c10:'0') + "</td></tr>" +
+                "<tr> <td>Zn</td> <td></td> <td></td> <td>" + (lithium.c11?lithium.c11:'0') + "</td></tr>" +
+                "<tr> <td>总量</td> <td>&le;800</td> <td>&le;500</td> <td>" + (lithium.c12?lithium.c12:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Li2CO3(%)</td> <td>&ge;18.66</td> <td>&ge;18.66</td> <td>" + (lithium.c13?lithium.c13:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Na(ppm)</td> <td>&le;250</td> <td>&le;250</td> <td>" + (lithium.c14?lithium.c14:'0')+ "</td></tr>" +
+                "<tr> <td colspan='2'>Mg(ppm)</td> <td>&le;80</td> <td>&le;80</td> <td>" + (lithium.c15?lithium.c15:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Ca(ppm)</td> <td>&le;50</td> <td>&le;50</td> <td>" + (lithium.c16?lithium.c16:'0') + "</td></tr>" +
+                "<tr> <td colspan='2'>Fe(ppm)</td> <td>&le;10</td> <td>&le;10</td> <td>" + (lithium.c17?lithium.c17:'0') + "</td></tr>" +
                 "</tbody>" +
                 "</table>" +
                 "</div>" +
@@ -612,7 +616,7 @@ var material_publish = {
                     })
                 }
                 else {
-                    console.log("First one");
+                    //console.log("First one");
                     layer.msg('已经是页面第一项', {
                         time: 1000
                     })
@@ -623,14 +627,14 @@ var material_publish = {
         bindRightBtn: function (rightBtn) {
             rightBtn.off('click');
             rightBtn.on('click', function () {
-                console.log("右"); 
+               // console.log("右"); 
                 var $table = $(material_publish.material_type === 0 ? '#presoma_table' : '#lithium_table');
                 var raws1 = $table.children('tbody').children('tr').length-1;
                 var lastId = $($table.children('tbody').children('tr')[raws1]).attr('id');
-                console.log(lastId);
+               // console.log(lastId);
                 if (lastId != material_publish.currId) {
                     var nextCode = $('#' + material_publish.currId).next('tr').attr('id').substr(17);
-                    console.log(nextCode);
+                   // console.log(nextCode);
                     $.post(material_publish.material_type === 0 ? home.urls.rawPresoma.getByCode() : home.urls.rawLithium.getByCode(), {code: nextCode}, function (result) {
                         material_publish.currId = "material-publish-" + nextCode;
                         var raw = result.data;
@@ -639,7 +643,7 @@ var material_publish = {
                     })
                 }
                 else {
-                    console.log("Last one");
+                    //console.log("Last one");
                     layer.msg('已经是页面最后一项', {
                         time: 1000
                     })

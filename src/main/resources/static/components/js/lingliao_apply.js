@@ -8,9 +8,19 @@ var lingliao_apply = {
         lingliao_apply.funcs.bindCreatoption()
 
         var checkedBoxLen = $(".add_checkbox:checked").length
+        //获取所有审批流程
         home.funcs.bindSelectAll($("#add_checkAll"), $(".add_checkbox"), checkedBoxLen, $("#add_modal_table"))
         $.get(servers.backup()+'check/getAll',{},function(result){
             lingliao_apply.res = result.data
+        })
+        //获取所有正常申请的流程
+        $.get(servers.backup() + "check/getByProcessCode", {processCode: 1}, function (result) {
+            lingliao_apply.normalApply = result.data
+        })
+
+         //获取所有紧急申请的流程
+         $.get(servers.backup() + "check/getByProcessCode", {processCode: 0}, function (result) {
+            lingliao_apply.abnormalApply = result.data
         })
         //将分页居中
         var out = $('#lingLiao_page').width()
@@ -61,6 +71,14 @@ var lingliao_apply = {
             var refreshBtn = $('#model-li-hide-refresh-113');
             lingliao_apply.funcs.bindRefreshEventListener(refreshBtn);
 
+            //追加审核状态搜索事件
+            var status_searchBtn = $('#status')
+            lingliao_apply.funcs.bindstatusSearchEventListener(status_searchBtn)
+
+            //追加流程类型搜索事件
+            var process_searchBtn = $('#processtype')
+            lingliao_apply.funcs.bindProcessSearchEventListener(process_searchBtn)
+
             //追加搜索事件
             var searchBtn = $('#model-li-hide-search-113')
             lingliao_apply.funcs.bindSearchEventListener(searchBtn)
@@ -110,9 +128,9 @@ var lingliao_apply = {
                     "<tr>" +
                     "<td><input type='checkbox' class='lingliao_apply_checkbox' value='" + (e.code) + "'></td>" +
                     "<td>" + (t++) + "</td>" +
-                    "<td>" + (e.department ? e.department.name : null) + "</td>" +
+                    "<td>" + (e.department ? e.department.name : '') + "</td>" +
                     "<td>" + (new Date(e.applyDate).Format('yyyy-MM-dd')) + "</td>" +
-                    "<td>" + (e.processManage ? e.processManage.name : null) + "</td>" +
+                    "<td>" + (e.processManage ? e.processManage.name : '') + "</td>" +
                     "<td>" + auditStatus + "</td>" +
                     "<td>" + pickingStatus + "</td>" +
                     "<td><a href=\"#\" class='detail' id='detail-" + (e.code) + "'><i class=\"layui-icon\">&#xe60a;</i></a></td>" +
@@ -146,10 +164,12 @@ var lingliao_apply = {
         }
         /** 监听下拉菜单的option */
         , bindCreatoption: function () {
+            $("#status").empty()
+            $("#status").append("<option selected value='-1'>选择审核状态</option><option value='0'>未提交</option>s<option value='1'>在审</option><option value='2'>通过</option><option value='3'>不通过</option>")
             $.get(home.urls.check.getAll(), {}, function (result) {
                 var value = result.data
                 var length = value.length
-                $("#processtype").html("<option>请选择流程类型</option>")
+                $("#processtype").html("<option value='-1'>请选择流程类型</option>")
                 for (var i = 0; i < length; i++) {
                     var text = value[i].name
                     $("#processtype").append("<option value='" + value[i].code + "'>" + text + "</option>");
@@ -211,28 +231,15 @@ var lingliao_apply = {
                     closeBtn: 0,
                     //确定按钮 实现批量增加   问题：怎样将多条数据封装
                     yes: function (index) {
-                        $("#normal_add_modal").css('display', 'none')
+                        if($("#normal_add_select").val()=== "-1"){
+                            alert("请选择审批流程!")
+                            return
+                        }
                         var pickingApplies = [];
                         $('.delete_checkbox').each(function () {
                             var e = $(this).parent('td').parent('tr').children('td')
-                            switch (e.eq(1).text()) {
-                                case '前驱体' :
-                                    rawTypeCode = 1;
-                                    break;
-                                case '碳酸锂' :
-                                    rawTypeCode = 2;
-                                    break;
-                                case '正极材料520' :
-                                    rawTypeCode = 3;
-                                    break;
-                                case '正极材料306' :
-                                    rawTypeCode = 4;
-                                    break;
-                            }
-                            if(e.eq(6).val()===null){
-                                alert("请输入申请数量!")
-                                return
-                            }
+                            var rawTypeCode = e.eq(1).attr('id')
+                            //console.log(rawTypeCode)
                             pickingApplies.push({
                                 batchNumber: e.eq(2).text(),
                                 rawType: {code: rawTypeCode},  //应该是要传rawType.code
@@ -275,6 +282,7 @@ var lingliao_apply = {
                                 })
                             }
                         })
+                        $("#normal_add_modal").css('display', 'none')
                         layer.close(index)
                     },
                     //返回
@@ -289,14 +297,10 @@ var lingliao_apply = {
             //lingliao_apply.funcs.bindEditDeleteClick($("#normal_delete_Btn"))
         }
         , add_fillData: function (selectChoice) {
-            $.get(servers.backup() + "check/getByProcessCode", {processCode: 1}, function (result) {
-                item = result.data
-                //console.log(item)
-                selectChoice.html("<option>请选择审批流程</option>");
-                item.forEach(function (e) {
-                    selectChoice.append("<option value=" + e.code + ">" + (e.name) + "</option>");
-                })
-            })
+            selectChoice.html("<option value='-1'>请选择审批流程</option>");
+            lingliao_apply.normalApply.forEach(function (e) {
+                selectChoice.append("<option value=" + e.code + ">" + (e.name) + "</option>");
+        })   
             //实现全选
             var checkedBoxLen = $('.delete_checkbox:checked').length
             home.funcs.bindSelectAll($("#normal_add_checkAll"), $('.delete_checkbox'), checkedBoxLen, $("#normal_add_modal_table"))
@@ -384,29 +388,15 @@ var lingliao_apply = {
                     offset: "auto",
                     closeBtn: 0,
                     yes: function (index) {
-                        $("#urgent_add_modal").css('display', 'none')
                         var pickingApplies = [];
+                        if($("#urgent_add_select").val()=== "-1"){
+                            alert("请输入审批流程!")
+                            return
+                        }
                         $('.delete_checkbox').each(function () {
                             var e = $(this).parent('td').parent('tr').children('td')
-                            var rawTypeCode
-                            switch (e.eq(1).text()) {
-                                case '前驱体' :
-                                    rawTypeCode = 1;
-                                    break;
-                                case '碳酸锂' :
-                                    rawTypeCode = 2;
-                                    break;
-                                case '正极材料520' :
-                                    rawTypeCode = 3;
-                                    break;
-                                case '正极材料306' :
-                                    rawTypeCode = 4;
-                                    break;
-                            }
-                            if(e.eq(6).val()===null){
-                                alert("请输入申请数量!")
-                                return
-                            }
+                            var rawTypeCode = e.eq(1).attr('id')
+                            //console.log(rawTypeCode)
                             pickingApplies.push({
                                 batchNumber: e.eq(2).text(),
                                 rawType: {code: rawTypeCode},  //应该是要传rawType.code
@@ -451,6 +441,7 @@ var lingliao_apply = {
                                 })
                             }
                         })
+                        $("#urgent_add_modal").css('display', 'none')
                         layer.close(index)
                     },
                     btn2: function (index) {
@@ -464,14 +455,10 @@ var lingliao_apply = {
         }
 
         , urgent_add_fillData: function () {
-            $.get(servers.backup() + "check/getByProcessCode", {processCode: 0}, function (result) {
-                item = result.data
-                //console.log(item)
-                $("#urgent_add_select").html("<option>请选择审批流程</option>");
-                item.forEach(function (e) {
+            $("#urgent_add_select").html("<option value='-1'>请选择审批流程</option>");
+                lingliao_apply.abnormalApply.forEach(function (e) {
                     $("#urgent_add_select").append("<option value=" + e.code + ">" + (e.name) + "</option>");
-                })
-            })
+                })  
             //实现全选
             var checkedBoxLen = $('.delete_checkbox:checked').length
             home.funcs.bindSelectAll($("#urgent_add_checkAll"), $('.delete_checkbox'), checkedBoxLen, $("#urgent_add_modal_table"))
@@ -482,6 +469,10 @@ var lingliao_apply = {
             $("#urg_appl_date").text(new Date().Format("yyyy-MM-dd hh:mm:ss"))
             $("#urg_app_dep").text(userJson.department.name)
             $("#urg_cur_user").text(userJson.name)
+
+            //清空表格
+            var $tbody = $("#normal_add_modal_table").children('tbody')
+            $tbody.empty()
         }
 
         /**填充详情表格的弹出表格 */
@@ -528,17 +519,21 @@ var lingliao_apply = {
         /** 填充编辑按钮的表格 */
         , fillData_editor: function (table, items) {
             $("#edit_select").empty()
-            $.get(home.urls.check.getAll(), {}, function (result) {
-                item = result.data
-                // console.log(item)
-                $("#edit_select").append("<option value="+items.processManage.code+">"+items.processManage.name+"</option>");
-                item.forEach(function (e) {
-                    if(e.code!=items.processManage.code)
-                    $("#edit_select").append("<option value=" + e.code + ">" + (e.name) + "</option>");
-                })
-
-            })
-            //console.log(items)
+            $("#edit_select").append("<option value="+items.processManage.code+">"+items.processManage.name+"</option>");
+            var process = items.process.code
+            if(process===1){
+                lingliao_apply.normalApply.forEach(function (e) {
+                    if(e.code!=items.processManage.code){
+                        $("#edit_select").append("<option value=" + e.code + ">" + (e.name) + "</option>");
+                    }
+                })   
+            }else{
+                lingliao_apply.abnormalApply.forEach(function (e) {
+                    if(e.code!=items.processManage.code){
+                        $("#edit_select").append("<option value=" + e.code + ">" + (e.name) + "</option>");
+                    }
+                })   
+            }
             var pickingApplies = items.pickingApplies
             var $tbody = $('#edit_modal_table').children('tbody')
             $tbody.empty() //清空表格
@@ -547,12 +542,12 @@ var lingliao_apply = {
                 $tbody.append(
                     "<tr>" +
                     "<td><input type='checkbox' class='delete_checkbox' value='" + (ele.code) + "'></td>" +
-                    "<td>" + (ele.rawType.name) + "</td>" +
+                    "<td id="+ele.rawType.code+">" + (ele.rawType.name) + "</td>" +
                     "<td>" + (ele.batchNumber) + "</td>" +
                     "<td>kg</td>" +
                     "<td></td>" +
                     "<td>kg</td>" +
-                    "<td><input type='text' style='text-align:center;' id='input_apply_amount' class='provider_input'  placeholder='请输入申请数量' value="+ (!ele.weight ? 0 : ele.weight) +" /></td>" +
+                    "<td><input type='text' style='text-align:center;' id='input_apply_amount' class='provider_input' placeholder='请输入申请数量' value="+ (!ele.weight ? 0 : ele.weight) +" /></td>" +
                     "</tr>"
                 )
             })
@@ -606,22 +601,8 @@ var lingliao_apply = {
                             $('.delete_checkbox').each(function () {
                                 // console.log($(".delete_checkbox:checked").length)
                                 var e = $(this).parent('td').parent('tr').children('td')
-                                var rawTypeCode
-                                switch (e.eq(1).text()) {
-                                    case '前驱体':
-                                        rawTypeCode = 1;
-                                        break;
-                                    case '碳酸锂':
-                                        rawTypeCode = 2;
-                                        break;
-                                    case '正极材料520':
-                                        rawTypeCode = 3;
-                                        break;
-                                    case '正极材料306':
-                                        rawTypeCode = 4;
-                                        break;
-                                }
-                                //console.log(e.eq(6).children('input').val())
+                                var rawTypeCode = e.eq(1).attr('id')
+                                //console.log(rawTypeCode)
                                 pickingApplies.push(
                                     {
                                         batchNumber: e.eq(2).text(),
@@ -631,15 +612,8 @@ var lingliao_apply = {
                                     })
                             })
                             var processManageCode = $("#edit_select").val()
-                            var processCode
-                            console.log(processManageCode)
-                            console.log(lingliao_apply.res)
-                            lingliao_apply.res.forEach(function(e){
-                                if(processManageCode === e.code){
-                                    console.log(e.process.code)
-                                    processCode = e.process.code
-                                }
-                            })
+                            var processCode = items.process.code
+
                             var userStr = $.session.get('user')
                             var userJson = JSON.parse(userStr)
                             var data = {
@@ -658,7 +632,6 @@ var lingliao_apply = {
                                 pickingApplies: []
                             }
                             data.pickingApplies = pickingApplies
-                            console.log(data)
                             $.ajax({
                                 url: home.urls.lingLiao.update(),
                                 contentType: 'application/json',
@@ -688,23 +661,7 @@ var lingliao_apply = {
                             var pickingApplies = [];
                             $('.delete_checkbox').each(function () {
                                 var e = $(this).parent('td').parent('tr').children('td')
-                                var rawTypeCode
-                                switch (e.eq(1).text()) {
-                                    case '前驱体' :
-                                        rawTypeCode = 1;
-                                        break;
-                                    case '碳酸锂' :
-                                        rawTypeCode = 2;
-                                        break;
-                                    case '正极材料520' :
-                                        rawTypeCode = 3;
-                                        break;
-                                    case '正极材料306' :
-                                        rawTypeCode = 4;
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                var rawTypeCode = e.eq(1).attr('id')
                                 pickingApplies.push(
                                     {
                                         batchNumber: e.eq(2).text(),
@@ -714,12 +671,7 @@ var lingliao_apply = {
                                     })
                             })
                             var processManageCode = $("#edit_select").val()
-                            var processCode
-                            lingliao_apply.res.forEach(function(e){
-                                if(processManageCode === e.code){
-                                    processCode = e.process.code
-                                }
-                            })
+                            var processCode = items.process.code
                             var userStr = $.session.get('user')
                             var userJson = JSON.parse(userStr)
                             var data = {
@@ -806,22 +758,7 @@ var lingliao_apply = {
                             var add_length = $(".edit_add_search_checkbox:checked").length
                             var rawType
                             $('.edit_add_search_checkbox').each(function () {
-                                switch (rawTypeCode) {
-                                    case '1' :
-                                        rawType = '前驱体';
-                                        break;
-                                    case '2' :
-                                        rawType = '碳酸锂';
-                                        break;
-                                    case '3' :
-                                        rawType = '正极材料520';
-                                        break;
-                                    case '4' :
-                                        rawType = '正极材料306';
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                var text = $("#edit_add_select option:selected").text()
                                 if ($(this).prop('checked')) {
                                     var e = $(this).parent('td').parent('tr').children('td') //取到选中的一行
                                     //console.log(e.eq(1).text())
@@ -829,12 +766,12 @@ var lingliao_apply = {
                                     $tbody.append(
                                         "<tr>" +
                                         "<td><input type='checkbox' class='delete_checkbox' ></td>" +
-                                        "<td>" + (rawType) + "</td>" +
+                                        "<td id="+rawTypeCode+">" + (text) + "</td>" +
                                         "<td>" + (e.eq(1).text()) + "</td>" +
                                         "<td>" + (e.eq(3).text()) + "</td>" +
-                                        "<td>" + (e.eq(2).text()) + "</td>" +
+                                        "<td>" + (e.eq(2).text()) + "</td>" + 
                                         "<td>kg</td>" +
-                                        "<td><input type='text' id='input_apply_amount' style='text-align:center;' class='provider_input' placehodler='请输入申请数量' /></td>" +
+                                        "<td><input type='text' id='input_apply_amount' style='text-align:center;' class='provider_input' placeholder='请输入申请数量' /></td>" +
                                         "</tr>"
                                     )
                                     var checkedBoxLen = $('.delete_checkbox:checked').length
@@ -866,12 +803,14 @@ var lingliao_apply = {
         }
         //编辑里面的新增按钮数据读取操作
         , fillData_to_edit_add: function () {
-            const $tbody = $("#edit_addModal_table").children('tbody')
-            $tbody.empty()
-            $.get(home.urls.lingLiao.getAllrawType(), {}, function (result) {
+            //const $tbody = $("#edit_addModal_table").children('tbody')
+            //$tbody.empty()
+           // $.get(home.urls.lingLiao.getAllrawType(), {}, function (result) {
+            $.post(home.urls.lingLiao.getRawTypeByMaterialCode(), {
+                materialCode:1
+            }, function (result){
                 var items = result.data //获取数据
-
-                $("#edit_add_select").html("<option value='-1'>请选择原料类型</option>")
+                $("#edit_add_select").html("<option value='-1'>请选择物料名称</option>")
                 items.forEach(function (e) {
                     $("#edit_add_select").append(
                         "<option value='" + e.code + "'>" + e.name + "</option>"
@@ -918,9 +857,6 @@ var lingliao_apply = {
             searchBtn.on('click', function () {
                 var rawType = $('#edit_add_select option:selected').val()
                 var process = $('#edit_add_input').val();
-                if(process==='请输入批号'){
-                    process = null
-                }
                 $.post(home.urls.lingLiao.getByRawTypeCodeAndBatchNumberLikeByPage(), {
                     rawTypeCode: rawType,
                     batchNumber: process
@@ -960,10 +896,10 @@ var lingliao_apply = {
                 $tbody.append(
                     "<tr>" +
                     "<td><input type='checkbox' class='edit_add_search_checkbox' value='" + (e.code) + "'></td>" +
-                    "<td>" + (e.batchNumber ? e.batchNumber : 'null') + "</td>" +
-                    "<td>" + (e.currentAvailableMaterials ? e.currentAvailableMaterials : 'null') + "</td>" +
-                    "<td>" + (e.materialsUnit ? e.materialsUnit : 'null') + "</td>" +
-                    "<td>" + (e.judgeCode ? e.judgeCode : 'null') + "</td>" +
+                    "<td>" + (e.batchNumber ? e.batchNumber : '') + "</td>" +
+                    "<td>" + (e.currentAvailableMaterials ? e.currentAvailableMaterials : '0') + "</td>" +
+                    "<td>" + (e.materialsUnit ? e.materialsUnit : 'kg') + "</td>" +
+                    "<td>" + (e.judgeCode ? e.judgeCode : '') + "</td>" +
                     "<td><a href=\"#\" class='edit_add_detail' id='detail-" + (e.batchNumber) + "'><i class=\"layui-icon\">&#xe60a;</i></a></td>" +
                     "</tr>"
                 )
@@ -1080,7 +1016,7 @@ var lingliao_apply = {
                 " <tr> <td colspan='2'>审核状态</td> <td>审核人</td> <td></td> <td></td> <td></td> </tr>" +
                 "</thead>" +
                 "<tbody>" +
-                " <tr> <td colspan='2'>" + (product.status ? product.status.name : null) + "</td> <td>" + (product.publisher ? product.publisher.name : null) + "</td> <td></td> <td></td> <td></td> </tr>" +
+                " <tr> <td colspan='2'>" + (product.status ? product.status.name : '') + "</td> <td>" + (product.publisher ? product.publisher.name : '') + "</td> <td></td> <td></td> <td></td> </tr>" +
                 "</tbody>" +
                 "<thead>" +
                 "<tr> <td colspan='2'>检测项目</td> <td>三级控制标准</td> <td>2016-3-2三级控制标准</td> <td>" + (product.batchNumber) + "</td> <td>编辑</td> </tr>" +
@@ -1142,7 +1078,7 @@ var lingliao_apply = {
                 "<thead>" +
                 "<tr> <td colspan='2'>审核状态</td> <td>审核人</td> <td></td> <td></td></tr>" +
                 "</thead>" +
-                "<tr> <td colspan='2'>" + (presoma.status?presoma.status.name:'null') + "</td> <td>" + (presoma.publisher ? presoma.publisher : '无') + "</td> <td></td> <td></td></tr>" +
+                "<tr> <td colspan='2'>" + (presoma.status?presoma.status.name:'') + "</td> <td>" + (presoma.publisher ? presoma.publisher : '') + "</td> <td></td> <td></td></tr>" +
                 "<thead>" +
                 "<tr> <td colspan='2'>检测项目</td> <td>控制采购标准-2016-11-21</td> <td>2017.07.01采购标准</td> <td>" + (presoma.batchNumber) + "</td></tr>" +
                 "</thead>" +
@@ -1203,12 +1139,12 @@ var lingliao_apply = {
                 "<tr> <td colspan='2'>批号</td> <td>检测日期</td> <td>数量(t)</td> <td>判定</td></tr>" +
                 "</thead>" +
                 "<tbody>" +
-                "<tr> <td colspan='2'>" + (lithium.batchNumber ? lithium.batchNumber : 'null') + "</td> <td>" + (new Date(lithium.testDate).Format('yyyy-MM-dd')) + "</td> <td>" + (lithium.number) + "</td> <td>" + (lithium.judge?lithium.judge.name:'null') + "</td></tr>" +
+                "<tr> <td colspan='2'>" + (lithium.batchNumber ? lithium.batchNumber : '') + "</td> <td>" + (new Date(lithium.testDate).Format('yyyy-MM-dd')) + "</td> <td>" + (lithium.number) + "</td> <td>" + (lithium.judge?lithium.judge.name:'') + "</td></tr>" +
                 "</tbody>" +
                 "<thead>" +
                 "<tr> <td colspan='2'>审核状态</td> <td>审核人</td> <td></td> <td></td></tr>" +
                 "</thead>" +
-                "<tr> <td colspan='2'>" + (lithium.status?lithium.status.name:'null')+ "</td> <td>" + (lithium.publisher ? lithium.publisher : '无') + "</td> <td></td> <td></td></tr>" +
+                "<tr> <td colspan='2'>" + (lithium.status?lithium.status.name:'')+ "</td> <td>" + (lithium.publisher ? lithium.publisher : '') + "</td> <td></td> <td></td></tr>" +
                 "<thead>" +
                 "<tr> <td colspan='2'>检测项目</td><td colspan='2'>原料技术标准<td>" + (lithium.batchNumber) + "</td></tr>" +
                 "</thead>" +
@@ -1337,14 +1273,48 @@ var lingliao_apply = {
                 }
             })
         }
-        /** 搜索事件 */
-        , bindSearchEventListener: function (searchBtn) {
-            searchBtn.off('click')
-            searchBtn.on('click', function () {
-                var status = $('#status').val()
+
+        /**根据审核状态搜索*/
+        ,bindstatusSearchEventListener:function(searchBtn){
+            searchBtn.off('change').on('change',function(){
+                var status = $(this).val()
+                $.post(home.urls.lingLiao.getByAuditStatusByPage(), {
+                    auditStatus: status,
+                }, function (result) {
+                    var items = result.data.content //获取数据
+                    page = result.data
+                    //console.log(items)
+                    const $tbody = $("#lingliao_apply_table").children('tbody')
+                    lingliao_apply.funcs.renderHandler($tbody, items,0)
+                    layui.laypage.render({
+                        elem: 'lingLiao_page'
+                        , count: 10 * page.totalPages//数据总数
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                $.post(home.urls.lingLiao.getByAuditStatusByPage(), {
+                                    auditStatus: status,
+                                    page: obj.curr - 1,
+                                    size: obj.limit
+                                }, function (result) {
+                                    var items = result.data.content //获取数据
+                                    // var code = $('#model-li-select-48').val()
+                                    var page = obj.curr - 1
+                                    const $tbody = $("#lingliao_apply_table").children('tbody')
+                                    lingliao_apply.funcs.renderHandler($tbody, items,page)
+                                    lingliao_apply.pageSize = result.data.content.length
+                                })
+                            }
+                        }
+                    })
+                })
+            })
+        }
+         /** 根据流程类型搜索 */
+         , bindProcessSearchEventListener: function (searchBtn) {
+            searchBtn.off('change')
+            searchBtn.on('change', function () {
                 var process = $('#processtype option:selected').val();
                 $.post(home.urls.lingLiao.getByProcessManageByPage(), {
-                    auditStatus: status,
                     processManageCode: process
                 }, function (result) {
                     var items = result.data.content //获取数据
@@ -1358,7 +1328,6 @@ var lingliao_apply = {
                         , jump: function (obj, first) {
                             if (!first) {
                                 $.post(home.urls.lingLiao.getByProcessManageByPage(), {
-                                    auditStatus: status,
                                     processManageCode: process,
                                     page: obj.curr - 1,
                                     size: obj.limit
@@ -1376,6 +1345,45 @@ var lingliao_apply = {
                 })
             })
         }
+        /** 根据审核状态和流程类型搜索 */
+        , bindSearchEventListener: function (searchBtn) {
+            searchBtn.off('click')
+            searchBtn.on('click', function () {
+                var status = $('#status').val()
+                var process = $('#processtype option:selected').val();
+                $.post(home.urls.lingLiao.getByAuditStatusAndProcessManageByPage(), {
+                    auditStatus: status,
+                    processManageCode: process
+                }, function (result) {
+                    var items = result.data.content //获取数据
+                    page = result.data
+                    //console.log(items)
+                    const $tbody = $("#lingliao_apply_table").children('tbody')
+                    lingliao_apply.funcs.renderHandler($tbody, items,0)
+                    layui.laypage.render({
+                        elem: 'lingLiao_page'
+                        , count: 10 * page.totalPages//数据总数
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                $.post(home.urls.lingLiao.getByAuditStatusAndProcessManageByPage(), {
+                                    auditStatus: status,
+                                    processManageCode: process,
+                                    page: obj.curr - 1,
+                                    size: obj.limit
+                                }, function (result) {
+                                    var items = result.data.content //获取数据
+                                    // var code = $('#model-li-select-48').val()
+                                    var page = obj.curr - 1
+                                    const $tbody = $("#lingliao_apply_table").children('tbody')
+                                    lingliao_apply.funcs.renderHandler($tbody, items,page)
+                                    lingliao_apply.pageSize = result.data.content.length
+                                })
+                            }
+                        }
+                    })
+                })
+            })
+        },
     }
 }
 

@@ -188,7 +188,10 @@ var home = {
             },
             add: function () {
                 return servers.backup() + 'rawType/add'
-            }
+            },
+            getAllByLikeNameByPage: function () {
+                return servers.backup() + 'rawType/getAllByLikeNameByPage'
+            },
         },
         department: {
             getAllByPage: function () {
@@ -912,6 +915,15 @@ var home = {
             getByDepartmentAndProcessManageAndPickingStatusByPage: function () {
                 return servers.backup() + 'pickingApplyHeader/getByDepartmentAndProcessManageAndPickingStatusByPage'
             },
+            getByDepartmentAndProcessManageAndPickingStatusByPage: function () {
+                return servers.backup() + 'pickingApplyHeader/getByDepartmentAndProcessManageAndPickingStatusByPage'
+            },
+            getByDepartmentAndProcessManageAndPickingStatusByPage: function () {
+                return servers.backup() + 'pickingApplyHeader/getByDepartmentAndProcessManageAndPickingStatusByPage'
+            },
+            getByDepartmentAndProcessManageAndPickingStatusByPage: function () {
+                return servers.backup() + 'pickingApplyHeader/getByDepartmentAndProcessManageAndPickingStatusByPage'
+            },
             getByCode: function () {
                 return servers.backup() + 'pickingApplyHeader/getByCode'
             }
@@ -939,6 +951,15 @@ var home = {
             },
             getByAuditStatusAndRawTypeAndCreateDateByPage: function () {
                 return servers.backup() + 'productSendHeader/getByAuditStatusAndRawTypeAndCreateDateByPage'
+            },
+            getByAuditStatusByPage: function () {
+                return servers.backup() + 'productSendHeader/getByAuditStatusByPage'
+            },
+            getByCreateDateByPage: function () {
+                return servers.backup() + 'productSendHeader/getByCreateDateByPage'
+            },
+            getByRawTypeByPage: function () {
+                return servers.backup() + 'productSendHeader/getByRawTypeByPage'
             },
             deleteByCode: function () {
                 return servers.backup() + 'productSendHeader/deleteByCode'
@@ -1134,8 +1155,14 @@ var home = {
             getByCode: function () {
                 return servers.backup() + 'pickingApplyHeader/getByCode'
             },
-            getByProcessManageByPage: function () {
+            getByAuditStatusAndProcessManageByPage: function () {
                 return servers.backup() + 'pickingApplyHeader/getByAuditStatusAndProcessManageByPage'
+            },
+            getByProcessManageByPage: function () {
+                return servers.backup() + 'pickingApplyHeader/getByProcessManageByPage'
+            },
+            getByAuditStatusByPage: function () {
+                return servers.backup() + 'pickingApplyHeader/getByAuditStatusByPage'
             },
             update: function () {
                 return servers.backup() + 'pickingApplyHeader/update'
@@ -1145,6 +1172,9 @@ var home = {
             },
             getAllrawType: function () {
                 return servers.backup() + 'rawType/getAll'
+            },
+            getRawTypeByMaterialCode: function () {
+                return servers.backup() + 'rawType/getByMaterialCode'
             },
             getByRawTypeCodeAndBatchNumberLikeByPage: function () {
                 return servers.backup() + 'available/getByRawTypeCodeAndBatchNumberLikeByPage'
@@ -1835,6 +1865,7 @@ var home = {
         const user = userJson
         home.user = userJson
         var roles = user.roles //获取用户角色
+        //console.log(roles)
         $("#currentUser").text(home.user.name + " ")
         $('#user-id').text(user.code)
 
@@ -2311,7 +2342,7 @@ var home = {
             $.get(home.urls.monitor_online.loadData(), {}, function (result) {
                 home.funcs.storeData(result)
                 /** 开始打印数据 */
-                console.log("signal", signal)
+               // console.log("signal", signal)
                 switch (signal) {
                     case 0 :
                         (function () {
@@ -2574,6 +2605,7 @@ var home = {
             personal_center.off('click').on('click',function(){
                 var userStr = $.session.get('user')
                 var userJson = JSON.parse(userStr)
+                console.log(userJson)
                layer.open({
                     type:1,
                     title:'修改初始密码',

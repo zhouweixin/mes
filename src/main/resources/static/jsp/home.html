@@ -29,18 +29,25 @@
             <!--右上角-->
             <div class="vertical_center fl" style="height: 100%;border-left: 1px #ffffff dotted;">
                 <div style="padding: 0 13px 0 13px;">
+                    <a class="text_center" href="../instruction/guide.html"  target="_blank" style="color: white;font-size: 15px;" id="instruction">
+                        用户手册
+                    </a>
+                </div>
+            </div>
+            <div class="vertical_center fl" style="height: 100%;border-left: 1px #ffffff dotted;">
+                <div style="padding: 0 13px 0 13px;">
                     <a class="text_center" href="#" style="color: white;font-size: 22px;" id="personal_center">
                         <i class="fa fa-cog"></i>
                     </a>
                 </div>
             </div>
             <div style="border-left: 1px #ffffff dotted;border-right: 1px #ffffff dotted;" class="fl">
-                <div style="padding: 0 10px 0 10px;height: 100%;" class="vertical_center">
-                    <img src="https://tvax2.sinaimg.cn/crop.0.0.512.512.180/69e273f8ly8fr3qffljhwj20e80e8t90.jpg"
+               <div style="padding: 0 10px 0 10px;height: 100%;" class="vertical_center">
+                  <!--   <img src="https://tvax2.sinaimg.cn/crop.0.0.512.512.180/69e273f8ly8fr3qffljhwj20e80e8t90.jpg"
                          alt=""
                          width="45" height="45"
-                         style="border-radius: 50%;"/>
-                    <span>&nbsp;管理员</span>
+                         style="border-radius: 50%;"/>-->
+                    <span id="user_role"></span>
                 </div>
             </div>
             <div class="vertical_center fl" style="height: 100%;">
@@ -80,7 +87,7 @@
             </ul>
         </div>
     </div>
-    <div class="right" style="max-height: 100%;overflow-y: scroll;">
+    <div class="right" style="overflow-x: scroll;max-width: 100%;">
 
     </div>
 </div>
@@ -128,12 +135,17 @@
         $('.top-left-text')[0].innerHTML = "<span>长远锂科MES系统&nbsp;<strong id='version' style='color: #1E9FFF;font-size:13px; font-weight: 600;'>&nbsp;" + createVersion() + "</strong></span>"
         var userStr = $.session.get('user')
         if (!userStr) {
-            console.log('用户已经失去登录，请重新登录')
+            //console.log('用户已经失去登录，请重新登录')
+            //alert('用户已经失去登录，请重新登录')
             document.location = '../login.html';
         }
         var userJson = JSON.parse(userStr)
+        console.log(userJson)
         var menu1Wrapper = $('.menus1 ul')
         var menu2Wrapper = $('.menus2 ul')
+       
+        $("#user_role").text(userJson.name)
+        
         home.init(userJson, menu1Wrapper, menu2Wrapper)
     })
 

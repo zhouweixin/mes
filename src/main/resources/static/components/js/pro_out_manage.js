@@ -1,10 +1,15 @@
 var pro_out_manage = {
     pageSize: null,
+    conpany:[],
     init: function () {
 
         /** 渲染下拉菜单 */
         pro_out_manage.funcs.renderTable()
         pro_out_manage.funcs.bindCreatoption()
+
+        $.get(servers.backup()+'supplier/getAll',{},function(result){
+            pro_out_manage.supplier = result.data
+        })
     
         //将分页居中
         var out = $('#product_out_page').width()
@@ -17,9 +22,15 @@ var pro_out_manage = {
 
     funcs: {
         bindCreatoption: function () {
-            $.get(home.urls.productOut.getAllrawType(),{}, function(result) {
+            $("#audit_status").empty()
+            $("#audit_status").append("<option selected value='-1'>选择审核状态</option><option value='0'>未提交</option>"+
+            "<option value='1'>在审</option><option value='2'>通过</option><option value='3'>不通过</option>")
+           
+            $.post(home.urls.lingLiao.getRawTypeByMaterialCode(), {
+                materialCode:2
+            }, function (result){
                 var items = result.data
-                $("#rawType_Code").html("<option value='-1'>选择产品型号</option>")
+                $("#rawType_Code").html("<option value='-1'>请选择物料名称</option>")
                 items.forEach(function(e){
                     $("#rawType_Code").append(
                         "<option value="+e.code+">"+e.name+"</option>"
@@ -87,6 +98,18 @@ var pro_out_manage = {
             var searchBtn = $('#model-li-hide-search-51')
             pro_out_manage.funcs.bindSearchEventListener(searchBtn) 
 
+            //追加审核状态搜索事件
+            var status_searchBtn = $('#audit_status')
+            pro_out_manage.funcs.bindStatusSearchEventListener(status_searchBtn)
+
+            //根据时间搜索
+            //var date_searchBtn = $('#date')
+            //pro_out_manage.funcs.bindDateSearchEventListener(date_searchBtn)
+
+            //根据物料名称搜索
+            var rawType_searchBtn = $('#rawType_Code')
+            pro_out_manage.funcs.bindRawTypeSearchEventListener(rawType_searchBtn)
+
             //新增里面以及编辑里面的删除按钮
             pro_out_manage.funcs.bindInDeleteClick($(".delete_roundBtn"))
 
@@ -116,9 +139,9 @@ var pro_out_manage = {
                     "<tr>" +
                     "<td><input type='checkbox' class='product_out_checkbox' value='" + (e.code) + "'></td>" +
                     "<td>" + (length++) + "</td>" +
-                    "<td>" + (e.rawType ? e.rawType.name : null) + "</td>" +
+                    "<td>" + (e.rawType ? e.rawType.name : '') + "</td>" +
                     "<td>" + (new Date(e.applyTime).Format('yyyy-MM-dd')) + "</td>" +
-                    "<td>" + (e.company ? e.company.name : null) + "</td>" +
+                    "<td>" + (e.supplier ? e.supplier.name : '') + "</td>" +
                     "<td>" + auditStatus + "</td>" +
                     "<td><a href=\"#\" class='verify' id='verify-" + (code) + "'><i class=\"layui-icon\">&#xe6b2;</i></a></td>" +
                     "<td><a href=\"#\" class='detail' id='detail-" + (code) + "'><i class=\"layui-icon\">&#xe60a;</i></a></td>" +
@@ -169,7 +192,7 @@ var pro_out_manage = {
                     title: '新增',
                     content: $("#add_modal"),
                     area: ['800px', '400px'],
-                    btn: ['提交', '返回'],
+                    btn: ['保存','提交', '返回'],
                     offset: "auto",
                     closeBtn: 0,
                     yes: function (index) {
@@ -177,9 +200,9 @@ var pro_out_manage = {
                         var total_amount = 0
                         $('.delete_checkbox').each(function() {
                             var e = $(this).parent('td').parent('tr').children('td')
-                            total_amount += e.eq(4).text()
+                            total_amount += parseFloat(e.eq(4).text()) 
                             productSends.push({
-                            code : e.eq(1).text(),
+                            //code : e.eq(1).text(),
                             batchNumber : e.eq(2).text(),
                             unit : e.eq(3).text(),
                             weight : e.eq(4).text(),
@@ -202,11 +225,11 @@ var pro_out_manage = {
                             applicant:{code : userJson.code},
                             applyTime:time,
                             weight : total_amount,
-                            company:{code:$("#add_company").val()},
+                            supplier:{code:$("#add_company").val()},
                             productSends : []
                         }
                         data.productSends = productSends
-                        
+                        console.log(data)
                         $.ajax({
                             url:home.urls.productOut.add(),
                             contentType:'application/json',
@@ -231,6 +254,65 @@ var pro_out_manage = {
                         layer.close(index)
                     }
                     , btn2: function (index) {
+                        var productSends = [];
+                        var total_amount = 0
+                        $('.delete_checkbox').each(function() {
+                            var e = $(this).parent('td').parent('tr').children('td')
+                            total_amount += parseFloat(e.eq(4).text()) 
+                            productSends.push({
+                            //code : e.eq(1).text(),
+                            batchNumber : e.eq(2).text(),
+                            unit : e.eq(3).text(),
+                            weight : e.eq(4).text(),
+                        })
+                    })  
+                        
+                        var time = new Date($("#add_applyTime").text()).getTime()
+                        var nowTime = new Date().Format("yyyy-MM-dd")
+                        var transportMode = $('#add_transportWays').val()
+                        var userStr = $.session.get('user')
+                        var userJson = JSON.parse(userStr)
+                        var data = {
+                            rawType : {code : $('#add_select_rawType').val()},
+                            transportMode : transportMode,
+                            createDate: nowTime,
+                            processManage :{code : $('#add_select_processCode').val()},
+                            auditStatus : 1,
+                            outStatus: 0,
+                            sender:{code : userJson.code},
+                            sendTime:new Date().getTime(),
+                            applicant:{code : userJson.code},
+                            applyTime:time,
+                            weight : total_amount,
+                            supplier:{code:$("#add_company").val()},
+                            productSends : []
+                        }
+                        data.productSends = productSends
+                        console.log(data)
+                        
+                        $.ajax({
+                            url:home.urls.productOut.add(),
+                            contentType:'application/json',
+                            data:JSON.stringify(data),
+                            dataType:'json',
+                            type:'post',
+                            success:function(result) {
+                                if(result.code === 0) {
+                                    var time = setTimeout(function(){
+                                        pro_out_manage.init()
+                                        clearTimeout(time)
+                                    },500)
+                                }
+                                layer.msg(result.message,{
+                                    offset:['40%','55%'],
+                                    time:700          
+                              })  
+                            }                       
+                         })
+                        $("#add_modal").css('display', 'none')
+                        layer.close(index)
+                    }
+                    ,btn3: function (index) {
                         $("#add_modal").css('display', 'none')
                         layer.close(index)
                     }
@@ -248,15 +330,15 @@ var pro_out_manage = {
             $("#add_company").empty()
             $('#add_total_amount').text('0')
             $("#add_select_rawType").html("<option value='-1'>请选择公司类型</option>")
-            $.get(servers.backup()+'company/getAll',{},function(result){
-                var res = result.data
-                res.forEach(function(e){
-                    $("#add_company").append('<option value='+e.code+'>'+e.name+'</option>')
-                })
-            })
-            $.get(home.urls.productOut.getAllrawType(),{}, function(result) {
+           
+            pro_out_manage.supplier.forEach(function(e){
+                $("#add_company").append('<option value='+e.code+'>'+e.name+'</option>')
+            })    
+            $.post(home.urls.lingLiao.getRawTypeByMaterialCode(), {
+                materialCode:2
+            }, function (result){
                 var items = result.data
-                $("#add_select_rawType").html("<option value='-1'>请选择产品型号</option>")
+                $("#add_select_rawType").html("<option value='-1'>请选择物料名称</option>")
                 items.forEach(function(e){
                     $("#add_select_rawType").append(
                         "<option value="+e.code+">"+e.name+"</option>"
@@ -359,7 +441,7 @@ var pro_out_manage = {
                     title: '审核',
                     content: $("#verify_modal"),
                     area: ['800px', '400px'],
-                    btn: ['通过', '不通过'],
+                    btn: ['通过', '不通过','返回'],
                     offset: "auto",
                     closeBtn: 0,
                     yes: function (index) {
@@ -392,7 +474,7 @@ var pro_out_manage = {
                         $("#verify_modal").css('display', 'none')
                         layer.close(index)
                     }
-                    , btn2: function (index) {
+                    ,btn2: function (index) {
                         var userStr = $.session.get('user')
                         var userJson = JSON.parse(userStr)
 
@@ -419,6 +501,10 @@ var pro_out_manage = {
                         $("#verify_modal").css('display', 'none')
                         layer.close(index)
                     }
+                    ,btn3 : function(index) {
+                        $("#verify_modal").css('display', 'none')
+                        layer.close(index)
+                    }
                 });
             })
             })
@@ -434,31 +520,19 @@ var pro_out_manage = {
                 $tbody.append(
                     "<tr>"+
                     "<td>"+ (e.code?e.code:' ') +"</td><td>"+ (e.batchNumber?e.batchNumber:' ') + "</td>"+
-                    "<td>"+ (e.unit?e.unit:' ') + "</td>"+ "<td>"+ (e.weight?e.weight:' ') + "</td><td>" + (e.status?e.status:' ') + "</td>"+
+                    "<td>"+ (e.unit?e.unit:' ') + "</td>"+ "<td>"+ (e.weight?e.weight:' ') + "</td>"+
                     "</tr>"
             );
             })
 
             $("#code1").text(items.code)
             $("#rawType1").text(items.rawType?items.rawType.name:' ')
-            $("#verify_company").text(items.company?items.company.name:' ')
+            $("#verify_company").text(items.supplier?items.supplier.name:' ')
             $("#weight1").text(total_amount)
             $("#sender1").text(items.sender?items.sender.name:' ')
             $("#applicant1").text(items.applicant?items.applicant.name:' ')
             $("#sendTime1").text(items.sendTime?new Date(items.sendTime).Format('yyyy-MM-dd'):' ')
             $("#applyTime1").text(items.applyTime?new Date(items.applyTime).Format('yyyy-MM-dd'):' ')
-
-            productSends = items.productSends
-            var $tbody = $("#verify_table").children('tbody')
-            $tbody.empty() //清空表格
-            productSends.forEach(function(e){
-                $tbody.append(
-                    "<tr>"+
-                    "<td>"+ (e.code?e.code:' ') +"</td><td>"+ (e.batchNumber?e.batchNumber:' ') + "</td>"+
-                    "<td>"+ (e.unit?e.unit:' ') + "</td>"+ "<td>"+ (e.weight?e.weight:' ') + "</td><td>" + (e.status?e.status:' ') + "</td>"+
-                    "</tr>"
-            );
-            })
 
             $.post(home.urls.productOut.getByProductSendHeader(),{
                 productSendHeaderCode: codeNumber
@@ -468,8 +542,8 @@ var pro_out_manage = {
                 
                 }
                 else{
-                $("#audit_Name").text(res[0].auditor?res[0].auditor.name:'null')
-                $("#audit_result").text(res[0].auditResult?res[0].auditResult:'null')
+                $("#audit_Name").text(res[0].auditor?res[0].auditor.name:'')
+                $("#audit_result").text(res[0].auditResult?res[0].auditResult:'')
                 $("#audit_time").text(res[0].auditTime?new Date(res[0].auditTime).Format('yyyy-MM-dd'):' ')
                 $("#audit_note").text((res[0].note?res[0].note:' '))
                 }
@@ -527,7 +601,7 @@ var pro_out_manage = {
 
             $("#code").text(items.code)
             $("#rawType").text(items.rawType?items.rawType.name:' ')
-            $("#detail_company").text(items.company?items.company.name:' ')
+            $("#detail_company").text(items.supplier?items.supplier.name:' ')
             $("#weight").text(total_amount)
             $("#sender").text(items.sender?items.sender.name:' ')
             $("#applicant").text(items.applicant?items.applicant.name:' ')
@@ -569,7 +643,7 @@ var pro_out_manage = {
                     type: 1,
                     title: '编辑',
                     content: $("#editor_modal"),
-                    area: ['800px', '400px'],
+                    area: ['820px', '400px'],
                     btn: ['保存', '提交', '返回'],
                     offset: "auto",
                     closeBtn: 0,
@@ -578,10 +652,10 @@ var pro_out_manage = {
                         var productSends = [];
                         $('.delete_checkbox').each(function() {
                             var e = $(this).parent('td').parent('tr').children('td')
-                            total_amount += e.eq(4).text()
+                            total_amount += parseFloat(e.eq(4).text()) 
                             productSends.push({
                             //code : e.eq(1).text(),
-                            'productSendHeader.code':codeNumber,
+                            //productSendHeader:{code:codeNumber},
                             batchNumber : e.eq(2).text(),
                             unit : e.eq(3).text(),
                             weight : e.eq(4).text(),
@@ -597,10 +671,10 @@ var pro_out_manage = {
                             rawType : {code : $('#editor_select_rawType').val()},
                             transportMode : $('#transportWays').val(),
                             createDate: items.createDate,
-                            company : {code : items.company?items.company.code:null},
+                            supplier : {code : items.supplier?items.supplier.code:''},
                             processManage :{code : $('#editor_select_processCode').val()},
                             auditStatus : 0,
-                            outStatus: items.outStatus,
+                            outStatus: 0,
                             sender:{code : userJson.code},
                             sendTime:new Date().getTime(),
                             applicant:{code : items.applicant.code},
@@ -609,6 +683,7 @@ var pro_out_manage = {
                             productSends : []
                         }
                         data.productSends = productSends
+                        console.log(data)
                         $.ajax({
                             url:home.urls.productOut.update(),
                             contentType:'application/json',
@@ -637,9 +712,9 @@ var pro_out_manage = {
                         var productSends = [];
                         $('.delete_checkbox').each(function() {
                             var e = $(this).parent('td').parent('tr').children('td')
-                            total_amount += e.eq(4).text()
+                            total_amount += parseFloat(e.eq(4).text()) 
                             productSends.push({
-                            code : e.eq(1).text(),
+                            //productSendHeader:{code:codeNumber},
                             batchNumber : e.eq(2).text(),
                             unit : e.eq(3).text(),
                             weight : e.eq(4).text(),
@@ -653,10 +728,10 @@ var pro_out_manage = {
                             rawType : {code : $('#editor_select_rawType').val()},
                             transportMode : $('#transportWays').val(),
                             createDate: items.createDate,
-                            company : {code : items.company.code},
+                            supplier : {code : items.supplier.code},
                             processManage :{code : $('#editor_select_processCode').val()},
                             auditStatus : 1,
-                            outStatus: items.outStatus,
+                            outStatus: 1,
                             sender:{code : userJson.code},
                             sendTime:new Date().getTime(),
                             applicant:{code : items.applicant.code},
@@ -665,6 +740,7 @@ var pro_out_manage = {
                             productSends : []
                         }
                         data.productSends = productSends
+                        console.log(data)
                         $.ajax({
                             url:home.urls.productOut.update(),
                             contentType:'application/json',
@@ -708,10 +784,12 @@ var pro_out_manage = {
             detailBtns.off('click').on('click', function () {
                 //点击的时候需要弹出一个模态框
                 // 而且要填充模态框里面的内容 todo
+                $tbody1 = $("#edit_add_modal_table").children('tbody')
+                $tbody1.empty()
                 pro_out_manage.funcs.fillData_to_edit_add("#edit_add_modal")
                 layer.open({
                     type: 1,
-                    title: '详情',
+                    title: '新增',
                     content: $("#edit_add_modal"),
                     area: ['800px', '400px'],
                     btn: ['确认','返回'],
@@ -758,19 +836,16 @@ var pro_out_manage = {
 
         ,fill_edit_data:function(div,items){
             $("#editor_company").empty()
-            if(items.company!=null){
-                $("#editor_company").append("<option value="+items.company.code+">"+items.company.name+"</option>")
-                $.get(servers.backup()+'company/getAll',{},function(result){
-                    company = result.data
-                    company.forEach(function(e){
-                        if(items.company.code!=e.code){
-                            $("#editor_company").append("<option value="+e.code+">"+e.name+"</option>")
-                        }
-                    })
+            if(items.supplier!=null){
+                $("#editor_company").append("<option value="+items.supplier.code+">"+items.supplier.name+"</option>")
+                pro_out_manage.supplier.forEach(function(e){
+                    if(items.supplier.code!=e.code){
+                        $("#editor_company").append("<option value="+e.code+">"+e.name+"</option>")
+                    }
                 })
             }
             else{
-                company.forEach(function(e){
+                pro_out_manage.supplier.forEach(function(e){
                     $("#editor_company").append("<option value="+e.code+">"+e.name+"</option>")
                 })
             }
@@ -790,14 +865,16 @@ var pro_out_manage = {
                     "</tr>"
             );
             })
-
+            $("#transportWays").val(items.transportMode?items.transportMode:'' )
             $("#out_code").text(items.code?items.code:' ')
             $("#apply_time").text(items.applyTime?new Date(items.applyTime).Format('yyyy-MM-dd'):' ')
             $("#in_time").text(items.sendTime?new Date(items.sendTime).Format('yyyy-MM-dd'):' ')
             $('#total_amount').text(total_amount)
 
             $("#editor_select_rawType").html("<option value="+items.rawType.code+">"+items.rawType.name+"</option>")
-            $.get(servers.backup()+'rawType/getAll',{},function(result){
+            $.post(home.urls.lingLiao.getRawTypeByMaterialCode(), {
+                materialCode:2
+            }, function (result){
                 var rawType = result.data
                 rawType.forEach(function(e){
                     if(items.rawType.code!=e.code){
@@ -824,36 +901,36 @@ var pro_out_manage = {
         }
         //编辑里面的新增按钮对于的界面
         ,fillData_to_edit_add:function(div){
-            $.get(home.urls.productOut.getAllrawType(),{
-            
-            },function(result) {
+            $.post(home.urls.lingLiao.getRawTypeByMaterialCode(), {
+                materialCode:2
+            }, function (result){
                 var items = result.data
-                $("#edit_add_select").html("<option value='-1'>请选择原料类型</option>")
+                $("#edit_add_select").html("<option value='-1'>请选择物料名称</option>")
                 items.forEach(function(e){
                     $("#edit_add_select").append(
                         "<option value="+ e.code +">"+ e.name +"</option>"
                     )
                 })
             })
-            
-            
         }
         ,edit_add_search_detail:function(detailBtns){
             detailBtns.off('click')
             detailBtns.on('click', function () {
-                console.log(1111)
                 var _selfBtn = $(this)
-                var Code = _selfBtn.attr('id').substr(7)
+                var batchNumber = _selfBtn.attr('id').substr(7)
                 var currId =$('#edit_add_select option:selected').val()
-                
-                $.post(currId === 1 ? home.urls.rawPresoma.getByCode() : home.urls.rawLithium.getByCode(), {code: Code}, function (result) {
-                    console.log(currId)
-                    console.log("查看" + Code)
-                    var items = result.data
+                //产品出库只有产品这一种
+                $.post(home.urls.product.getByBatchNumber(),{
+                    batchNumber:batchNumber
+                },function(result){
+                    var res = result.data
+                    //console.log(res) 
+                    // console.log(currId)
+                    //console.log('Product')
                     layer.open({
                         type: 1,
-                        content:pro_out_manage.funcs.getData(items),
-                        area: ['550px', '700px'],
+                        content: pro_out_manage.funcs.getTableProduct(res),
+                        area: ['720px', '670px'],
                         btn: ['关闭'],
                         offset: 'auto',   // ['10%', '40%'],
                         btnAlign: 'c',
@@ -861,140 +938,72 @@ var pro_out_manage = {
                             layer.close(index);
                         }
                     })
-                })
+                })   
             })
-        },
-        getData: function (items) {
-            var currId =$('#edit_add_select option:selected').val()
-            var data =
-                "<div id='auditModal'>" +
-                "<div class='arrow_div_left'>" +
-                "<span id='model-li-hide-left-113'><a href=\"#\"><i class=\"layui-icon\" style='font-size: 40px'>&#xe603;</i></a></span>" +
-                "</div>" +
-                "<div class='arrow_div_right'>" +
-                "<span id='model-li-hide-right-113'><a href=\"#\"><i class=\"layui-icon\" style='font-size: 40px'>&#xe602;</i></a></span>" +
-                "</div>";
-            if (currId === 2) {
-                data += pro_out_manage.funcs.getTableLithium(items);
-                console.log(currId)
-                console.log('Lithium')
-            }
-            else {
-                data += pro_out_manage.funcs.getTablePresoma(items);
-                console.log('Presoma')
-            }
-            return data;
         }
-
-        ,getTablePresoma: function (presoma) {
+        , getTableProduct: function (product) {
             return (
-                "<div id='div_table' class='table_scroll'>" +
-                "<table id='audit_table_inner' class='table_inner' align='center'>" +
+                "<div id='auditModal' style='padding:20px;'>"+
+                "<table id='audit_table_inner' class='table_inner' align='center' width='100%'>" +
                 "<thead>" +
-                "<tr> <td colspan='2'>批号</td> <td>检测日期</td> <td>数量(t)</td> <td>判定</td></tr>" +
+                " <tr> <td colspan='2'>批号</td><td>检测日期</td> <td>数量(t)</td> <td>判定</td> <td></td> </tr>" +
                 "</thead>" +
                 "<tbody>" +
-                "<tr> <td colspan='2'>" + presoma.batchNumber + "</td> <td>" + (new Date(presoma.testDate).Format('yyyy-MM-dd')) + "</td> <td>" + presoma.number + "</td> <td>" + (presoma.judge?presoma.judge.name:'无') + "</td></tr>" +
-                "</tbody>" +
+                "<tr> <td colspan='2'>" + (product.batchNumber) + "</td><td>" + (new Date(product.testDate).Format('yyyy-MM-dd')) + "</td> <td>" + (product.number) + "</td> <td>" + (product.judge ? product.judge.name : null) + "</td> <td></td> </tr>" +
+                " </tbody>" +
                 "<thead>" +
-                "<tr> <td colspan='2'>审核状态</td> <td>审核人</td> <td></td> <td></td></tr>" +
-                "</thead>" +
-                "<tr> <td colspan='2'>" + presoma.status.name + "</td> <td>" + (presoma.publisher?presoma.publisher:'无') + "</td> <td></td> <td></td></tr>" +
-                "<thead>" +
-                "<tr> <td colspan='2'>检测项目</td> <td>控制采购标准-2016-11-21</td> <td>2017.07.01采购标准</td> <td>" + presoma.batchNumber + "</td></tr>" +
+                " <tr> <td colspan='2'>审核状态</td> <td>审核人</td> <td></td> <td></td> <td></td> </tr>" +
                 "</thead>" +
                 "<tbody>" +
-                "<tr> <td colspan='2'>振实密度(g/cm3)</td> <td>&ge;2.0</td> <td></td> <td>" + presoma.c1 + "</td></tr>" +
-                "<tr> <td colspan='2'>水分(ppm)</td> <td>&le;1.0</td> <td></td> <td>" + presoma.c2 + "</td></tr>" +
-                "<tr> <td colspan='2'>SSA(m2/g)</td> <td>4.0~7.0</td> <td></td> <td>" + presoma.c3 + "</td></tr>" +
-                "<tr> <td colspan='2'>pH值</td> <td>7.0~9.0</td> <td></td> <td>" + presoma.c4 + "</td></tr>" +
-                "<tr> <td rowspan='5'>粒度(&mu;m)</td> <td>&ge;2.5</td> <td></td> <td></td> <td>" + presoma.c5 + "</td></tr>" +
-                "<tr> <td>D10</td> <td>&ge;5.0</td> <td></td> <td>" + presoma.c6 + "</td></tr>" +
-                "<tr> <td>D50</td> <td>9.8~10.5</td> <td></td> <td>" + presoma.c7 + "</td></tr>" +
-                "<tr> <td>D90</td> <td>&le;22</td> <td></td> <td>" + presoma.c8 + "</td></tr>" +
-                "<tr> <td>D99</td> <td>&le;35</td> <td></td> <td>" + presoma.c9 + "</td></tr>" +
-                "<tr> <td colspan='2'>筛上物</td> <td>&le;0.3</td> <td></td> <td>" + presoma.c10 + "</td></tr>" +
-                "<tr> <td rowspan='5'>磁性物质检测(ppb)</td> <td>Fe</td> <td></td> <td></td> <td>" + presoma.c11 + "</td></tr>" +
-                "<tr> <td>Ni</td> <td></td> <td></td> <td>" + presoma.c12 + "</td></tr>" +
-                "<tr> <td>Cr</td> <td></td> <td></td> <td>" + presoma.c13 + "</td></tr>" +
-                "<tr> <td>Zn</td> <td></td> <td></td> <td>" + presoma.c14 + "</td></tr>" +
-                "<tr> <td>总量</td> <td>&le;100</td> <td></td> <td>" + presoma.c15 + "</td></tr>" +
-                "<tr> <td colspan='2'>Ni+Co+Mn(%)</td> <td>60~64</td> <td>19.7&plusmn;0.5</td> <td>" + presoma.c16 + "</td></tr>" +
-                "<tr> <td colspan='2'>Co(%)</td> <td>12.2~13.0</td> <td></td> <td>" + presoma.c17 + "</td></tr>" +
-                "<tr> <td colspan='2'>Mn(%)</td> <td>11.6~12.2</td> <td></td> <td>" + presoma.c18 + "</td></tr>" +
-                "<tr> <td colspan='2'>Ni(%)</td> <td>37.6~38.8</td> <td></td> <td>" + presoma.c19 + "</td></tr>" +
-                "<tr> <td colspan='2'>Na(ppm)</td> <td>&le;120</td> <td></td> <td>" + presoma.c20 + "</td></tr>" +
-                "<tr> <td colspan='2'>Mg(ppm)</td> <td>&le;100</td> <td></td> <td>" + presoma.c21 + "</td></tr>" +
-                "<tr> <td colspan='2'>Ca(ppm)</td> <td>&le;100</td> <td></td> <td>" + presoma.c22 + "</td></tr>" +
-                "<tr> <td colspan='2'>Fe(ppm)</td> <td>&le;50</td> <td></td> <td>" + presoma.c23 + "</td></tr>" +
-                "<tr> <td colspan='2'>Cu(ppm)</td> <td>&le;50</td> <td></td> <td>" + presoma.c24 + "</td></tr>" +
-                "<tr> <td colspan='2'>Cd(ppm)</td> <td>&le;20</td> <td></td> <td>" + presoma.c25 + "</td></tr>" +
-                "<tr> <td colspan='2'>Zn(ppm)</td> <td>&le;40</td> <td></td> <td>" + presoma.c26 + "</td></tr>" +
-                "<tr> <td colspan='2'>S(ppm)</td> <td>&le;1000</td> <td>&le;1300</td> <td>" + presoma.c27 + "</td></tr>" +
-                "<tr> <td colspan='2'>Cl-(%)</td> <td>&le;0.03</td> <td></td> <td>" + presoma.c28 + "</td></tr>" +
-                "<tr> <td colspan='2'>Zr(ppm)</td> <td></td> <td></td> <td>" + presoma.c29 + "</td></tr>" +
+                " <tr> <td colspan='2'>" + (product.status ? product.status.name : '') + "</td> <td>" + (product.publisher ? product.publisher.name : '') + "</td> <td></td> <td></td> <td></td> </tr>" +
                 "</tbody>" +
-                "</table>" +
-                "</div>" +
+                "<thead>" +
+                "<tr> <td colspan='2'>检测项目</td> <td>三级控制标准</td> <td>2016-3-2三级控制标准</td> <td>" + (product.batchNumber) + "</td> <td>编辑</td> </tr>" +
+                "</thead>" +
+                "<tbody>" +
+                "<tr> <td colspan='2'>振实密度(g/cm3)</td><td>≥2.0</td><td>2.3~2.7</td> <td>" + (product.p1?product.p1:'0') + "</td><td></td></tr>" +
+                " <tr> <td colspan='2'>水分（ppm）</td>  <td>≤500</td>  <td>≤200</td>  <td>" + (product.p2?product.p2:'0') + "</td>  <td></td> </tr>" +
+                "<tr> <td colspan='2'>SSA（m2/g）</td> <td>0.20~0.40</td> <td>0.22~0.48</td> <td>" + (product.p3?product.p3:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>pH值</td> <td>&le;11.80</td> <td>&le;11.80</td> <td>" + (product.p4?product.p4:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Li2CO3（%）</td> <td></td> <td>&le;0.25</td> <td>" + (product.p5?product.p5:'0') + "</td> <td></td> </tr>" +
+                " <tr> <td colspan='2'>LiOH（%）</td> <td></td> <td>&le;0.20</td> <td>" + (product.p6?product.p6:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td rowspan='5'>粒度（um）</td> <td>D1</td> <td></td> <td>&ge;3.00</td> <td>" + (product.p8?product.p8:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td>D10</td> <td>&ge;6.00</td> <td>&ge;5.00</td> <td>" + (product.p9?product.p9:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td>D50</td> <td>11.00~14.00</td> <td>11.30~13.3</td> <td>" + (product.p10?product.p10:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td>D90</td> <td>&le;30.00</td> <td>&le;30.00</td> <td>" + (product.p11?product.p11:'0') + "</td> <td></td> </tr>" +
+                " <tr> <td>D99</td> <td></td> <td>&le;40.00</td> <td>" + (product.p12?product.p12:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td rowspan='5'>磁性物质检测（ppb）</td> <td>粒度宽度系数</td> <td></td> <td></td> <td>" + (product.p13?product.p13:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td>Fe</td> <td></td> <td></td> <td>" + (product.p14?product.p14:'0') + "</td> <td></td> </tr>" +
+                " <tr> <td>Ni</td> <td></td> <td></td> <td>" + (product.p15?product.p15:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td>Cr</td> <td></td> <td></td> <td>" + (product.p16?product.p16:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td>Zn</td> <td></td> <td></td> <td>" + (product.p17?product.p17:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>总量</td> <td>&le;50</td> <td>&le;50</td> <td>" + (product.p18?product.p18:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Co（mol%）</td> <td>12.20&plusmn;1.0</td> <td>19.7&plusmn;0.5</td> <td>" + (product.p19?product.p19:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Mn（ppm）</td> <td></td> <td>19.9&plusmn;0.5</td> <td>" + (product.p20?product.p20:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Ni（ppm）</td> <td></td> <td>60.4&plusmn;0.5</td> <td>" + (product.p21?product.p21:'0') + "</td> <td></td> </tr>" +
+                " <tr> <td colspan='2'>Li（%）</td> <td>7.0&plusmn;0.5</td> <td>7.0&plusmn;0.5</td> <td>" + (product.p22?product.p22:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Co （%）</td> <td>12.20&plusmn;1.0</td> <td>12.20&plusmn;1.0</td> <td>" + (product.p23?product.p23:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Mn（%）</td> <td>11.4&plusmn;1.0</td> <td>11.4&plusmn;1.0</td> <td>" + (product.p24?product.p24:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Ni（%）</td> <td>36.2&plusmn;1.0</td> <td>36.2&plusmn;1.0</td> <td>" + (product.p25?product.p25:'0') + "</td> <td></td> </tr>" +
+                " <tr> <td colspan='2'>Na （ppm）</td> <td>&le;200</td> <td>&le;200</td> <td>" + (product.p26?product.p26:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Mg （ppm）</td> <td>&le;200</td> <td>&le;200</td> <td>" + (product.p27?product.p27:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Ca （ppm）</td> <td>&le;200</td> <td>&le;200</td> <td>" + (product.p28?product.p28:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Fe（ppm）</td> <td>&le;50</td> <td>&le;30</td> <td>" + (product.p29?product.p29:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Cu（ppm）</td> <td>&le;50</td> <td>&le;20</td> <td>" + (product.p30?product.p30:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Zn（ppm）</td> <td>&le;50</td> <td>&le;30</td> <td>" + (product.p31?product.p31:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>S（ppm）</td> <td></td> <td>&le;1500</td> <td>" + (product.p32?product.p32:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>Al（ppm）</td> <td></td> <td></td> <td>" + (product.p33?product.p33:'0') + "</td> <td></td> </tr>" +
+                " <tr> <td colspan='2'>0.1C放电容量（mAh/g）</td> <td>1000&plusmn;300</td> <td>1000&plusmn;300</td> <td>" + (product.p34?product.p34:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>0.1C首次放电效率（%）</td> <td></td> <td>&ge;177.5</td> <td>" + (product.p35?product.p35:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>1C放电容量（mAh/g）</td> <td></td> <td>&ge;88.0</td> <td>" + (product.p36?product.p36:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>主原料</td> <td></td> <td>&ge;162</td> <td>" + (product.p37?product.p37:'0') + "</td> <td></td> </tr>" +
+                "<tr> <td colspan='2'>成品外观、重量抽查结果</td> <td></td> <td></td> <td>" + (product.p38?product.p38:'0') + "</td> <td></td> </tr>" +
+                " <tr> <td colspan='2'>产线</td> <td></td> <td></td> <td>" + (product.p39?product.p39:'0') + "</td> <td></td> </tr>" +
+                "</tbody>" +
+                "</table>"+
                 "</div>"
-            );
-        },
-        getIcon: function (status, code) {
-            if (status == 1) {
-                return "<a href=\"#\" class='audit' id='audit-" + code + "'><i class=\"layui-icon\">&#xe6b2;";
-            }
-            else {
-                return "<a href=\"#\" class='detail' id='check-" + code + "'><i class=\"layui-icon\">&#xe60a;";
-            }
-        },
-
-        /**
-         * lithium表格-已完成
-         * @param lithium
-         * @returns {string}
-         */
-        getTableLithium: function (lithium) {
-            return (
-                "<div id='div_table' class='table_scroll'>" +
-                "<table id='audit_table_inner' class='table_inner' align='center'>" +
-                "<thead>" +
-                "<tr> <td colspan='2'>批号</td> <td>检测日期</td> <td>数量(t)</td> <td>判定</td></tr>" +
-                "</thead>" +
-                "<tbody>" +
-                "<tr> <td colspan='2'>" + (lithium.batchNumber?lithium.batchNumber:'null') + "</td> <td>" + (new Date(lithium.testDate).Format('yyyy-MM-dd')) + "</td> <td>" + lithium.number + "</td> <td>" + lithium.judge.name + "</td></tr>" +
-                "</tbody>" +
-                "<thead>" +
-                "<tr> <td colspan='2'>审核状态</td> <td>审核人</td> <td></td> <td></td></tr>" +
-                "</thead>" +
-                "<tr> <td colspan='2'>" + lithium.status.name + "</td> <td>" + (lithium.publisher?lithium.publisher:'无') + "</td> <td></td> <td></td></tr>" +
-                "<thead>" +
-                "<tr> <td colspan='2'>检测项目</td><td colspan='2'>原料技术标准<td>" + lithium.batchNumber + "</td></tr>" +
-                "</thead>" +
-                "<tbody>" +
-                "<tr> <td colspan='2'>水分(%)</td> <td>&le;0.25</td> <td>&le;0.25</td> <td>" + lithium.c1 + "</td></tr>" +
-                "<tr> <td rowspan='5'>粒度(&mu;m)</td> <td>D1</td> <td></td> <td></td> <td>" + lithium.c2 + "</td></tr>" +
-                "<tr> <td>D10</td> <td></td> <td></td> <td>" + lithium.c3 + "</td></tr>" +
-                "<tr> <td>D50</td> <td>3~7</td> <td>3~7</td> <td>" + lithium.c4 + "</td></tr>" +
-                "<tr> <td>D90</td> <td>&le;30</td> <td>&le;30</td> <td>" + lithium.c5 + "</td></tr>" +
-                "<tr> <td>D99</td> <td></td> <td></td> <td>" + lithium.c6 + "</td></tr>" +
-                "<tr> <td colspan='2'>筛上物</td> <td>&le;0.3</td> <td>&le;0.3</td> <td>" + lithium.c7 + "</td></tr>" +
-                "<tr> <td rowspan='5'>磁性物质检测(ppb)</td> <td>Fe</td> <td></td> <td></td> <td>" + lithium.c8 + "</td></tr>" +
-                "<tr> <td>Ni</td> <td></td> <td></td> <td>" + lithium.c9 + "</td></tr>" +
-                "<tr> <td>Cr</td> <td></td> <td></td> <td>" + lithium.c10 + "</td></tr>" +
-                "<tr> <td>Zn</td> <td></td> <td></td> <td>" + lithium.c11 + "</td></tr>" +
-                "<tr> <td>总量</td> <td>&le;800</td> <td>&le;500</td> <td>" + lithium.c12 + "</td></tr>" +
-                "<tr> <td colspan='2'>Li2CO3(%)</td> <td>&ge;18.66</td> <td>&ge;18.66</td> <td>" + lithium.c13 + "</td></tr>" +
-                "<tr> <td colspan='2'>Na(ppm)</td> <td>&le;250</td> <td>&le;250</td> <td>" + lithium.c14 + "</td></tr>" +
-                "<tr> <td colspan='2'>Mg(ppm)</td> <td>&le;80</td> <td>&le;80</td> <td>" + lithium.c15 + "</td></tr>" +
-                "<tr> <td colspan='2'>Ca(ppm)</td> <td>&le;50</td> <td>&le;50</td> <td>" + lithium.c16 + "</td></tr>" +
-                "<tr> <td colspan='2'>Fe(ppm)</td> <td>&le;10</td> <td>&le;10</td> <td>" + lithium.c17 + "</td></tr>" +
-                "</tbody>" +
-                "</table>" +
-                "</div>" +
-                "</div>"
-            );
+            )
         }
-
 
         //编辑——新增——搜索
         ,edit_add_search:function(searchBtn){
@@ -1007,7 +1016,7 @@ var pro_out_manage = {
                 },function(result){
                     var items = result.data.content
                     page = result.data
-                    console.log(items)
+                    //console.log(items)
                     const $tbody = $("#edit_add_modal_table").children('tbody')
                     pro_out_manage.funcs.edit_add_renderHandler($tbody,items)
                     layui.laypage.render({
@@ -1035,21 +1044,27 @@ var pro_out_manage = {
         ,edit_add_renderHandler:function($tbody,items){
             $tbody.empty() //清空表格
             if(items!=null){
+                var judgeCode
                 items.forEach(function(e){
+                    if(e.judgeCode===1){
+                        judgeCode = '已入库'
+                    }else{
+                        judgeCode = '未入库'
+                    }
                     $tbody.append(
                         "<tr>" +
-                        "<td><input type='checkbox' class='edit_add_checkbox' value='" + (e.code) + "'></td>" +
-                        "<td>" + e.batchNumber+ "</td>" +
-                        "<td>" + e.currentAvailableMaterials + "</td>" +
-                        "<td>" + (e.materialsUnit?'kg':'') + "</td>" +
-                        "<td>" + e.judgeCode + "</td>" +
-                        "<td><a href=\"#\" class='edit_add_search_detail' id='detail-" + (e.code) + "'><i class=\"layui-icon\">&#xe60a;</i></a></td>" +
+                        "<td><input type='checkbox' class='edit_add_checkbox' value='" + (e.batchNumber) + "'></td>" +
+                        "<td>" + (e.batchNumber ? e.batchNumber : '') + "</td>" +
+                        "<td>" + (e.currentAvailableMaterials ? e.currentAvailableMaterials : '0') + "</td>" +
+                        "<td>" + (e.materialsUnit?e.materialsUnit:'kg') + "</td>" +
+                        "<td>" + (judgeCode ) + "</td>" +
+                        "<td><a href=\"#\" class='edit_add_search_detail' id='detail-" + (e.batchNumber) + "'><i class=\"layui-icon\">&#xe60a;</i></a></td>" +
                         "</tr>"
                     )
                 })
             }
              //详情
-             var edit_add_search_detailBtn = $(".edit_add_detail")
+             var edit_add_search_detailBtn = $(".edit_add_search_detail")
              pro_out_manage.funcs.edit_add_search_detail(edit_add_search_detailBtn)
              //实现全选
              var checkBoxLen = $(".edit_add_checkbox:checked").length
@@ -1200,7 +1215,7 @@ var pro_out_manage = {
         ,bindRefreshEventListener: function (refreshBtn) {
             refreshBtn.off('click')
             refreshBtn.on('click', function () {
-                $('#transportWays').val('');
+                //$('#transportWays').val('');
                 var index = layer.load(2, {offset: ['40%', '58%']});
                 var time = setTimeout(function () {
                     layer.msg('刷新成功', {
@@ -1208,19 +1223,128 @@ var pro_out_manage = {
                         time: 700
                     })
                     pro_out_manage.init()
+                    $("#date").val('')
                     layer.close(index)
                     clearTimeout(time)
                 }, 200)
 
             })
         },
+         //追加审核状态搜索事件
+        bindStatusSearchEventListener: function (searchBtn) {
+            searchBtn.off('change')
+            searchBtn.on('change', function () {
+                var audit_status = $('#audit_status option:selected').val();
+                $.post(home.urls.productOut.getByAuditStatusByPage(), {
+                    auditStatus: audit_status,
+                }, function (result) {
+                    var items = result.data.content //获取数据
+                    page = result.data
+                    //console.log(items)
+                    const $tbody = $("#product_out_table").children('tbody')
+                    pro_out_manage.funcs.renderHandler($tbody, items,0)
+                    layui.laypage.render({
+                        elem: 'product_out_page'
+                        , count: 10 * page.totalPages//数据总数
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                $.post(home.urls.productOut.getByAuditStatusByPage(), {
+                                    auditStatus: audit_status,
+                                    page: obj.curr - 1,
+                                    size: obj.limit
+                                }, function (result) {
+                                    var items = result.data.content //获取数据
+                                    // var code = $('#model-li-select-48').val()
+                                    var page = obj.curr - 1
+                                    const $tbody = $("#product_out_table").children('tbody')
+                                    pro_out_manage.funcs.renderHandler($tbody, items,page)
+                                    pro_out_manage.pageSize = result.data.content.length
+                                })
+                            }
+                        }
+                    })
+                })
+            })
+        }
+        //根据时间搜索
+        /* ,bindDateSearchEventListener: function (searchBtn) {
+            searchBtn.off('change').on('change', function () {
+                console.log(11)
+                var order_date = $('#order_date').val();
+                var createDate = new Date(order_date).getTime()
+                $.post(home.urls.productOut.getByCreateDateByPage(), {
+                    createDate:createDate
+                }, function (result) {
+                    var items = result.data.content //获取数据
+                    page = result.data
+                    //console.log(items)
+                    const $tbody = $("#product_out_table").children('tbody')
+                    pro_out_manage.funcs.renderHandler($tbody, items,0)
+                    layui.laypage.render({
+                        elem: 'product_out_page'
+                        , count: 10 * page.totalPages//数据总数
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                $.post(home.urls.productOut.getByCreateDateByPage(), {
+                                    createDate:createDate,
+                                    page: obj.curr - 1,
+                                    size: obj.limit
+                                }, function (result) {
+                                    var items = result.data.content //获取数据
+                                    // var code = $('#model-li-select-48').val()
+                                    var page = obj.curr - 1
+                                    const $tbody = $("#product_out_table").children('tbody')
+                                    pro_out_manage.funcs.renderHandler($tbody, items,page)
+                                    pro_out_manage.pageSize = result.data.content.length
+                                })
+                            }
+                        }
+                    })
+                })
+            })
+        }*/
+        /** 根据物料名称搜索 */
+        ,bindRawTypeSearchEventListener: function (searchBtn) {
+            searchBtn.off('change')
+            searchBtn.on('change', function () {
+                var rawType_Code = $('#rawType_Code option:selected').val();
+                $.post(home.urls.productOut.getByRawTypeByPage(), {
+                    rawTypeCode: rawType_Code,
+                }, function (result) {
+                    var items = result.data.content //获取数据
+                    page = result.data
+                    //console.log(items)
+                    const $tbody = $("#product_out_table").children('tbody')
+                    pro_out_manage.funcs.renderHandler($tbody, items,0)
+                    layui.laypage.render({
+                        elem: 'product_out_page'
+                        , count: 10 * page.totalPages//数据总数
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                $.post(home.urls.productOut.getByRawTypeByPage(), {
+                                    rawTypeCode: rawType_Code,
+                                    page: obj.curr - 1,
+                                    size: obj.limit
+                                }, function (result) {
+                                    var items = result.data.content //获取数据
+                                    // var code = $('#model-li-select-48').val()
+                                    var page = obj.curr - 1
+                                    const $tbody = $("#product_out_table").children('tbody')
+                                    pro_out_manage.funcs.renderHandler($tbody, items,page)
+                                    pro_out_manage.pageSize = result.data.content.length
+                                })
+                            }
+                        }
+                    })
+                })
+            })
+        }
          /** 搜索事件 */
-          bindSearchEventListener: function (searchBtn) {
+        ,bindSearchEventListener: function (searchBtn) {
             searchBtn.off('click')
             searchBtn.on('click', function () {
                 var audit_status = $('#audit_status option:selected').val();
                 var order_date = $('#order_date').val();
-                //console.log(order_date)
                 var rawType_Code = $('#rawType_Code option:selected').val();
                 var createDate = new Date(order_date).getTime()
                 //var createDate =order_date.getTime;//毫秒级; // date类型转成long类型 

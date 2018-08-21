@@ -51,7 +51,7 @@ public enum EnumException {
     UPDATE_FAILED_USER_NOT_EXISTS(40, "更新失败, 用户不存在"),
     UPDATE_FAILED_RAW_TYPE_NOT_EXISTS(41, "更新失败, 物料名称不存在"),
     UPDATE_FAILED_DEPARTMENT_NOT_EXISTS(42, "更新失败, 发文部门不存在"),
-	DELETE_FAILED_REF_KEY_EXISTS(43, "删除失败, 有外键存在"),
+	DELETE_FAILED_REF_KEY_EXISTS(43, "外键约束错误"),
     SUBMIT_FAILED_DEPARTMENT_NULL_OR_NOT_EXIST(44, "领料申请提交失败, 领料部门为空或不存在"),
     SUBMIT_FAILED_USER_NULL_OR_NOT_EXIST(45, "领料申请提交失败, 申请人为空或不存在"),
     SUBMIT_FAILED_PROCESS_MANAGE_NULL_OR_NOT_EXIST(46, "领料申请提交失败, 流程为空或不存在"),

@@ -20,7 +20,7 @@ var product_in_manage = {
             $.post(home.urls.productIn.getAllByPage(), {}, function (res) {
                 var $tbody = $("#product_in_table").children('tbody')
                 var items = res.data.content
-                product_in_manage.funcs.renderHandler($tbody, items)
+                product_in_manage.funcs.renderHandler($tbody, items,0)
                 /** 渲染表格结束之后 */
                 product_in_manage.pageSize = res.data.content.length //该页的记录数
                 var page = res.data //分页json
@@ -38,7 +38,8 @@ var product_in_manage = {
                             }, function (result) {
                                 var items = result.data.content //获取数据
                                 const $tbody = $("#product_in_table").children('tbody')
-                                product_in_manage.funcs.renderHandler($tbody, items)
+                                var page = obj.curr - 1
+                                product_in_manage.funcs.renderHandler($tbody, items,page)
                                 product_in_manage.pageSize = result.data.content.length
                             })
                         }
@@ -58,9 +59,9 @@ var product_in_manage = {
 
         },
 
-        renderHandler: function ($tbody, items) {
+        renderHandler: function ($tbody, items,page) {
             $tbody.empty() //清空表格
-            var i = 1
+            var i = 1 + page * 10
             items.forEach(function (e) {
                 var status 
                 if(e.status===0){
@@ -139,25 +140,32 @@ var product_in_manage = {
 
         fillData: function (table, items) {
             //  console.log(items)
-            $("#batchNumber").text(items.batchNumber ? items.batchNumber : 'null')
-            $("#model").text(items.model ? items.model : 'null')
-            $("#department").text(items.department ? items.department.name : 'null')
+            $("#batchNumber").text(items.batchNumber ? items.batchNumber : '')
+            $("#model").text(items.model ? items.model : '')
+            $("#department").text(items.department ? items.department.name : '')
             $("#detail_weight").text(items.weight ? items.weight : 'kg')
-            $("#payer").text(items.payer ? items.payer.name : 'null')
-            $("#godowner").text(items.godowner ? items.godowner : 'null')
-            $("#payTime").text(items.payTime ? items.payTime : 'null')
-            $("#godownTime").text(items.godownTime ? items.godownTime : 'null')
+            $("#payer").text(items.payer ? items.payer.name : '')
+            $("#godowner").text(items.godowner ? items.godowner.name : '')
+            $("#payTime").text(items.payTime ? new Date(items.payTime).Format('yyyy-MM-dd') : '')
+            $("#godownTime").text(items.godownTime ? new Date(items.godownTime).Format('yyyy-MM-dd') : '')
             var productGodowns = items.productGodowns
             var $tbody = $('#down_table').children('tbody')
             $tbody.empty() //清空表格
+            var i = 1
             productGodowns.forEach(function (ele) {
+                var status
+                if(ele.status===1){
+                    status = '已入库'
+                }else{
+                    status = '未入库'
+                }
                 $tbody.append(
                     "<tr>" +
-                    " <td>" + (ele.code) + "</td>" +
+                    " <td>" + (i++) + "</td>" +
                     "<td>" + (ele.batchNumber) + "</td>" +
                     "<td>" + (!ele.unit ? 'kg' : ele.unit) + "</td>" +
                     "<td>" + (!ele.weight ? 0 : ele.weight) + "</td>" +
-                    " <td>" + (ele.status) + "</td>"
+                    " <td>" + (status) + "</td>"
                 )
             })
         },
@@ -175,7 +183,7 @@ var product_in_manage = {
                     //   console.log(items)
                     var code = $('#model-li-hide-select-49').val()
                     const $tbody = $("#product_in_table").children('tbody')
-                    product_in_manage.funcs.renderHandler($tbody, items)
+                    product_in_manage.funcs.renderHandler($tbody, items,0)
                     layui.laypage.render({
                         elem: 'product_in_page'
                         , count: 10 * page.totalPages//数据总数
@@ -189,7 +197,8 @@ var product_in_manage = {
                                     var items = result.data.content //获取数据
                                     // var code = $('#model-li-select-48').val()
                                     const $tbody = $("#product_in_table").children('tbody')
-                                    product_in_manage.funcs.renderHandler($tbody, items)
+                                    var page = obj.curr - 1
+                                    product_in_manage.funcs.renderHandler($tbody, items,page)
                                     product_in_manage.pageSize = result.data.content.length
                                 })
                             }

@@ -1,6 +1,7 @@
 html, body, parent {
-    /*height: 100%;*/
-    overflow: hidden;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: scroll;
     min-width: 600px;
 }
 
@@ -18,20 +19,21 @@ html, body, parent {
     position: absolute;
     top: 50px;
     left: 0;
-    width: 230px;
+    width: 220px;
     height: 100%;
     font-weight: 400;
 }
 
 .right {
     position: absolute;
-    overflow: auto;
-    left: 230px;
+    overflow-x: auto;
+    overflow-y: auto;
+    left: 220px;
     right: 0;
     top: 50px;
     height: 100%;
     background: #ffffff;
-    min-width: 695px;
+    min-width: 920px;
 }
 
 .menus1 {
@@ -262,6 +264,7 @@ body .layui-ext-yourskin .layui-layer-btn {
     color: black;
     text-align: center;
     font-weight: 400;
+    height:30px;
 }
 
 .display-component-container a {

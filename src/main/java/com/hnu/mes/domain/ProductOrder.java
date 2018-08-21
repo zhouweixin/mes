@@ -64,8 +64,7 @@ public class ProductOrder {
     /**
      * 前躯体配比量/Kg
      */
-    @Column(precision = 2)
-    private Double presomaRatio;
+    private String presomaRatio;
 
     /**
      * 碳酸锂原料批号
@@ -81,8 +80,7 @@ public class ProductOrder {
     /**
      * 碳酸锂配比量/Kg
      */
-    @Column(precision = 2)
-    private Double lithiumRatio;
+    private String lithiumRatio;
 
     /**
      * 添加剂编号
@@ -122,8 +120,7 @@ public class ProductOrder {
     /**
      * 混料时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date mixDate;
+    private Integer mixDate;
 
     /**
      * 混料生产过程要求
@@ -258,14 +255,6 @@ public class ProductOrder {
         this.presomaContent = presomaContent;
     }
 
-    public Double getPresomaRatio() {
-        return presomaRatio;
-    }
-
-    public void setPresomaRatio(Double presomaRatio) {
-        this.presomaRatio = presomaRatio;
-    }
-
     public String getLithiumCode() {
         return lithiumCode;
     }
@@ -282,11 +271,19 @@ public class ProductOrder {
         this.lithiumContent = lithiumContent;
     }
 
-    public Double getLithiumRatio() {
+    public String getPresomaRatio() {
+        return presomaRatio;
+    }
+
+    public void setPresomaRatio(String presomaRatio) {
+        this.presomaRatio = presomaRatio;
+    }
+
+    public String getLithiumRatio() {
         return lithiumRatio;
     }
 
-    public void setLithiumRatio(Double lithiumRatio) {
+    public void setLithiumRatio(String lithiumRatio) {
         this.lithiumRatio = lithiumRatio;
     }
 
@@ -338,11 +335,11 @@ public class ProductOrder {
         this.mixFrequency = mixFrequency;
     }
 
-    public Date getMixDate() {
+    public Integer getMixDate() {
         return mixDate;
     }
 
-    public void setMixDate(Date mixDate) {
+    public void setMixDate(Integer mixDate) {
         this.mixDate = mixDate;
     }
 

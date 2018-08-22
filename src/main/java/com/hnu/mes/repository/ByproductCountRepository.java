@@ -31,10 +31,9 @@ public interface ByproductCountRepository extends JpaRepository<ByproductCount,I
 
     /**
      * 通过副产品类型和生产年月查询
-     * @param year
-     * @param month
+     * @param yearMonth
      * @return
      */
-    @Query(value = "select * from  release_byproduct_count where byproduct_code=?1 and year(date)=?2 and MONTH(date)=?3 ORDER BY date ASC", nativeQuery = true)
-    public List<ByproductCount> findByByproductCodeAndYearAndMonth(Integer byproductCode, Integer year, Integer month);
+    @Query(value = "select * from  release_byproduct_count where byproduct_code=?1 and date LIKE ?2 ORDER BY date ASC", nativeQuery = true)
+    public List<ByproductCount> findByByproductCodeAndAndDateLike(Integer byproductCode, String yearMonth);
 }

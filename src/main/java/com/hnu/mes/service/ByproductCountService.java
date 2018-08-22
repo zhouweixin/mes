@@ -140,14 +140,11 @@ public class ByproductCountService {
     /**
      * 通过副产品类型和生产年月查询-分页-按日期升序排序
      * @param byproductCode
-     * @param year
-     * @param month
-     * @param page
-     * @param size
+     * @param yearMonth
      * @return
      */
-    public List<ByproductCount> findByByproductCodeAndYearAndMonth(Integer byproductCode, Integer year, Integer month ) {
-        return byproductCountRepository.findByByproductCodeAndYearAndMonth(byproductCode,year,month);
+    public List<ByproductCount> findByByproductCodeAndYearAndMonth(Integer byproductCode, String yearMonth ) {
+        return byproductCountRepository.findByByproductCodeAndAndDateLike(byproductCode,yearMonth+ "%");
 
     }
 

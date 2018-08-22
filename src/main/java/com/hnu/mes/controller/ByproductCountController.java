@@ -117,11 +117,16 @@ public class ByproductCountController {
         return ResultUtil.success(byproductCountService.findByByproductCode_Code(byproductCode , page, size , sortFieldName , asc));
     }
 
+    /**
+     * 通过副产品和年月查询
+     * @param byproductCode
+     * @param yearMonth
+     * @return
+     */
     @RequestMapping(value = "/getByByproductCodeAndYearMonth")
-    public Result<List<ByproductCount>> getByByproductCodeAndYearMonth(@RequestParam(value = "byproductCode" , defaultValue = "") Integer byproductCode,
-                                                                       @RequestParam(value = "year" , defaultValue = "1") Integer year,
-                                                                       @RequestParam(value = "month" , defaultValue = "1") Integer month) {
-        return ResultUtil.success(byproductCountService.findByByproductCodeAndYearAndMonth(byproductCode ,year,month));
+    public Result<List<ByproductCount>> getByByproductCodeAndYearMonth(@RequestParam Integer byproductCode,
+                                                                       @RequestParam String yearMonth) {
+        return ResultUtil.success(byproductCountService.findByByproductCodeAndYearAndMonth(byproductCode ,yearMonth));
     }
 
     /**

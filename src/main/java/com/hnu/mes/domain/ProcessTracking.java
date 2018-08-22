@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @Author: WaveLee
@@ -80,30 +81,38 @@ public class ProcessTracking {
     /**
      * 预混操作人员
      */
-    @ManyToOne
-    @JoinColumn(name = "premixed_operator",referencedColumnName = "code")
-    private User premixedOperator;
+    @ManyToMany
+    @JoinTable(name = "release_process_tracking_premixed_operator",
+            joinColumns =  @JoinColumn(name = "premixed_operatorpt_id",referencedColumnName = "code") ,
+            inverseJoinColumns = @JoinColumn(name = "premixed_operator_id",referencedColumnName = "code") )
+    private Set<User> premixedOperator;
 
     /**
      * 预烧装料人员
      */
-    @ManyToOne
-    @JoinColumn(name = "presintering_inoperator",referencedColumnName = "code")
-    private User presinteringInoperator;
+    @ManyToMany
+    @JoinTable(name = "release_process_tracking_presintering_inoperator",
+            joinColumns =  @JoinColumn(name = "presintering_inoperatorpt_id",referencedColumnName = "code") ,
+            inverseJoinColumns = @JoinColumn(name = "presintering_inoperator_id",referencedColumnName = "code") )
+    private Set<User> presinteringInoperator;
 
     /**
      * 预烧倒料人员
      */
-    @ManyToOne
-    @JoinColumn(name = "presintering_outoperator",referencedColumnName = "code")
-    private User presinteringOutoperator;
+    @ManyToMany
+    @JoinTable(name = "release_process_tracking_presintering_outoperator",
+            joinColumns = @JoinColumn(name = "presintering_outoperatorpt_id") ,
+            inverseJoinColumns = @JoinColumn(name = "presintering_outoperator_id") )
+    private Set<User> presinteringOutoperator;
 
     /**
      * 粉碎操作人员
      */
-    @ManyToOne
-    @JoinColumn(name = "crushing_operator",referencedColumnName = "code")
-    private User crushingOperator;
+    @ManyToMany
+    @JoinTable(name = "release_process_tracking_crushing_operator",
+            joinColumns = @JoinColumn(name = "crushing_operatorpt_id") ,
+            inverseJoinColumns = @JoinColumn(name = "crushing_operator_id") )
+    private Set<User> crushingOperator;
 
     /**
      * 备注
@@ -203,35 +212,35 @@ public class ProcessTracking {
         this.millNumber = millNumber;
     }
 
-    public User getPremixedOperator() {
+    public Set<User> getPremixedOperator() {
         return premixedOperator;
     }
 
-    public void setPremixedOperator(User premixedOperator) {
+    public void setPremixedOperator(Set<User> premixedOperator) {
         this.premixedOperator = premixedOperator;
     }
 
-    public User getPresinteringInoperator() {
+    public Set<User> getPresinteringInoperator() {
         return presinteringInoperator;
     }
 
-    public void setPresinteringInoperator(User presinteringInoperator) {
+    public void setPresinteringInoperator(Set<User> presinteringInoperator) {
         this.presinteringInoperator = presinteringInoperator;
     }
 
-    public User getPresinteringOutoperator() {
+    public Set<User> getPresinteringOutoperator() {
         return presinteringOutoperator;
     }
 
-    public void setPresinteringOutoperator(User presinteringOutoperator) {
+    public void setPresinteringOutoperator(Set<User> presinteringOutoperator) {
         this.presinteringOutoperator = presinteringOutoperator;
     }
 
-    public User getCrushingOperator() {
+    public Set<User> getCrushingOperator() {
         return crushingOperator;
     }
 
-    public void setCrushingOperator(User crushingOperator) {
+    public void setCrushingOperator(Set<User> crushingOperator) {
         this.crushingOperator = crushingOperator;
     }
 

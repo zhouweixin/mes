@@ -30,7 +30,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pageable
      * @return
      */
-    public Page<PickingApplyHeader> findByDepartmentAndApplyDateBetween(Department department, Date applyTime1, Date applyTime2, Pageable pageable);
+    Page<PickingApplyHeader> findByDepartmentAndApplyDateBetween(Department department, Date applyTime1, Date applyTime2, Pageable pageable);
 
     /**
      * 通过部门和领料时间查询
@@ -41,7 +41,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pageable
      * @return
      */
-    public Page<PickingApplyHeader> findByDepartmentAndPickingTimeBetween(Department department, Date applyTime1, Date applyTime2, Pageable pageable);
+    Page<PickingApplyHeader> findByDepartmentAndPickingTimeBetween(Department department, Date applyTime1, Date applyTime2, Pageable pageable);
 
 
     /**
@@ -50,7 +50,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param auditStatus
      * @return
      */
-    public List<PickingApplyHeader> findByAuditStatus(Integer auditStatus);
+    List<PickingApplyHeader> findByAuditStatus(Integer auditStatus);
 
     /**
      * 通过审核状态查询
@@ -59,7 +59,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param auditStatus2
      * @return
      */
-    public List<PickingApplyHeader> findByAuditStatusOrAuditStatus(Integer auditStatus1, Integer auditStatus2);
+    List<PickingApplyHeader> findByAuditStatusOrAuditStatus(Integer auditStatus1, Integer auditStatus2);
 
     /**
      * 通过审核状态查询-分页
@@ -68,7 +68,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pageable
      * @return
      */
-    public Page<PickingApplyHeader> findByAuditStatus(Integer auditStatus, Pageable pageable);
+    Page<PickingApplyHeader> findByAuditStatus(Integer auditStatus, Pageable pageable);
 
     /**
      * 通过领料状态查询-分页
@@ -77,7 +77,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pageable
      * @return
      */
-    public Page<PickingApplyHeader> findByPickingStatus(Integer pickingStatus, Pageable pageable);
+    Page<PickingApplyHeader> findByPickingStatus(Integer pickingStatus, Pageable pageable);
 
     /**
      * 通过流程类型查询-分页
@@ -85,7 +85,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param processManage
      * @return
      */
-    public Page<PickingApplyHeader> findByProcessManage(ProcessManage processManage, Pageable pageable);
+    Page<PickingApplyHeader> findByProcessManage(ProcessManage processManage, Pageable pageable);
 
     /**
      * 通过审核状态和流程类型查询-分页
@@ -94,7 +94,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param processManage
      * @return
      */
-    public Page<PickingApplyHeader> findByAuditStatusAndProcessManage(Integer auditStatus, ProcessManage processManage, Pageable pageable);
+    Page<PickingApplyHeader> findByAuditStatusAndProcessManage(Integer auditStatus, ProcessManage processManage, Pageable pageable);
 
     /**
      * 通过领料状态和流程类型查询-分页
@@ -103,7 +103,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param processManage
      * @return
      */
-    public Page<PickingApplyHeader> findByPickingStatusAndProcessManage(Integer pickingStatus, ProcessManage processManage, Pageable pageable);
+    Page<PickingApplyHeader> findByPickingStatusAndProcessManage(Integer pickingStatus, ProcessManage processManage, Pageable pageable);
 
     /**
      * 通过领料部门, 流程, 领料状态分页查询
@@ -113,7 +113,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pickingStatus
      * @return
      */
-    public Page<PickingApplyHeader> findByDepartmentAndProcessManageAndPickingStatus(Department department, ProcessManage processManage, Integer pickingStatus, Pageable pageable);
+    Page<PickingApplyHeader> findByDepartmentAndProcessManageAndPickingStatus(Department department, ProcessManage processManage, Integer pickingStatus, Pageable pageable);
 
     /**
      * 通过领料部门分页查询
@@ -121,7 +121,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param department
      * @return
      */
-    public Page<PickingApplyHeader> findByDepartment(Department department, Pageable pageable);
+    Page<PickingApplyHeader> findByDepartment(Department department, Pageable pageable);
 
     /**
      * 通过部门和领料状态查询
@@ -131,7 +131,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pageable
      * @return
      */
-    public Page<PickingApplyHeader> findByDepartmentAndPickingStatusAndAuditStatusGreaterThan(Department department, Integer pickingStatus, Integer auditStatus, Pageable pageable);
+    Page<PickingApplyHeader> findByDepartmentAndPickingStatusAndAuditStatusGreaterThan(Department department, Integer pickingStatus, Integer auditStatus, Pageable pageable);
 
     /**
      * 通过流程和领料状态分布查询
@@ -141,7 +141,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pageable
      * @return
      */
-    public Page<PickingApplyHeader> findByProcessManageAndPickingStatusAndAuditStatusGreaterThan(ProcessManage processManage, Integer pickingStatus, Integer auditStatus, Pageable pageable);
+    Page<PickingApplyHeader> findByProcessManageAndPickingStatusAndAuditStatusGreaterThan(ProcessManage processManage, Integer pickingStatus, Integer auditStatus, Pageable pageable);
 
     /**
      * 通过部门和流程分页查询
@@ -151,7 +151,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pageable
      * @return
      */
-    public Page<PickingApplyHeader> findByDepartmentAndProcessManage(Department department, ProcessManage processManage, Pageable pageable);
+    Page<PickingApplyHeader> findByDepartmentAndProcessManage(Department department, ProcessManage processManage, Pageable pageable);
 
     /**
      * 通过领料时间分页查询
@@ -160,7 +160,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pageable
      * @return
      */
-    public Page<PickingApplyHeader> findByPickingTimeBetween(Date pickingTime1, Date pickingTime2, Pageable pageable);
+    Page<PickingApplyHeader> findByPickingTimeBetween(Date pickingTime1, Date pickingTime2, Pageable pageable);
 
     /**
      * 通过编码更新审核状态
@@ -170,7 +170,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      */
     @Modifying
     @Query(value = "update PickingApplyHeader p set p.auditStatus=?1 where p.code=?2")
-    public void updateAuditStatusByCode(Integer auditStatus, Long code);
+    void updateAuditStatusByCode(Integer auditStatus, Long code);
 
     /**
      * 通过编号查询
@@ -178,7 +178,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param number
      * @return
      */
-    public PickingApplyHeader findFirstByNumber(String number);
+    PickingApplyHeader findFirstByNumber(String number);
 
     /**
      * 通过主键查询
@@ -186,7 +186,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param code
      * @return
      */
-    public PickingApplyHeader findByCode(Long code);
+    PickingApplyHeader findByCode(Long code);
 
     /**
      * 更新当前审核人
@@ -196,7 +196,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      */
     @Modifying
     @Query(value = "update PickingApplyHeader p set p.curAuditorCode=?1 where p.code=?2")
-    public void updateCurAuditorCodeByCode(String auditorCode, Long code);
+    void updateCurAuditorCodeByCode(String auditorCode, Long code);
 
     /**
      * 通过审核状态和出库状态查询
@@ -205,7 +205,7 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pickingStatus
      * @return
      */
-    public List<PickingApplyHeader> findByAuditStatusGreaterThanAndPickingStatus(Integer auditStatus, Integer pickingStatus);
+    List<PickingApplyHeader> findByAuditStatusGreaterThanAndPickingStatus(Integer auditStatus, Integer pickingStatus);
 
     /**
      * 通过审核状态和出库状态查询-分页
@@ -214,5 +214,15 @@ public interface PickingApplyHeaderRepository extends JpaRepository<PickingApply
      * @param pickingStatus
      * @return
      */
-    public Page<PickingApplyHeader> findByAuditStatusGreaterThanAndPickingStatus(Integer auditStatus, Integer pickingStatus, Pageable pageable);
+    Page<PickingApplyHeader> findByAuditStatusGreaterThanAndPickingStatus(Integer auditStatus, Integer pickingStatus, Pageable pageable);
+
+    /**
+     * 修改领料状态
+     *
+     * @param pickingStatus
+     * @param code
+     */
+    @Modifying
+    @Query(value = "update PickingApplyHeader p set p.pickingStatus=?1 where p.code=?2")
+    void updatePickingStatusByCode(Integer pickingStatus, Long code);
 }

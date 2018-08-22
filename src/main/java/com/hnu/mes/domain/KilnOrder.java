@@ -3,9 +3,7 @@ package com.hnu.mes.domain;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: WaveLee
@@ -83,9 +81,9 @@ public class KilnOrder {
      */
     private boolean state;
 
-    @OneToMany(targetEntity = KilnParameter.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = KilnParameter.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "kiln_order_code", referencedColumnName = "code")
-    private Set<KilnParameter> KilnParameters = new HashSet<>();
+    private List<KilnParameter> KilnParameters = new ArrayList<>();
 
     public Integer getCode() {
         return code;
@@ -183,11 +181,11 @@ public class KilnOrder {
         this.state = state;
     }
 
-    public Set<KilnParameter> getKilnParameters() {
+    public List<KilnParameter> getKilnParameters() {
         return KilnParameters;
     }
 
-    public void setKilnParameters(Set<KilnParameter> kilnParameters) {
+    public void setKilnParameters(List<KilnParameter> kilnParameters) {
         KilnParameters = kilnParameters;
     }
 }

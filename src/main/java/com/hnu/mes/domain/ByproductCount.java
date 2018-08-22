@@ -54,7 +54,7 @@ public class ByproductCount {
     /**
      * 比例
      */
-    @Column(precision = 2)
+    @Column(precision = 6)
     private Double proportion;
 
     /**

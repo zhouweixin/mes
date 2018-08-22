@@ -31,15 +31,6 @@ public class PickingApplyHeaderController {
     @Autowired
     private PickingApplyHeaderService pickingApplyHeaderService;
 
-    @Autowired
-    private DepartmentService departmentService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ProcessManageService processManageService;
-
     /**
      * 新增
      *
@@ -59,9 +50,6 @@ public class PickingApplyHeaderController {
      */
     @RequestMapping(value = "/update")
     public Result<PickingApplyHeader> update(@RequestBody PickingApplyHeader pickingApplyHeader) {
-
-
-
         return ResultUtil.success(pickingApplyHeaderService.update(pickingApplyHeader));
     }
 
@@ -248,6 +236,20 @@ public class PickingApplyHeaderController {
     @RequestMapping(value = "/getByAuditStatus")
     public Result<List<PickingApplyHeader>> findByAuditStatus(@RequestParam(value = "auditStatus", defaultValue = "1") Integer auditStatus) {
         return ResultUtil.success(pickingApplyHeaderService.findByAuditStatus(auditStatus));
+    }
+
+    /**
+     * 修改出库状态
+     *
+     * @param pickingStatus
+     * @return
+     */
+    @RequestMapping(value = "/updatePickingStatusByCode")
+    public Result<List<PickingApplyHeader>> updatePickingStatusByCode(
+            @RequestParam(value = "pickingStatus", defaultValue = "1") Integer pickingStatus,
+            @RequestParam Long code) {
+        pickingApplyHeaderService.updatePickingStatusByCode(pickingStatus, code);
+        return ResultUtil.success();
     }
 
     /**

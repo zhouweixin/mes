@@ -239,6 +239,7 @@ public class PickingApplyHeaderService {
 	 * @param code
 	 * @param auditCode
 	 */
+	@Transactional
 	public void updateAuditStatusByCode(Integer auditStatus, String note, Long code, String auditCode) {
 
 		// 判断审核状态的合法性
@@ -920,4 +921,9 @@ public class PickingApplyHeaderService {
 		return pickingApplyHeaderRepository.findByAuditStatusGreaterThanAndPickingStatus(
 				GlobalUtil.PickingApplyHeaderStatus.PRE_AUDIT, pickingStatus);
 	}
+
+	@Transactional
+    public void updatePickingStatusByCode(Integer pickingStatus, Long code) {
+        pickingApplyHeaderRepository.updatePickingStatusByCode(pickingStatus, code);
+    }
 }

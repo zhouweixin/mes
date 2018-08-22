@@ -36,6 +36,10 @@ public class KilnParameter {
     @Column(precision = 4)
     private Double length;
 
+    // 排序
+    @Transient
+    private int rank = 0;
+
     /**
      * 目标温度
      */
@@ -121,17 +125,11 @@ public class KilnParameter {
         this.botTem = botTem;
     }
 
-    @Override
-    public String toString() {
-        return "KilnParameter{" +
-                "code=" + code +
-                ", kilnOrder=" + kilnOrder +
-                ", temRange='" + temRange + '\'' +
-                ", length=" + length +
-                ", targetTem='" + targetTem + '\'' +
-                ", topTem='" + topTem + '\'' +
-                ", midTem='" + midTem + '\'' +
-                ", botTem='" + botTem + '\'' +
-                '}';
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

@@ -96,8 +96,7 @@ public class ProductOrder {
     /**
      * 目标锂含量%
      */
-    @Column(precision = 2)
-    private Double targetLithium;
+    private String targetLithium;
 
     /**
      * 前躯体投放总量/Kg
@@ -303,11 +302,11 @@ public class ProductOrder {
         this.additiveWeight = additiveWeight;
     }
 
-    public Double getTargetLithium() {
+    public String getTargetLithium() {
         return targetLithium;
     }
 
-    public void setTargetLithium(Double targetLithium) {
+    public void setTargetLithium(String targetLithium) {
         this.targetLithium = targetLithium;
     }
 

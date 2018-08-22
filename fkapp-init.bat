@@ -1,5 +1,5 @@
 color f9
-cd target/classes/com/hnu/fk
+cd target/classes/com/hnu/mes
 git init
 git remote add origin https://github.com/zhouweixin/mesapp.git
 git add .

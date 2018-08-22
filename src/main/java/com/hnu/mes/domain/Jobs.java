@@ -5,9 +5,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: WaveLee
@@ -43,9 +41,9 @@ public class Jobs {
     @LastModifiedDate
     private Date compileTime;
 
-    @OneToMany(targetEntity = JobsHandover.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = JobsHandover.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "jobs_code", referencedColumnName = "code")
-    private Set<JobsHandover> JobsHandover = new HashSet<>();
+    private List<JobsHandover> JobsHandover = new ArrayList<>();
 
     public Integer getCode() {
         return code;
@@ -79,11 +77,11 @@ public class Jobs {
         this.compileTime = compileTime;
     }
 
-    public Set<JobsHandover> getJobsHandover() {
+    public List<com.hnu.mes.domain.JobsHandover> getJobsHandover() {
         return JobsHandover;
     }
 
-    public void setJobsHandover(Set<JobsHandover> jobsHandover) {
+    public void setJobsHandover(List<com.hnu.mes.domain.JobsHandover> jobsHandover) {
         JobsHandover = jobsHandover;
     }
 }

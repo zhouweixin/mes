@@ -97,7 +97,14 @@ public class JobsService {
      * @return
      */
     public Jobs findByCode(Integer code){
-        return jobsRepository.findOne(code);
+        Jobs jobs = jobsRepository.findOne(code);
+        if(jobs.getJobsHandover() != null && jobs.getJobsHandover().size() > 1){
+            jobs.getJobsHandover().sort((o1, o2)->{
+                return o1.getCode() - o2.getCode();
+            });
+        }
+
+        return jobs;
     }
 
 }

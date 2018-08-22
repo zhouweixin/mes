@@ -11,9 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: WaveLee
@@ -121,7 +119,69 @@ public class KilnOrderService {
      * @return
      */
     public KilnOrder findByCode(Integer code){
-        return kilnOrderRepository.findOne(code);
+        KilnOrder kilnOrder = kilnOrderRepository.findOne(code);
+
+        List<KilnParameter> kilnParameters = kilnOrder.getKilnParameters();
+        if(kilnParameters != null && kilnParameters.size() > 1){
+            for(KilnParameter kilnParameter : kilnParameters){
+                kilnParameter.setRank(parseWord(kilnParameter.getTemRange()));
+            }
+        }
+
+        kilnParameters.sort((o1, o2)->{
+            return o1.getRank() - o2.getRank();
+        });
+
+        return kilnOrder;
+    }
+
+    private static Map<String, Integer> map = new HashMap<String, Integer>();
+    static{
+        map.put("一", 1);
+        map.put("二", 2);
+        map.put("三", 3);
+        map.put("四", 4);
+        map.put("五", 5);
+        map.put("六", 6);
+        map.put("七", 7);
+        map.put("八", 8);
+        map.put("九", 9);
+        map.put("十", 10);
+        map.put("十一", 11);
+        map.put("十二", 12);
+        map.put("十三", 13);
+        map.put("十四", 14);
+        map.put("十五", 15);
+        map.put("十六", 16);
+        map.put("十七", 17);
+        map.put("十八", 18);
+        map.put("十九", 19);
+        map.put("二十", 20);
+        map.put("二十一", 21);
+        map.put("二十二", 22);
+        map.put("二十三", 23);
+        map.put("二十四", 24);
+        map.put("二十五", 25);
+        map.put("二十六", 26);
+        map.put("二十七", 27);
+        map.put("二十八", 28);
+        map.put("二十九", 29);
+        map.put("三十", 30);
+    }
+
+    /**
+     * 中文转数字
+     *
+     * @param str
+     * @return
+     */
+    private int parseWord(String str){
+        if(str ==  null || str.equals("")){
+            return 0;
+        }
+
+        str = str.replace("区", "");
+        return map.getOrDefault(str, 0);
     }
 
 
